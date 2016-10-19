@@ -66,6 +66,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.trFiles = new System.Windows.Forms.TreeView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btNewTable = new System.Windows.Forms.Button();
             this.trTables = new System.Windows.Forms.TreeView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -427,6 +428,7 @@
             this.imageList1.Images.SetKeyName(0, "folder.gif");
             this.imageList1.Images.SetKeyName(1, "folder_opened.gif");
             this.imageList1.Images.SetKeyName(2, "doc.gif");
+            this.imageList1.Images.SetKeyName(3, "table.gif");
             // 
             // tabPage2
             // 
@@ -455,6 +457,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btNewTable);
             this.tabPage3.Controls.Add(this.trTables);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -464,15 +467,23 @@
             this.tabPage3.Text = "Tables";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btNewTable
+            // 
+            this.btNewTable.Location = new System.Drawing.Point(6, 7);
+            this.btNewTable.Name = "btNewTable";
+            this.btNewTable.Size = new System.Drawing.Size(75, 23);
+            this.btNewTable.TabIndex = 1;
+            this.btNewTable.Text = "New";
+            this.btNewTable.UseVisualStyleBackColor = true;
+            // 
             // trTables
             // 
-            this.trTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trTables.ImageIndex = 0;
             this.trTables.ImageList = this.imageList1;
-            this.trTables.Location = new System.Drawing.Point(3, 3);
+            this.trTables.Location = new System.Drawing.Point(3, 36);
             this.trTables.Name = "trTables";
             this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(250, 242);
+            this.trTables.Size = new System.Drawing.Size(250, 209);
             this.trTables.TabIndex = 0;
             // 
             // tabPage4
@@ -608,6 +619,7 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.Button btNewTable;
     }
 }
 

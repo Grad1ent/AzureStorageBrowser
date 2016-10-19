@@ -295,18 +295,23 @@ namespace AzureStorageBrowser
 
         private async Task getTablesAsync()
         {
+
             await Task.Run(() =>
             {
-                //addTablesAsync(myCloudTableClient.ListTables());
+            addTablesAsync();
             });
 
         } //getTablesAsync
 
-        private async Task addTablesAsync(IEnumerable<CloudTable> tableItems)
+        private async Task addTablesAsync()
         {
-            foreach (CloudTable tableItem in tableItems)
+            MessageBox.Show(myCloudTableClient.ToString());
+            foreach (var myCloudTable in myCloudTableClient.ListTables("$*"))
             {
-                //trTables.Items.Add(tableItem.Name);
+                MessageBox.Show(myCloudTable.Name);
+                
+                TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
+                trTables.Nodes.Add(trNode);
             } //foreach tableItem
 
         } //addTablesAsync
@@ -315,5 +320,6 @@ namespace AzureStorageBrowser
         {
 
         }
+
     } //Form1
 } //AzureStorageBrowser
