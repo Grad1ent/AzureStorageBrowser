@@ -457,8 +457,8 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.btNewTable);
             this.tabPage3.Controls.Add(this.trTables);
+            this.tabPage3.Controls.Add(this.btNewTable);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);

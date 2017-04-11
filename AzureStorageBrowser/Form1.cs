@@ -296,23 +296,30 @@ namespace AzureStorageBrowser
         private async Task getTablesAsync()
         {
 
-            await Task.Run(() =>
-            {
-            addTablesAsync();
-            });
+            //await Task.Run(() =>
+            //{
+            //addTablesAsync();
+            //});
 
+            
+            CloudTable myCloudTable = myCloudTableClient.GetTableReference("EventRegistrations");
+
+            TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
+            trTables.Nodes.Add(trNode);
+            
         } //getTablesAsync
 
         private async Task addTablesAsync()
         {
-            MessageBox.Show(myCloudTableClient.ToString());
-            foreach (var myCloudTable in myCloudTableClient.ListTables("$*"))
-            {
-                MessageBox.Show(myCloudTable.Name);
+            //MessageBox.Show(myCloudTableClient.ToString());
+
+            //foreach (var myCloudTable in myCloudTableClient.ListTables())
+            //{
+            //    MessageBox.Show(myCloudTable.Name);
                 
-                TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
-                trTables.Nodes.Add(trNode);
-            } //foreach tableItem
+            //    TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
+            //    trTables.Nodes.Add(trNode);
+            //} //foreach tableItem
 
         } //addTablesAsync
 
