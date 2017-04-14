@@ -166,6 +166,7 @@ namespace AzureStorageBrowser
         {
             trBlobs.Nodes.Clear();
             trFiles.Nodes.Clear();
+            trTables.Nodes.Clear();
 
             lbStatus.Text = "Disconnected";
             btConnect.Enabled = true;
@@ -295,33 +296,37 @@ namespace AzureStorageBrowser
 
         private async Task getTablesAsync()
         {
-
-            //await Task.Run(() =>
-            //{
-            //addTablesAsync();
-            //});
-
-            
+            /*
             CloudTable myCloudTable = myCloudTableClient.GetTableReference("EventRegistrations");
-
             TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
             trTables.Nodes.Add(trNode);
-            
+
+            myCloudTable = myCloudTableClient.GetTableReference("SchemasTable");
+            trNode = new TreeNode(myCloudTable.Name, 3, 3);
+            trTables.Nodes.Add(trNode);
+
+            try
+            {
+                MessageBox.Show(myCloudTableClient.ListTables().Count().ToString());
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show("Source: " + err.Source);
+                MessageBox.Show("Message: " + err.Message);
+                MessageBox.Show("Data: " + err.Data);
+            }
+            */
+
+            foreach (var myCloudTable in myCloudTableClient.ListTables())
+            {
+                //    MessageBox.Show(myCloudTable.Name);
+
+                TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
+                trTables.Nodes.Add(trNode);
+            } //foreach tableItem
+
+
         } //getTablesAsync
-
-        private async Task addTablesAsync()
-        {
-            //MessageBox.Show(myCloudTableClient.ToString());
-
-            //foreach (var myCloudTable in myCloudTableClient.ListTables())
-            //{
-            //    MessageBox.Show(myCloudTable.Name);
-                
-            //    TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
-            //    trTables.Nodes.Add(trNode);
-            //} //foreach tableItem
-
-        } //addTablesAsync
 
         private void dumpToolStripMenuItem_Click(object sender, EventArgs e)
         {
