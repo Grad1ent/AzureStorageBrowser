@@ -66,8 +66,8 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.trFiles = new System.Windows.Forms.TreeView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.btNewTable = new System.Windows.Forms.Button();
             this.trTables = new System.Windows.Forms.TreeView();
+            this.btNewTable = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
@@ -467,15 +467,6 @@
             this.tabPage3.Text = "Tables";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // btNewTable
-            // 
-            this.btNewTable.Location = new System.Drawing.Point(6, 7);
-            this.btNewTable.Name = "btNewTable";
-            this.btNewTable.Size = new System.Drawing.Size(75, 23);
-            this.btNewTable.TabIndex = 1;
-            this.btNewTable.Text = "New";
-            this.btNewTable.UseVisualStyleBackColor = true;
-            // 
             // trTables
             // 
             this.trTables.ImageIndex = 0;
@@ -485,6 +476,15 @@
             this.trTables.SelectedImageIndex = 0;
             this.trTables.Size = new System.Drawing.Size(250, 209);
             this.trTables.TabIndex = 0;
+            // 
+            // btNewTable
+            // 
+            this.btNewTable.Location = new System.Drawing.Point(6, 7);
+            this.btNewTable.Name = "btNewTable";
+            this.btNewTable.Size = new System.Drawing.Size(75, 23);
+            this.btNewTable.TabIndex = 1;
+            this.btNewTable.Text = "New";
+            this.btNewTable.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
