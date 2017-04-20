@@ -67,8 +67,8 @@
             this.trFiles = new System.Windows.Forms.TreeView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.trTables = new System.Windows.Forms.TreeView();
-            this.btNewTable = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.trQueues = new System.Windows.Forms.TreeView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
@@ -86,6 +86,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,7 +164,6 @@
             this.dumpToolStripMenuItem.Name = "dumpToolStripMenuItem";
             this.dumpToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.dumpToolStripMenuItem.Text = "&Dump...";
-            this.dumpToolStripMenuItem.Click += new System.EventHandler(this.dumpToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -425,10 +425,16 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.gif");
-            this.imageList1.Images.SetKeyName(1, "folder_opened.gif");
+            this.imageList1.Images.SetKeyName(0, "cFolder.gif");
+            this.imageList1.Images.SetKeyName(1, "ofolder.gif");
             this.imageList1.Images.SetKeyName(2, "doc.gif");
             this.imageList1.Images.SetKeyName(3, "table.gif");
+            this.imageList1.Images.SetKeyName(4, "cbFolder.gif");
+            this.imageList1.Images.SetKeyName(5, "obFolder.gif");
+            this.imageList1.Images.SetKeyName(6, "file.gif");
+            this.imageList1.Images.SetKeyName(7, "queue.gif");
+            this.imageList1.Images.SetKeyName(8, "folder.gif");
+            this.imageList1.Images.SetKeyName(9, "folder_opened.gif");
             // 
             // tabPage2
             // 
@@ -458,7 +464,6 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.trTables);
-            this.tabPage3.Controls.Add(this.btNewTable);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -469,25 +474,18 @@
             // 
             // trTables
             // 
+            this.trTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trTables.ImageIndex = 0;
             this.trTables.ImageList = this.imageList1;
-            this.trTables.Location = new System.Drawing.Point(3, 36);
+            this.trTables.Location = new System.Drawing.Point(3, 3);
             this.trTables.Name = "trTables";
             this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(250, 209);
+            this.trTables.Size = new System.Drawing.Size(250, 242);
             this.trTables.TabIndex = 0;
-            // 
-            // btNewTable
-            // 
-            this.btNewTable.Location = new System.Drawing.Point(6, 7);
-            this.btNewTable.Name = "btNewTable";
-            this.btNewTable.Size = new System.Drawing.Size(75, 23);
-            this.btNewTable.TabIndex = 1;
-            this.btNewTable.Text = "New";
-            this.btNewTable.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.trQueues);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -495,6 +493,17 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Queues";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // trQueues
+            // 
+            this.trQueues.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trQueues.ImageIndex = 0;
+            this.trQueues.ImageList = this.imageList1;
+            this.trQueues.Location = new System.Drawing.Point(3, 3);
+            this.trQueues.Name = "trQueues";
+            this.trQueues.SelectedImageIndex = 0;
+            this.trQueues.Size = new System.Drawing.Size(250, 242);
+            this.trQueues.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -567,6 +576,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -619,7 +629,7 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.Button btNewTable;
+        private System.Windows.Forms.TreeView trQueues;
     }
 }
 

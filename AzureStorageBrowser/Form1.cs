@@ -17,6 +17,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.File;
 using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage.Queue;
 
 
 namespace AzureStorageBrowser
@@ -27,6 +28,7 @@ namespace AzureStorageBrowser
         CloudBlobClient myCloudBlobClient;
         CloudFileClient myCloudFileClient;
         CloudTableClient myCloudTableClient;
+        CloudQueueClient myCloudQueueClient;
 
         public Form1()
         {
@@ -152,14 +154,14 @@ namespace AzureStorageBrowser
 
         private void trFiles_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            e.Node.ImageIndex = 1;
-            e.Node.SelectedImageIndex = 1;
+            e.Node.ImageIndex = 5;
+            e.Node.SelectedImageIndex = 5;
         }
 
         private void trFiles_AfterCollapse(object sender, TreeViewEventArgs e)
         {
-            e.Node.ImageIndex = 0;
-            e.Node.SelectedImageIndex = 0;
+            e.Node.ImageIndex = 4;
+            e.Node.SelectedImageIndex = 4;
         }
 
         private void btDisconnect_Click(object sender, EventArgs e)
@@ -194,8 +196,9 @@ namespace AzureStorageBrowser
                 myCloudBlobClient = myCloudStorageAccount.CreateCloudBlobClient();
                 myCloudFileClient = myCloudStorageAccount.CreateCloudFileClient();
                 myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
+                myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
 
-                await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync());
+                await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
 
                 lbStatus.Text = "Connected";
                 btDisconnect.Enabled = true;
@@ -255,7 +258,7 @@ namespace AzureStorageBrowser
         {
             foreach (CloudFileShare myCloudFileShare in myCloudFileClient.ListShares())
             {
-                TreeNode trNode = new TreeNode(myCloudFileShare.Name, 0, 0);
+                TreeNode trNode = new TreeNode(myCloudFileShare.Name, 4, 4);
 
                 await Task.Run(() =>
                 {
@@ -277,12 +280,12 @@ namespace AzureStorageBrowser
                 if (fileItem.GetType() == typeof(CloudFile))
                 {
                     CloudFile myCloudFile = (CloudFile)fileItem;
-                    childNode = new TreeNode(myCloudFile.Uri.Segments.Last(), 2, 2);
+                    childNode = new TreeNode(myCloudFile.Uri.Segments.Last(), 6, 6);
                 }
                 else if (fileItem.GetType() == typeof(CloudFileDirectory))
                 {
                     CloudFileDirectory myCloudFileDirectory = (CloudFileDirectory)fileItem;
-                    childNode = new TreeNode(myCloudFileDirectory.Uri.Segments.Last(), 0, 0);
+                    childNode = new TreeNode(myCloudFileDirectory.Uri.Segments.Last(), 4, 4);
 
                     //req:
                     await addFilesAsync(childNode, myCloudFileDirectory.ListFilesAndDirectories());
@@ -296,42 +299,25 @@ namespace AzureStorageBrowser
 
         private async Task getTablesAsync()
         {
-            /*
-            CloudTable myCloudTable = myCloudTableClient.GetTableReference("EventRegistrations");
-            TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
-            trTables.Nodes.Add(trNode);
-
-            myCloudTable = myCloudTableClient.GetTableReference("SchemasTable");
-            trNode = new TreeNode(myCloudTable.Name, 3, 3);
-            trTables.Nodes.Add(trNode);
-
-            try
-            {
-                MessageBox.Show(myCloudTableClient.ListTables().Count().ToString());
-            }
-            catch(Exception err)
-            {
-                MessageBox.Show("Source: " + err.Source);
-                MessageBox.Show("Message: " + err.Message);
-                MessageBox.Show("Data: " + err.Data);
-            }
-            */
-
             foreach (var myCloudTable in myCloudTableClient.ListTables())
             {
-                //    MessageBox.Show(myCloudTable.Name);
-
                 TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
                 trTables.Nodes.Add(trNode);
-            } //foreach tableItem
-
+            } //foreach myCloudTable
 
         } //getTablesAsync
 
-        private void dumpToolStripMenuItem_Click(object sender, EventArgs e)
+        private async Task getQueuesAsync()
         {
+            foreach (var myCloudQueue in myCloudQueueClient.ListQueues())
+            {
+                TreeNode trNode = new TreeNode(myCloudQueue.Name, 7, 7);
+                trQueues.Nodes.Add(trNode);
 
-        }
+            } //foreach myCloudQueue
+
+
+        } //getQueuesAsync
 
     } //Form1
 } //AzureStorageBrowser
