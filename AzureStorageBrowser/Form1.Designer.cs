@@ -464,6 +464,12 @@
             this.imageList1.Images.SetKeyName(7, "queue.gif");
             this.imageList1.Images.SetKeyName(8, "folder.gif");
             this.imageList1.Images.SetKeyName(9, "folder_opened.gif");
+            this.imageList1.Images.SetKeyName(10, "AzureStorage.gif");
+            this.imageList1.Images.SetKeyName(11, "AzureStorageBlob.gif");
+            this.imageList1.Images.SetKeyName(12, "AzureStorageFile.gif");
+            this.imageList1.Images.SetKeyName(13, "AzureStorageQueue.gif");
+            this.imageList1.Images.SetKeyName(14, "AzureStorageTable.gif");
+            this.imageList1.Images.SetKeyName(15, "container.gif");
             // 
             // tabPage2
             // 
@@ -616,7 +622,7 @@
             // Column3
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column3.HeaderText = "Size [GB]";
+            this.Column3.HeaderText = "Size";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
             // 

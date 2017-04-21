@@ -142,14 +142,20 @@ namespace AzureStorageBrowser
 
         private void trBlobs_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            e.Node.ImageIndex = 1;
-            e.Node.SelectedImageIndex = 1;
+            if (e.Node.ToolTipText != "CloudBlobContainer")
+            {
+                e.Node.ImageIndex = 1;
+                e.Node.SelectedImageIndex = 1;
+            }
         }
 
         private void trBlobs_AfterCollapse(object sender, TreeViewEventArgs e)
         {
-            e.Node.ImageIndex = 0;
-            e.Node.SelectedImageIndex = 0;
+            if (e.Node.ToolTipText != "CloudBlobContainer")
+            {
+                e.Node.ImageIndex = 0;
+                e.Node.SelectedImageIndex = 0;
+            }
         }
 
         private void trFiles_AfterExpand(object sender, TreeViewEventArgs e)
@@ -169,6 +175,7 @@ namespace AzureStorageBrowser
             trBlobs.Nodes.Clear();
             trFiles.Nodes.Clear();
             trTables.Nodes.Clear();
+            trQueues.Nodes.Clear();
             gvBlobs.Rows.Clear();
 
             lbStatus.Text = "Disconnected";
@@ -212,7 +219,7 @@ namespace AzureStorageBrowser
         {
             foreach (CloudBlobContainer myCloudBlobContainer in myCloudBlobClient.ListContainers())
             {
-                TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 0, 0);
+                TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 15, 15);
 
                 await Task.Run(() =>
                 {
@@ -331,6 +338,7 @@ namespace AzureStorageBrowser
             gvBlobs.Rows.Clear();
 
             string type_ = e.Node.ToolTipText;
+            System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
             //CloudBlobContainer
             //CloudBlobDirectory
             //CloudBlockBlob
@@ -342,20 +350,30 @@ namespace AzureStorageBrowser
 
                     string cname_ = e.Node.Tag.ToString().Split('/').Last();
                     CloudBlobContainer myCloudBlobContainer = myCloudBlobClient.GetContainerReference(cname_);
-
-                    foreach (ICloudBlob myCloudBlob in myCloudBlobContainer.ListBlobs())
+                    
+                    foreach (var item_ in myCloudBlobContainer.ListBlobs())
                     {
-                        string bname_ = myCloudBlob.Name;
-                        string btype_ = myCloudBlob.GetType().ToString().Split('.').Last();
-                        string size_ = (myCloudBlob.Properties.Length / 1024 / 1024 / 1024).ToString();
-                        string lastmodified_ = myCloudBlob.Properties.LastModified.ToString();
+                        if (item_.GetType().ToString().Split('.').Last() == "CloudBlobDirectory")
+                        {
+                            
+                        }
+                        else
+                        {
+                            CloudBlob myCloudBlob = (CloudBlob)item_;
 
-                        gvBlobs.Rows.Add(bname_, btype_, size_, lastmodified_);
+                            string bname_ = myCloudBlob.Name;
+                            string btype_ = myCloudBlob.GetType().ToString().Split('.').Last();
+                            string size_ = (myCloudBlob.Properties.Length / 1024 / 1024 / 1024).ToString();
+                            string lastmodified_ = myCloudBlob.Properties.LastModified.ToString();
+
+                            gvBlobs.Rows.Add(bname_, btype_, size_, lastmodified_);
+                        }
                     }
                     break;
 
                 case "CloudBlobDirectory":
 
+                    //CloudBlobDirectory myCloudBlobDir = myCloudBlobClient.
 
 
                     break;
