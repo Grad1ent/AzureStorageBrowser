@@ -169,8 +169,10 @@ namespace AzureStorageBrowser
             trBlobs.Nodes.Clear();
             trFiles.Nodes.Clear();
             trTables.Nodes.Clear();
+            gvBlobs.Rows.Clear();
 
             lbStatus.Text = "Disconnected";
+            lbUri.Text = "";
             btConnect.Enabled = true;
             btDisconnect.Enabled = false;
         }
@@ -217,6 +219,8 @@ namespace AzureStorageBrowser
                     addBlobsAsync(trNode, myCloudBlobContainer.ListBlobs());
                 });
 
+                trNode.Tag = myCloudBlobContainer.Uri.AbsoluteUri;
+                trNode.ToolTipText = myCloudBlobContainer.GetType().ToString().Split('.').Last();
                 trBlobs.Nodes.Add(trNode);
 
             } //foreach myCloudBlobContainer
@@ -232,12 +236,12 @@ namespace AzureStorageBrowser
                 if (blobItem.GetType() == typeof(CloudBlockBlob))
                 {
                     CloudBlockBlob myCloudBlockBlob = (CloudBlockBlob)blobItem;
-                    childNode = new TreeNode("Block: " + myCloudBlockBlob.Uri.Segments.Last(), 2, 2);
+                    childNode = new TreeNode(myCloudBlockBlob.Uri.Segments.Last(), 2, 2);
                 }
                 else if (blobItem.GetType() == typeof(CloudPageBlob))
                 {
                     CloudPageBlob myCloudPageBlob = (CloudPageBlob)blobItem;
-                    childNode = new TreeNode("Page: " + myCloudPageBlob.Uri.Segments.Last(), 2, 2);
+                    childNode = new TreeNode(myCloudPageBlob.Uri.Segments.Last(), 2, 2);
                 }
                 else if (blobItem.GetType() == typeof(CloudBlobDirectory))
                 {
@@ -248,6 +252,8 @@ namespace AzureStorageBrowser
                     await addBlobsAsync(childNode, myCloudBlobDirectory.ListBlobs());
                 }
 
+                childNode.Tag = blobItem.Uri.AbsoluteUri;
+                childNode.ToolTipText = blobItem.GetType().ToString().Split('.').Last();
                 parentNode.Nodes.Add(childNode);
 
             } //foreach blobItem
@@ -319,5 +325,55 @@ namespace AzureStorageBrowser
 
         } //getQueuesAsync
 
+        private void trBlobs_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            
+            gvBlobs.Rows.Clear();
+
+            string type_ = e.Node.ToolTipText;
+            //CloudBlobContainer
+            //CloudBlobDirectory
+            //CloudBlockBlob
+            //CloudPageBlob
+
+            switch (type_)
+            {
+                case "CloudBlobContainer":
+
+                    string cname_ = e.Node.Tag.ToString().Split('/').Last();
+                    CloudBlobContainer myCloudBlobContainer = myCloudBlobClient.GetContainerReference(cname_);
+
+                    foreach (ICloudBlob myCloudBlob in myCloudBlobContainer.ListBlobs())
+                    {
+                        string bname_ = myCloudBlob.Name;
+                        string btype_ = myCloudBlob.GetType().ToString().Split('.').Last();
+                        string size_ = (myCloudBlob.Properties.Length / 1024 / 1024 / 1024).ToString();
+                        string lastmodified_ = myCloudBlob.Properties.LastModified.ToString();
+
+                        gvBlobs.Rows.Add(bname_, btype_, size_, lastmodified_);
+                    }
+                    break;
+
+                case "CloudBlobDirectory":
+
+
+
+                    break;
+
+                case "CloudBlockBlob":
+
+                    //System.Uri myUri = new Uri(e.Node.Tag.ToString());
+                    //ICloudBlob myCloudBlob = myCloudBlobClient.GetBlobReferenceFromServer(myUri);
+
+                    break;
+
+                case "CloudPageBlob":
+
+
+                    break;
+            } //switch
+
+            lbUri.Text = e.Node.Tag.ToString();
+        }
     } //Form1
 } //AzureStorageBrowser

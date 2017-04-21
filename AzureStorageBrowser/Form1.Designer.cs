@@ -58,6 +58,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbSeparator1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbUri = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -74,6 +76,12 @@
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.gvBlobs = new System.Windows.Forms.DataGridView();
+            this.lbUriLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -81,6 +89,7 @@
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -88,6 +97,7 @@
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gvBlobs)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -102,7 +112,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.01869F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.98131F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(806, 214);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(818, 214);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // menuStrip1
@@ -115,7 +125,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(806, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(818, 29);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -204,7 +214,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(800, 179);
+            this.groupBox1.Size = new System.Drawing.Size(812, 179);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Account";
@@ -233,7 +243,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(794, 160);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(806, 160);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // label1
@@ -242,7 +252,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 26);
+            this.label1.Size = new System.Drawing.Size(96, 26);
             this.label1.TabIndex = 0;
             this.label1.Text = "Protocol:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -253,7 +263,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 26);
+            this.label2.Size = new System.Drawing.Size(96, 26);
             this.label2.TabIndex = 1;
             this.label2.Text = "Account Name:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -264,7 +274,7 @@
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 52);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(94, 26);
+            this.label3.Size = new System.Drawing.Size(96, 26);
             this.label3.TabIndex = 2;
             this.label3.Text = "Account Key:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -275,7 +285,7 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Location = new System.Drawing.Point(3, 78);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(94, 52);
+            this.label4.Size = new System.Drawing.Size(96, 52);
             this.label4.TabIndex = 3;
             this.label4.Text = "Connection String:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -283,28 +293,28 @@
             // tbAccountName
             // 
             this.tbAccountName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAccountName.Location = new System.Drawing.Point(103, 29);
+            this.tbAccountName.Location = new System.Drawing.Point(105, 29);
             this.tbAccountName.Name = "tbAccountName";
-            this.tbAccountName.Size = new System.Drawing.Size(688, 20);
+            this.tbAccountName.Size = new System.Drawing.Size(698, 20);
             this.tbAccountName.TabIndex = 4;
             // 
             // tbAccountKey
             // 
             this.tbAccountKey.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAccountKey.Location = new System.Drawing.Point(103, 55);
+            this.tbAccountKey.Location = new System.Drawing.Point(105, 55);
             this.tbAccountKey.Name = "tbAccountKey";
-            this.tbAccountKey.Size = new System.Drawing.Size(688, 20);
+            this.tbAccountKey.Size = new System.Drawing.Size(698, 20);
             this.tbAccountKey.TabIndex = 5;
             // 
             // tbConnectionString
             // 
             this.tbConnectionString.BackColor = System.Drawing.SystemColors.Control;
             this.tbConnectionString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbConnectionString.Location = new System.Drawing.Point(103, 81);
+            this.tbConnectionString.Location = new System.Drawing.Point(105, 81);
             this.tbConnectionString.Multiline = true;
             this.tbConnectionString.Name = "tbConnectionString";
             this.tbConnectionString.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbConnectionString.Size = new System.Drawing.Size(688, 46);
+            this.tbConnectionString.Size = new System.Drawing.Size(698, 46);
             this.tbConnectionString.TabIndex = 6;
             // 
             // btConnect
@@ -312,7 +322,7 @@
             this.btConnect.Dock = System.Windows.Forms.DockStyle.Right;
             this.btConnect.Image = ((System.Drawing.Image)(resources.GetObject("btConnect.Image")));
             this.btConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btConnect.Location = new System.Drawing.Point(3, 133);
+            this.btConnect.Location = new System.Drawing.Point(5, 133);
             this.btConnect.Name = "btConnect";
             this.btConnect.Size = new System.Drawing.Size(94, 24);
             this.btConnect.TabIndex = 7;
@@ -326,7 +336,7 @@
             this.btDisconnect.Enabled = false;
             this.btDisconnect.Image = ((System.Drawing.Image)(resources.GetObject("btDisconnect.Image")));
             this.btDisconnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btDisconnect.Location = new System.Drawing.Point(103, 133);
+            this.btDisconnect.Location = new System.Drawing.Point(105, 133);
             this.btDisconnect.Name = "btDisconnect";
             this.btDisconnect.Size = new System.Drawing.Size(95, 24);
             this.btDisconnect.TabIndex = 8;
@@ -341,7 +351,7 @@
             this.cbDefaultEnpointsProtocol.Items.AddRange(new object[] {
             "https",
             "http"});
-            this.cbDefaultEnpointsProtocol.Location = new System.Drawing.Point(103, 3);
+            this.cbDefaultEnpointsProtocol.Location = new System.Drawing.Point(105, 3);
             this.cbDefaultEnpointsProtocol.Name = "cbDefaultEnpointsProtocol";
             this.cbDefaultEnpointsProtocol.Size = new System.Drawing.Size(85, 21);
             this.cbDefaultEnpointsProtocol.TabIndex = 9;
@@ -351,10 +361,13 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbStatusLabel,
-            this.lbStatus});
+            this.lbStatus,
+            this.lbSeparator1,
+            this.lbUriLabel,
+            this.lbUri});
             this.statusStrip1.Location = new System.Drawing.Point(0, 517);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(806, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(818, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -369,6 +382,17 @@
             this.lbStatus.Name = "lbStatus";
             this.lbStatus.Size = new System.Drawing.Size(0, 17);
             // 
+            // lbSeparator1
+            // 
+            this.lbSeparator1.Name = "lbSeparator1";
+            this.lbSeparator1.Size = new System.Drawing.Size(10, 17);
+            this.lbSeparator1.Text = "|";
+            // 
+            // lbUri
+            // 
+            this.lbUri.Name = "lbUri";
+            this.lbUri.Size = new System.Drawing.Size(0, 17);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -380,8 +404,12 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
-            this.splitContainer1.Size = new System.Drawing.Size(806, 303);
-            this.splitContainer1.SplitterDistance = 268;
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.gvBlobs);
+            this.splitContainer1.Size = new System.Drawing.Size(818, 303);
+            this.splitContainer1.SplitterDistance = 271;
             this.splitContainer1.TabIndex = 2;
             // 
             // tabControl1
@@ -394,7 +422,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(264, 274);
+            this.tabControl1.Size = new System.Drawing.Size(267, 274);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -403,7 +431,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(256, 248);
+            this.tabPage1.Size = new System.Drawing.Size(259, 248);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Blobs";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -416,10 +444,11 @@
             this.trBlobs.Location = new System.Drawing.Point(3, 3);
             this.trBlobs.Name = "trBlobs";
             this.trBlobs.SelectedImageIndex = 0;
-            this.trBlobs.Size = new System.Drawing.Size(250, 242);
+            this.trBlobs.Size = new System.Drawing.Size(253, 242);
             this.trBlobs.TabIndex = 0;
             this.trBlobs.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterCollapse);
             this.trBlobs.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterExpand);
+            this.trBlobs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterSelect);
             // 
             // imageList1
             // 
@@ -514,7 +543,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(264, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(267, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -546,11 +575,63 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // gvBlobs
+            // 
+            this.gvBlobs.AllowUserToAddRows = false;
+            this.gvBlobs.AllowUserToDeleteRows = false;
+            this.gvBlobs.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.gvBlobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gvBlobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4});
+            this.gvBlobs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gvBlobs.Location = new System.Drawing.Point(0, 0);
+            this.gvBlobs.Name = "gvBlobs";
+            this.gvBlobs.ReadOnly = true;
+            this.gvBlobs.Size = new System.Drawing.Size(539, 299);
+            this.gvBlobs.TabIndex = 0;
+            // 
+            // lbUriLabel
+            // 
+            this.lbUriLabel.Name = "lbUriLabel";
+            this.lbUriLabel.Size = new System.Drawing.Size(25, 17);
+            this.lbUriLabel.Text = "Uri:";
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "Name";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.HeaderText = "Blob Type";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column3.HeaderText = "Size [GB]";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column4.HeaderText = "Last Modified [UTC]";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 539);
+            this.ClientSize = new System.Drawing.Size(818, 539);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -570,6 +651,7 @@
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -579,6 +661,7 @@
             this.tabPage4.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gvBlobs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -630,6 +713,14 @@
         private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.TreeView trQueues;
+        private System.Windows.Forms.ToolStripStatusLabel lbUri;
+        private System.Windows.Forms.ToolStripStatusLabel lbSeparator1;
+        private System.Windows.Forms.DataGridView gvBlobs;
+        private System.Windows.Forms.ToolStripStatusLabel lbUriLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
     }
 }
 
