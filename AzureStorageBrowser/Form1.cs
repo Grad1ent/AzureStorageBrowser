@@ -179,7 +179,6 @@ namespace AzureStorageBrowser
             gvBlobs.Rows.Clear();
 
             lbStatus.Text = "Disconnected";
-            lbUri.Text = "";
             btConnect.Enabled = true;
             btDisconnect.Enabled = false;
         }
@@ -193,24 +192,33 @@ namespace AzureStorageBrowser
 
             if (String.IsNullOrWhiteSpace(tbAccountName.Text) || String.IsNullOrWhiteSpace(tbAccountKey.Text))
             {
-                lbStatus.Text = "Error: filed(s) are empty";
+                lbStatus.Text = "Error: empty field(s)";
             }
             else
             {
                 lbStatus.Text = "Connecting...";
                 btConnect.Enabled = false;
 
-                myCloudStorageAccount = CloudStorageAccount.Parse(strStorageConnectionString);
+                try
+                {
+                    myCloudStorageAccount = CloudStorageAccount.Parse(strStorageConnectionString);
 
-                myCloudBlobClient = myCloudStorageAccount.CreateCloudBlobClient();
-                myCloudFileClient = myCloudStorageAccount.CreateCloudFileClient();
-                myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
-                myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
+                    myCloudBlobClient = myCloudStorageAccount.CreateCloudBlobClient();
+                    myCloudFileClient = myCloudStorageAccount.CreateCloudFileClient();
+                    myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
+                    myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
 
-                await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
+                    await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
 
-                lbStatus.Text = "Connected";
-                btDisconnect.Enabled = true;
+                    lbStatus.Text = "Connected";
+                    btDisconnect.Enabled = true;
+                }
+                catch (Exception ex)
+                {
+                    lbStatus.Text = ex.Message; 
+                    btConnect.Enabled = true;
+                }
+
             } //if
 
         }
@@ -316,6 +324,7 @@ namespace AzureStorageBrowser
             {
                 TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
                 trTables.Nodes.Add(trNode);
+
             } //foreach myCloudTable
 
         } //getTablesAsync
@@ -408,7 +417,6 @@ namespace AzureStorageBrowser
                     break;
             } //switch
 
-            lbUri.Text = e.Node.Tag.ToString();
         } //trBlobs_AfterSelect
 
         private string getSize(long bytes_)

@@ -58,8 +58,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbSeparator1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbUriLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbUri = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -363,8 +361,6 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbStatusLabel,
             this.lbStatus,
-            this.lbSeparator1,
-            this.lbUriLabel,
             this.lbUri});
             this.statusStrip1.Location = new System.Drawing.Point(0, 517);
             this.statusStrip1.Name = "statusStrip1";
@@ -382,18 +378,6 @@
             // 
             this.lbStatus.Name = "lbStatus";
             this.lbStatus.Size = new System.Drawing.Size(0, 17);
-            // 
-            // lbSeparator1
-            // 
-            this.lbSeparator1.Name = "lbSeparator1";
-            this.lbSeparator1.Size = new System.Drawing.Size(10, 17);
-            this.lbSeparator1.Text = "|";
-            // 
-            // lbUriLabel
-            // 
-            this.lbUriLabel.Name = "lbUriLabel";
-            this.lbUriLabel.Size = new System.Drawing.Size(25, 17);
-            this.lbUriLabel.Text = "Uri:";
             // 
             // lbUri
             // 
@@ -739,9 +723,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.TreeView trQueues;
         private System.Windows.Forms.ToolStripStatusLabel lbUri;
-        private System.Windows.Forms.ToolStripStatusLabel lbSeparator1;
         private System.Windows.Forms.DataGridView gvBlobs;
-        private System.Windows.Forms.ToolStripStatusLabel lbUriLabel;
         private System.Windows.Forms.DataGridViewImageColumn Column0;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
