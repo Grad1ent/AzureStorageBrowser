@@ -59,6 +59,7 @@
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbSeparator1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbUriLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbUri = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -74,10 +75,10 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
+            this.gvBlobs = new System.Windows.Forms.DataGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.gvBlobs = new System.Windows.Forms.DataGridView();
-            this.lbUriLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -112,7 +113,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.01869F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.98131F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(818, 214);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(857, 214);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // menuStrip1
@@ -125,7 +126,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(818, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(857, 29);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -214,7 +215,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(812, 179);
+            this.groupBox1.Size = new System.Drawing.Size(851, 179);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Account";
@@ -243,7 +244,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(806, 160);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(845, 160);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // label1
@@ -252,7 +253,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 26);
+            this.label1.Size = new System.Drawing.Size(101, 26);
             this.label1.TabIndex = 0;
             this.label1.Text = "Protocol:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -263,7 +264,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 26);
+            this.label2.Size = new System.Drawing.Size(101, 26);
             this.label2.TabIndex = 1;
             this.label2.Text = "Account Name:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -274,7 +275,7 @@
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 52);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 26);
+            this.label3.Size = new System.Drawing.Size(101, 26);
             this.label3.TabIndex = 2;
             this.label3.Text = "Account Key:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -285,7 +286,7 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Location = new System.Drawing.Point(3, 78);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 52);
+            this.label4.Size = new System.Drawing.Size(101, 52);
             this.label4.TabIndex = 3;
             this.label4.Text = "Connection String:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -293,28 +294,28 @@
             // tbAccountName
             // 
             this.tbAccountName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAccountName.Location = new System.Drawing.Point(105, 29);
+            this.tbAccountName.Location = new System.Drawing.Point(110, 29);
             this.tbAccountName.Name = "tbAccountName";
-            this.tbAccountName.Size = new System.Drawing.Size(698, 20);
+            this.tbAccountName.Size = new System.Drawing.Size(732, 20);
             this.tbAccountName.TabIndex = 4;
             // 
             // tbAccountKey
             // 
             this.tbAccountKey.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAccountKey.Location = new System.Drawing.Point(105, 55);
+            this.tbAccountKey.Location = new System.Drawing.Point(110, 55);
             this.tbAccountKey.Name = "tbAccountKey";
-            this.tbAccountKey.Size = new System.Drawing.Size(698, 20);
+            this.tbAccountKey.Size = new System.Drawing.Size(732, 20);
             this.tbAccountKey.TabIndex = 5;
             // 
             // tbConnectionString
             // 
             this.tbConnectionString.BackColor = System.Drawing.SystemColors.Control;
             this.tbConnectionString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbConnectionString.Location = new System.Drawing.Point(105, 81);
+            this.tbConnectionString.Location = new System.Drawing.Point(110, 81);
             this.tbConnectionString.Multiline = true;
             this.tbConnectionString.Name = "tbConnectionString";
             this.tbConnectionString.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbConnectionString.Size = new System.Drawing.Size(698, 46);
+            this.tbConnectionString.Size = new System.Drawing.Size(732, 46);
             this.tbConnectionString.TabIndex = 6;
             // 
             // btConnect
@@ -322,7 +323,7 @@
             this.btConnect.Dock = System.Windows.Forms.DockStyle.Right;
             this.btConnect.Image = ((System.Drawing.Image)(resources.GetObject("btConnect.Image")));
             this.btConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btConnect.Location = new System.Drawing.Point(5, 133);
+            this.btConnect.Location = new System.Drawing.Point(10, 133);
             this.btConnect.Name = "btConnect";
             this.btConnect.Size = new System.Drawing.Size(94, 24);
             this.btConnect.TabIndex = 7;
@@ -336,7 +337,7 @@
             this.btDisconnect.Enabled = false;
             this.btDisconnect.Image = ((System.Drawing.Image)(resources.GetObject("btDisconnect.Image")));
             this.btDisconnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btDisconnect.Location = new System.Drawing.Point(105, 133);
+            this.btDisconnect.Location = new System.Drawing.Point(110, 133);
             this.btDisconnect.Name = "btDisconnect";
             this.btDisconnect.Size = new System.Drawing.Size(95, 24);
             this.btDisconnect.TabIndex = 8;
@@ -351,7 +352,7 @@
             this.cbDefaultEnpointsProtocol.Items.AddRange(new object[] {
             "https",
             "http"});
-            this.cbDefaultEnpointsProtocol.Location = new System.Drawing.Point(105, 3);
+            this.cbDefaultEnpointsProtocol.Location = new System.Drawing.Point(110, 3);
             this.cbDefaultEnpointsProtocol.Name = "cbDefaultEnpointsProtocol";
             this.cbDefaultEnpointsProtocol.Size = new System.Drawing.Size(85, 21);
             this.cbDefaultEnpointsProtocol.TabIndex = 9;
@@ -367,7 +368,7 @@
             this.lbUri});
             this.statusStrip1.Location = new System.Drawing.Point(0, 517);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(818, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(857, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -387,6 +388,12 @@
             this.lbSeparator1.Name = "lbSeparator1";
             this.lbSeparator1.Size = new System.Drawing.Size(10, 17);
             this.lbSeparator1.Text = "|";
+            // 
+            // lbUriLabel
+            // 
+            this.lbUriLabel.Name = "lbUriLabel";
+            this.lbUriLabel.Size = new System.Drawing.Size(25, 17);
+            this.lbUriLabel.Text = "Uri:";
             // 
             // lbUri
             // 
@@ -408,8 +415,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gvBlobs);
-            this.splitContainer1.Size = new System.Drawing.Size(818, 303);
-            this.splitContainer1.SplitterDistance = 271;
+            this.splitContainer1.Size = new System.Drawing.Size(857, 303);
+            this.splitContainer1.SplitterDistance = 283;
             this.splitContainer1.TabIndex = 2;
             // 
             // tabControl1
@@ -422,7 +429,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(267, 274);
+            this.tabControl1.Size = new System.Drawing.Size(279, 274);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -431,7 +438,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(259, 248);
+            this.tabPage1.Size = new System.Drawing.Size(271, 248);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Blobs";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -444,7 +451,7 @@
             this.trBlobs.Location = new System.Drawing.Point(3, 3);
             this.trBlobs.Name = "trBlobs";
             this.trBlobs.SelectedImageIndex = 0;
-            this.trBlobs.Size = new System.Drawing.Size(253, 242);
+            this.trBlobs.Size = new System.Drawing.Size(265, 242);
             this.trBlobs.TabIndex = 0;
             this.trBlobs.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterCollapse);
             this.trBlobs.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterExpand);
@@ -477,7 +484,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(256, 248);
+            this.tabPage2.Size = new System.Drawing.Size(259, 248);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Files";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -491,7 +498,7 @@
             this.trFiles.Location = new System.Drawing.Point(3, 3);
             this.trFiles.Name = "trFiles";
             this.trFiles.SelectedImageIndex = 0;
-            this.trFiles.Size = new System.Drawing.Size(250, 242);
+            this.trFiles.Size = new System.Drawing.Size(253, 242);
             this.trFiles.TabIndex = 0;
             this.trFiles.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterCollapse);
             this.trFiles.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterExpand);
@@ -502,7 +509,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(256, 248);
+            this.tabPage3.Size = new System.Drawing.Size(259, 248);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tables";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -515,7 +522,7 @@
             this.trTables.Location = new System.Drawing.Point(3, 3);
             this.trTables.Name = "trTables";
             this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(250, 242);
+            this.trTables.Size = new System.Drawing.Size(253, 242);
             this.trTables.TabIndex = 0;
             // 
             // tabPage4
@@ -524,7 +531,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(256, 248);
+            this.tabPage4.Size = new System.Drawing.Size(259, 248);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Queues";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -537,7 +544,7 @@
             this.trQueues.Location = new System.Drawing.Point(3, 3);
             this.trQueues.Name = "trQueues";
             this.trQueues.SelectedImageIndex = 0;
-            this.trQueues.Size = new System.Drawing.Size(250, 242);
+            this.trQueues.Size = new System.Drawing.Size(253, 242);
             this.trQueues.TabIndex = 0;
             // 
             // toolStrip1
@@ -549,7 +556,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(267, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(279, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -577,10 +584,6 @@
             this.btCollapseAll.ToolTipText = "Collapse All";
             this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // gvBlobs
             // 
             this.gvBlobs.AllowUserToAddRows = false;
@@ -588,6 +591,7 @@
             this.gvBlobs.BackgroundColor = System.Drawing.SystemColors.Control;
             this.gvBlobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvBlobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column0,
             this.Column1,
             this.Column2,
             this.Column3,
@@ -596,48 +600,63 @@
             this.gvBlobs.Location = new System.Drawing.Point(0, 0);
             this.gvBlobs.Name = "gvBlobs";
             this.gvBlobs.ReadOnly = true;
-            this.gvBlobs.Size = new System.Drawing.Size(539, 299);
+            this.gvBlobs.ShowCellToolTips = false;
+            this.gvBlobs.Size = new System.Drawing.Size(566, 299);
             this.gvBlobs.TabIndex = 0;
             // 
-            // lbUriLabel
+            // openFileDialog1
             // 
-            this.lbUriLabel.Name = "lbUriLabel";
-            this.lbUriLabel.Size = new System.Drawing.Size(25, 17);
-            this.lbUriLabel.Text = "Uri:";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // Column0
+            // 
+            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column0.FillWeight = 2.604999F;
+            this.Column0.HeaderText = "";
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Width = 5;
             // 
             // Column1
             // 
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 124.9152F;
             this.Column1.HeaderText = "Name";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
             // 
             // Column2
             // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "Blob Type";
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.FillWeight = 190.3553F;
+            this.Column2.HeaderText = "Type";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
+            this.Column2.Width = 56;
             // 
             // Column3
             // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column3.FillWeight = 59.37977F;
             this.Column3.HeaderText = "Size";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            this.Column3.Width = 52;
             // 
             // Column4
             // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column4.HeaderText = "Last Modified [UTC]";
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column4.FillWeight = 110F;
+            this.Column4.HeaderText = "Last Modified";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
+            this.Column4.Width = 95;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 539);
+            this.ClientSize = new System.Drawing.Size(857, 539);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -723,6 +742,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lbSeparator1;
         private System.Windows.Forms.DataGridView gvBlobs;
         private System.Windows.Forms.ToolStripStatusLabel lbUriLabel;
+        private System.Windows.Forms.DataGridViewImageColumn Column0;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;

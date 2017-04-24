@@ -355,43 +355,77 @@ namespace AzureStorageBrowser
                     {
                         if (item_.GetType().ToString().Split('.').Last() == "CloudBlobDirectory")
                         {
-                            
+                            CloudBlobDirectory cbd_ = (CloudBlobDirectory)item_;
+
+                            string cbdname_ = cbd_.Uri.Segments.Last();
+                            string cbdtype_ = cbd_.GetType().ToString().Split('.').Last();
+                               
+                            gvBlobs.Rows.Add(imageList1.Images[0], cbdname_, cbdtype_, "", "");   
                         }
                         else
                         {
-                            CloudBlob myCloudBlob = (CloudBlob)item_;
+                            CloudBlob cb_ = (CloudBlob)item_;
 
-                            string bname_ = myCloudBlob.Name;
-                            string btype_ = myCloudBlob.GetType().ToString().Split('.').Last();
-                            string size_ = (myCloudBlob.Properties.Length / 1024 / 1024 / 1024).ToString();
-                            string lastmodified_ = myCloudBlob.Properties.LastModified.ToString();
+                            string cbname_ = cb_.Name;
+                            string cbtype_ = cb_.GetType().ToString().Split('.').Last();                            
+                            string cbsize_ = getSize(cb_.Properties.Length);
+                            string cblastmodified_ = cb_.Properties.LastModified.ToString();
 
-                            gvBlobs.Rows.Add(bname_, btype_, size_, lastmodified_);
+
+                            gvBlobs.Rows.Add(imageList1.Images[2], cbname_, cbtype_, cbsize_, cblastmodified_);
                         }
                     }
                     break;
 
                 case "CloudBlobDirectory":
 
-                    //CloudBlobDirectory myCloudBlobDir = myCloudBlobClient.
-
-
                     break;
 
                 case "CloudBlockBlob":
 
-                    //System.Uri myUri = new Uri(e.Node.Tag.ToString());
-                    //ICloudBlob myCloudBlob = myCloudBlobClient.GetBlobReferenceFromServer(myUri);
+                    CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+
+                    string cbbname_ = cbb_.Name;
+                    string cbbtype_ = cbb_.GetType().ToString().Split('.').Last();
+                    string cbbsize_ = getSize(cbb_.Properties.Length);
+                    string cbblastmodified_ = cbb_.Properties.LastModified.ToString();
+
+                    gvBlobs.Rows.Add(imageList1.Images[2], cbbname_, cbbtype_, cbbsize_, cbblastmodified_);
 
                     break;
 
                 case "CloudPageBlob":
 
+                    CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
+                    string cpbname_ = cpb_.Name;
+                    string cpbtype_ = cpb_.GetType().ToString().Split('.').Last();
+                    string cpbsize_ = getSize(cpb_.Properties.Length);
+                    string cpblastmodified_ = cpb_.Properties.LastModified.ToString();
+
+                    gvBlobs.Rows.Add(imageList1.Images[2], cpbname_, cpbtype_, cpbsize_, cpblastmodified_);
+                    
                     break;
             } //switch
 
             lbUri.Text = e.Node.Tag.ToString();
-        }
+        } //trBlobs_AfterSelect
+
+        private string getSize(long bytes_)
+        {
+
+            string[] suffix_ = {"B","KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+            int i = 0;
+
+            do
+            {
+                bytes_ = bytes_ / 1024;
+                i++;
+            } while (bytes_ >= 1024);
+
+            return String.Format("{0:0.00} {1}",bytes_, suffix_[i]);
+
+        } //getSize
+
     } //Form1
 } //AzureStorageBrowser
