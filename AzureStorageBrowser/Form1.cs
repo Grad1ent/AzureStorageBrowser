@@ -496,8 +496,6 @@ namespace AzureStorageBrowser
 
                 case "CloudFileDirectory":
 
-
-
                     break;
 
                 case "CloudFile":
@@ -506,7 +504,6 @@ namespace AzureStorageBrowser
             } //swith
                 
         } //trFiles_AfterSelect
-
 
         private string getSize(long bytes_)
         {
