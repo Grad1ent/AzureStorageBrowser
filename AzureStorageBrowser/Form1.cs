@@ -160,14 +160,33 @@ namespace AzureStorageBrowser
 
         private void trFiles_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            e.Node.ImageIndex = 5;
-            e.Node.SelectedImageIndex = 5;
+            switch (e.Node.ToolTipText)
+            {
+                case "CloudFileShare":
+                    e.Node.ImageIndex = 4;
+                    e.Node.SelectedImageIndex = 4;
+                    break;
+                case "CloudFileDirectory":
+                    e.Node.ImageIndex = 1;
+                    e.Node.SelectedImageIndex = 1;
+                    break;
+            } //switch
+
         }
 
         private void trFiles_AfterCollapse(object sender, TreeViewEventArgs e)
         {
-            e.Node.ImageIndex = 4;
-            e.Node.SelectedImageIndex = 4;
+            switch (e.Node.ToolTipText)
+            {
+                case "CloudFileShare":
+                    e.Node.ImageIndex = 3;
+                    e.Node.SelectedImageIndex = 3;
+                    break;
+                case "CloudFileDirectory":
+                    e.Node.ImageIndex = 0;
+                    e.Node.SelectedImageIndex = 0;
+                    break;
+            } //switch
         }
 
         private void btDisconnect_Click(object sender, EventArgs e)
@@ -176,7 +195,7 @@ namespace AzureStorageBrowser
             trFiles.Nodes.Clear();
             trTables.Nodes.Clear();
             trQueues.Nodes.Clear();
-            gvBlobs.Rows.Clear();
+            gvProperties.Rows.Clear();
 
             lbStatus.Text = "Disconnected";
             btConnect.Enabled = true;
@@ -227,7 +246,7 @@ namespace AzureStorageBrowser
         {
             foreach (CloudBlobContainer myCloudBlobContainer in myCloudBlobClient.ListContainers())
             {
-                TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 15, 15);
+                TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 8, 8);
 
                 await Task.Run(() =>
                 {
@@ -279,13 +298,15 @@ namespace AzureStorageBrowser
         {
             foreach (CloudFileShare myCloudFileShare in myCloudFileClient.ListShares())
             {
-                TreeNode trNode = new TreeNode(myCloudFileShare.Name, 4, 4);
+                TreeNode trNode = new TreeNode(myCloudFileShare.Name, 3, 3);
 
                 await Task.Run(() =>
                 {
                     addFilesAsync(trNode, myCloudFileShare.GetRootDirectoryReference().ListFilesAndDirectories());
                 });
 
+                trNode.Tag = myCloudFileShare.Uri.AbsoluteUri;
+                trNode.ToolTipText = myCloudFileShare.GetType().ToString().Split('.').Last();
                 trFiles.Nodes.Add(trNode);
 
             } //foreach myCloudFileShare
@@ -306,12 +327,14 @@ namespace AzureStorageBrowser
                 else if (fileItem.GetType() == typeof(CloudFileDirectory))
                 {
                     CloudFileDirectory myCloudFileDirectory = (CloudFileDirectory)fileItem;
-                    childNode = new TreeNode(myCloudFileDirectory.Uri.Segments.Last(), 4, 4);
+                    childNode = new TreeNode(myCloudFileDirectory.Uri.Segments.Last(), 0, 0);
 
                     //req:
                     await addFilesAsync(childNode, myCloudFileDirectory.ListFilesAndDirectories());
                 }
 
+                childNode.Tag = fileItem.Uri.AbsoluteUri;
+                childNode.ToolTipText = fileItem.GetType().ToString().Split('.').Last();
                 parentNode.Nodes.Add(childNode);
 
             } //foreach fileItem
@@ -322,7 +345,7 @@ namespace AzureStorageBrowser
         {
             foreach (var myCloudTable in myCloudTableClient.ListTables())
             {
-                TreeNode trNode = new TreeNode(myCloudTable.Name, 3, 3);
+                TreeNode trNode = new TreeNode(myCloudTable.Name, 5, 5);
                 trTables.Nodes.Add(trNode);
 
             } //foreach myCloudTable
@@ -344,7 +367,7 @@ namespace AzureStorageBrowser
         private void trBlobs_AfterSelect(object sender, TreeViewEventArgs e)
         {
             
-            gvBlobs.Rows.Clear();
+            gvProperties.Rows.Clear();
 
             string type_ = e.Node.ToolTipText;
             System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
@@ -369,7 +392,7 @@ namespace AzureStorageBrowser
                             string cbdname_ = cbd_.Uri.Segments.Last();
                             string cbdtype_ = cbd_.GetType().ToString().Split('.').Last();
                                
-                            gvBlobs.Rows.Add(imageList1.Images[0], cbdname_, cbdtype_, "", "");   
+                            gvProperties.Rows.Add(imageList1.Images[0], cbdname_, cbdtype_, "", "");   
                         }
                         else
                         {
@@ -381,9 +404,9 @@ namespace AzureStorageBrowser
                             string cblastmodified_ = cb_.Properties.LastModified.ToString();
 
 
-                            gvBlobs.Rows.Add(imageList1.Images[2], cbname_, cbtype_, cbsize_, cblastmodified_);
+                            gvProperties.Rows.Add(imageList1.Images[2], cbname_, cbtype_, cbsize_, cblastmodified_);
                         }
-                    }
+                    } //forach
                     break;
 
                 case "CloudBlobDirectory":
@@ -399,7 +422,7 @@ namespace AzureStorageBrowser
                     string cbbsize_ = getSize(cbb_.Properties.Length);
                     string cbblastmodified_ = cbb_.Properties.LastModified.ToString();
 
-                    gvBlobs.Rows.Add(imageList1.Images[2], cbbname_, cbbtype_, cbbsize_, cbblastmodified_);
+                    gvProperties.Rows.Add(imageList1.Images[2], cbbname_, cbbtype_, cbbsize_, cbblastmodified_);
 
                     break;
 
@@ -412,17 +435,83 @@ namespace AzureStorageBrowser
                     string cpbsize_ = getSize(cpb_.Properties.Length);
                     string cpblastmodified_ = cpb_.Properties.LastModified.ToString();
 
-                    gvBlobs.Rows.Add(imageList1.Images[2], cpbname_, cpbtype_, cpbsize_, cpblastmodified_);
+                    gvProperties.Rows.Add(imageList1.Images[2], cpbname_, cpbtype_, cpbsize_, cpblastmodified_);
                     
                     break;
             } //switch
 
         } //trBlobs_AfterSelect
 
+        private void trFiles_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            gvProperties.Rows.Clear();
+
+            string type_ = e.Node.ToolTipText;
+            System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
+            //CloudFileShare
+            //CloudFileDirectory
+            //CloudFile
+
+            switch (type_)
+            {
+                case "CloudFileShare":
+
+                    string cfsname_ = e.Node.Tag.ToString().Split('/').Last();
+                    CloudFileShare cfs_ = myCloudFileClient.GetShareReference(cfsname_);
+
+                    //string cfstype_ = cfs_.GetType().ToString().Split('.').Last();
+                    //string cfsquota_ = cfs_.Properties.Quota.Value.ToString() + " GB";
+                    //string cfsquota_ = "... GB";
+                    //string cfslastmodified_ = cfs_.Properties.LastModified.ToString();
+
+                    //gvProperties.Rows.Add(imageList1.Images[3], cfsname_, cfstype_, cfsquota_, cfslastmodified_);
+
+                    foreach (var item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
+                    {
+                        if (item_.GetType().ToString().Split('.').Last() == "CloudFileDirectory")
+                        {
+                            CloudFileDirectory cfd_ = (CloudFileDirectory)item_;
+
+                            string cfdname_ = cfd_.Uri.Segments.Last();
+                            string cfdtype_ = cfd_.GetType().ToString().Split('.').Last();
+                            string cfdlastmodified_ = cfd_.Properties.LastModified.ToString();
+
+                            gvProperties.Rows.Add(imageList1.Images[0], cfdname_, cfdtype_, "", cfdlastmodified_);
+                        }
+                        else
+                        {
+                            CloudFile cf_ = (CloudFile)item_;
+
+                            string cfname_ = cf_.Name;
+                            string cftype_ = cf_.GetType().ToString().Split('.').Last();
+                            string cfsize_ = getSize(cf_.Properties.Length);
+                            string cflastmodified_ = cf_.Properties.LastModified.ToString();
+
+                            gvProperties.Rows.Add(imageList1.Images[6], cfname_, cftype_, cfsize_, cflastmodified_);
+                        }
+
+                    } //foreach
+
+                    break;
+
+                case "CloudFileDirectory":
+
+
+
+                    break;
+
+                case "CloudFile":
+
+                    break;
+            } //swith
+                
+        } //trFiles_AfterSelect
+
+
         private string getSize(long bytes_)
         {
 
-            string[] suffix_ = {"B","KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+            string[] suffix_ = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
             int i = 0;
 
             do
@@ -431,9 +520,11 @@ namespace AzureStorageBrowser
                 i++;
             } while (bytes_ >= 1024);
 
-            return String.Format("{0:0.00} {1}",bytes_, suffix_[i]);
+            return String.Format("{0:0.00} {1}", bytes_, suffix_[i]);
 
         } //getSize
+
+
 
     } //Form1
 } //AzureStorageBrowser

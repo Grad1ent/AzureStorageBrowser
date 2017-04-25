@@ -73,14 +73,14 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
-            this.gvBlobs = new System.Windows.Forms.DataGridView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.gvProperties = new System.Windows.Forms.DataGridView();
             this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -96,7 +96,7 @@
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gvBlobs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -398,7 +398,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.gvBlobs);
+            this.splitContainer1.Panel2.Controls.Add(this.gvProperties);
             this.splitContainer1.Size = new System.Drawing.Size(857, 303);
             this.splitContainer1.SplitterDistance = 283;
             this.splitContainer1.TabIndex = 2;
@@ -448,19 +448,12 @@
             this.imageList1.Images.SetKeyName(0, "cFolder.gif");
             this.imageList1.Images.SetKeyName(1, "ofolder.gif");
             this.imageList1.Images.SetKeyName(2, "doc.gif");
-            this.imageList1.Images.SetKeyName(3, "table.gif");
-            this.imageList1.Images.SetKeyName(4, "cbFolder.gif");
-            this.imageList1.Images.SetKeyName(5, "obFolder.gif");
+            this.imageList1.Images.SetKeyName(3, "cloudfolderclosed.gif");
+            this.imageList1.Images.SetKeyName(4, "cloudfolderopened.gif");
+            this.imageList1.Images.SetKeyName(5, "table.gif");
             this.imageList1.Images.SetKeyName(6, "file.gif");
             this.imageList1.Images.SetKeyName(7, "queue.gif");
-            this.imageList1.Images.SetKeyName(8, "folder.gif");
-            this.imageList1.Images.SetKeyName(9, "folder_opened.gif");
-            this.imageList1.Images.SetKeyName(10, "AzureStorage.gif");
-            this.imageList1.Images.SetKeyName(11, "AzureStorageBlob.gif");
-            this.imageList1.Images.SetKeyName(12, "AzureStorageFile.gif");
-            this.imageList1.Images.SetKeyName(13, "AzureStorageQueue.gif");
-            this.imageList1.Images.SetKeyName(14, "AzureStorageTable.gif");
-            this.imageList1.Images.SetKeyName(15, "container.gif");
+            this.imageList1.Images.SetKeyName(8, "container.gif");
             // 
             // tabPage2
             // 
@@ -468,7 +461,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(259, 248);
+            this.tabPage2.Size = new System.Drawing.Size(271, 248);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Files";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -482,10 +475,11 @@
             this.trFiles.Location = new System.Drawing.Point(3, 3);
             this.trFiles.Name = "trFiles";
             this.trFiles.SelectedImageIndex = 0;
-            this.trFiles.Size = new System.Drawing.Size(253, 242);
+            this.trFiles.Size = new System.Drawing.Size(265, 242);
             this.trFiles.TabIndex = 0;
             this.trFiles.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterCollapse);
             this.trFiles.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterExpand);
+            this.trFiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterSelect);
             // 
             // tabPage3
             // 
@@ -493,7 +487,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(259, 248);
+            this.tabPage3.Size = new System.Drawing.Size(271, 248);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tables";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -506,7 +500,7 @@
             this.trTables.Location = new System.Drawing.Point(3, 3);
             this.trTables.Name = "trTables";
             this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(253, 242);
+            this.trTables.Size = new System.Drawing.Size(265, 242);
             this.trTables.TabIndex = 0;
             // 
             // tabPage4
@@ -515,7 +509,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(259, 248);
+            this.tabPage4.Size = new System.Drawing.Size(271, 248);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Queues";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -528,7 +522,7 @@
             this.trQueues.Location = new System.Drawing.Point(3, 3);
             this.trQueues.Name = "trQueues";
             this.trQueues.SelectedImageIndex = 0;
-            this.trQueues.Size = new System.Drawing.Size(253, 242);
+            this.trQueues.Size = new System.Drawing.Size(265, 242);
             this.trQueues.TabIndex = 0;
             // 
             // toolStrip1
@@ -568,29 +562,25 @@
             this.btCollapseAll.ToolTipText = "Collapse All";
             this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
             // 
-            // gvBlobs
+            // gvProperties
             // 
-            this.gvBlobs.AllowUserToAddRows = false;
-            this.gvBlobs.AllowUserToDeleteRows = false;
-            this.gvBlobs.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.gvBlobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gvBlobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.gvProperties.AllowUserToAddRows = false;
+            this.gvProperties.AllowUserToDeleteRows = false;
+            this.gvProperties.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.gvProperties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gvProperties.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column0,
             this.Column1,
             this.Column2,
             this.Column3,
             this.Column4});
-            this.gvBlobs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gvBlobs.Location = new System.Drawing.Point(0, 0);
-            this.gvBlobs.Name = "gvBlobs";
-            this.gvBlobs.ReadOnly = true;
-            this.gvBlobs.ShowCellToolTips = false;
-            this.gvBlobs.Size = new System.Drawing.Size(566, 299);
-            this.gvBlobs.TabIndex = 0;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.gvProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gvProperties.Location = new System.Drawing.Point(0, 0);
+            this.gvProperties.Name = "gvProperties";
+            this.gvProperties.ReadOnly = true;
+            this.gvProperties.ShowCellToolTips = false;
+            this.gvProperties.Size = new System.Drawing.Size(566, 299);
+            this.gvProperties.TabIndex = 0;
             // 
             // Column0
             // 
@@ -636,6 +626,10 @@
             this.Column4.ReadOnly = true;
             this.Column4.Width = 95;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -670,7 +664,7 @@
             this.tabPage4.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gvBlobs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -723,7 +717,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.TreeView trQueues;
         private System.Windows.Forms.ToolStripStatusLabel lbUri;
-        private System.Windows.Forms.DataGridView gvBlobs;
+        private System.Windows.Forms.DataGridView gvProperties;
         private System.Windows.Forms.DataGridViewImageColumn Column0;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
