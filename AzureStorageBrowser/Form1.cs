@@ -270,12 +270,31 @@ namespace AzureStorageBrowser
                 if (blobItem.GetType() == typeof(CloudBlockBlob))
                 {
                     CloudBlockBlob myCloudBlockBlob = (CloudBlockBlob)blobItem;
-                    childNode = new TreeNode(myCloudBlockBlob.Uri.Segments.Last(), 2, 2);
+
+                    string cbbname_ = myCloudBlockBlob.Uri.Segments.Last();
+                    if (cbbname_.Contains(".vhd"))
+                    {
+                        childNode = new TreeNode(cbbname_, 9, 9);
+                    }
+                    else
+                    {
+                        childNode = new TreeNode(cbbname_, 2, 2);
+                    }
+                    
                 }
                 else if (blobItem.GetType() == typeof(CloudPageBlob))
                 {
                     CloudPageBlob myCloudPageBlob = (CloudPageBlob)blobItem;
-                    childNode = new TreeNode(myCloudPageBlob.Uri.Segments.Last(), 2, 2);
+
+                    string cpbname_ = myCloudPageBlob.Uri.Segments.Last();
+                    if (cpbname_.Contains(".vhd"))
+                    {
+                        childNode = new TreeNode(cpbname_, 9, 9);
+                    } else
+                    {
+                        childNode = new TreeNode(cpbname_, 2, 2);
+                    }
+                    
                 }
                 else if (blobItem.GetType() == typeof(CloudBlobDirectory))
                 {
@@ -403,8 +422,14 @@ namespace AzureStorageBrowser
                             string cbsize_ = getSize(cb_.Properties.Length);
                             string cblastmodified_ = cb_.Properties.LastModified.ToString();
 
-
-                            gvProperties.Rows.Add(imageList1.Images[2], cbname_, cbtype_, cbsize_, cblastmodified_);
+                            if (cbname_.Contains(".vhd"))
+                            {
+                                gvProperties.Rows.Add(imageList1.Images[9], cbname_, cbtype_, cbsize_, cblastmodified_);
+                            }
+                            else
+                            {
+                                gvProperties.Rows.Add(imageList1.Images[2], cbname_, cbtype_, cbsize_, cblastmodified_);
+                            }
                         }
                     } //forach
                     break;
@@ -422,7 +447,14 @@ namespace AzureStorageBrowser
                     string cbbsize_ = getSize(cbb_.Properties.Length);
                     string cbblastmodified_ = cbb_.Properties.LastModified.ToString();
 
-                    gvProperties.Rows.Add(imageList1.Images[2], cbbname_, cbbtype_, cbbsize_, cbblastmodified_);
+                    if (cbbname_.Contains(".vhd"))
+                    {
+                        gvProperties.Rows.Add(imageList1.Images[9], cbbname_, cbbtype_, cbbsize_, cbblastmodified_);
+                    }
+                    else
+                    {
+                        gvProperties.Rows.Add(imageList1.Images[2], cbbname_, cbbtype_, cbbsize_, cbblastmodified_);
+                    }
 
                     break;
 
@@ -435,7 +467,14 @@ namespace AzureStorageBrowser
                     string cpbsize_ = getSize(cpb_.Properties.Length);
                     string cpblastmodified_ = cpb_.Properties.LastModified.ToString();
 
-                    gvProperties.Rows.Add(imageList1.Images[2], cpbname_, cpbtype_, cpbsize_, cpblastmodified_);
+                    if (cpbname_.Contains(".vhd"))
+                    {
+                        gvProperties.Rows.Add(imageList1.Images[9], cpbname_, cpbtype_, cpbsize_, cpblastmodified_);
+                    }
+                    else
+                    {
+                        gvProperties.Rows.Add(imageList1.Images[2], cpbname_, cpbtype_, cpbsize_, cpblastmodified_);
+                    }
                     
                     break;
             } //switch
