@@ -254,7 +254,7 @@ namespace AzureStorageBrowser
                 });
 
                 trNode.Tag = myCloudBlobContainer.Uri.AbsoluteUri;
-                trNode.ToolTipText = myCloudBlobContainer.GetType().ToString().Split('.').Last();
+                trNode.ToolTipText = myCloudBlobContainer.GetType().Name;
                 trBlobs.Nodes.Add(trNode);
 
             } //foreach myCloudBlobContainer
@@ -306,7 +306,7 @@ namespace AzureStorageBrowser
                 }
 
                 childNode.Tag = blobItem.Uri.AbsoluteUri;
-                childNode.ToolTipText = blobItem.GetType().ToString().Split('.').Last();
+                childNode.ToolTipText = blobItem.GetType().Name;
                 parentNode.Nodes.Add(childNode);
 
             } //foreach blobItem
@@ -325,7 +325,7 @@ namespace AzureStorageBrowser
                 });
 
                 trNode.Tag = myCloudFileShare.Uri.AbsoluteUri;
-                trNode.ToolTipText = myCloudFileShare.GetType().ToString().Split('.').Last();
+                trNode.ToolTipText = myCloudFileShare.GetType().Name;
                 trFiles.Nodes.Add(trNode);
 
             } //foreach myCloudFileShare
@@ -353,7 +353,7 @@ namespace AzureStorageBrowser
                 }
 
                 childNode.Tag = fileItem.Uri.AbsoluteUri;
-                childNode.ToolTipText = fileItem.GetType().ToString().Split('.').Last();
+                childNode.ToolTipText = fileItem.GetType().Name;
                 parentNode.Nodes.Add(childNode);
 
             } //foreach fileItem
@@ -395,6 +395,16 @@ namespace AzureStorageBrowser
             //CloudBlockBlob
             //CloudPageBlob
 
+            CloudBlobDirectory cbd_;
+            CloudBlob cb_;
+            CloudBlockBlob cbb_;
+            CloudPageBlob cpb_;
+
+            string cbdname_, cbdtype_;
+            string cbname_, cbtype_, cbsize_, cblastmodified_;
+            string cbbname_, cbbtype_, cbbsize_, cbblastmodified_;
+            string cpbname_, cpbtype_, cpbsize_, cpblastmodified_;
+
             switch (type_)
             {
                 case "CloudBlobContainer":
@@ -404,23 +414,23 @@ namespace AzureStorageBrowser
                     
                     foreach (var item_ in myCloudBlobContainer.ListBlobs())
                     {
-                        if (item_.GetType().ToString().Split('.').Last() == "CloudBlobDirectory")
+                        if (item_.GetType().Name == "CloudBlobDirectory")
                         {
-                            CloudBlobDirectory cbd_ = (CloudBlobDirectory)item_;
+                            cbd_ = (CloudBlobDirectory)item_;
 
-                            string cbdname_ = cbd_.Uri.Segments.Last();
-                            string cbdtype_ = cbd_.GetType().ToString().Split('.').Last();
+                            cbdname_ = cbd_.Uri.Segments.Last();
+                            cbdtype_ = cbd_.GetType().Name;
                                
                             gvProperties.Rows.Add(imageList1.Images[0], cbdname_, cbdtype_, "", "");   
                         }
                         else
                         {
-                            CloudBlob cb_ = (CloudBlob)item_;
+                           cb_ = (CloudBlob)item_;
 
-                            string cbname_ = cb_.Name;
-                            string cbtype_ = cb_.GetType().ToString().Split('.').Last();                            
-                            string cbsize_ = getSize(cb_.Properties.Length);
-                            string cblastmodified_ = cb_.Properties.LastModified.ToString();
+                            cbname_ = cb_.Name;
+                            cbtype_ = cb_.GetType().Name;                            
+                            cbsize_ = getSize(cb_.Properties.Length);
+                            cblastmodified_ = cb_.Properties.LastModified.ToString();
 
                             if (cbname_.Contains(".vhd"))
                             {
@@ -440,12 +450,12 @@ namespace AzureStorageBrowser
 
                 case "CloudBlockBlob":
 
-                    CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                    cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
-                    string cbbname_ = cbb_.Name;
-                    string cbbtype_ = cbb_.GetType().ToString().Split('.').Last();
-                    string cbbsize_ = getSize(cbb_.Properties.Length);
-                    string cbblastmodified_ = cbb_.Properties.LastModified.ToString();
+                    cbbname_ = cbb_.Name;
+                    cbbtype_ = cbb_.GetType().Name;
+                    cbbsize_ = getSize(cbb_.Properties.Length);
+                    cbblastmodified_ = cbb_.Properties.LastModified.ToString();
 
                     if (cbbname_.Contains(".vhd"))
                     {
@@ -460,12 +470,12 @@ namespace AzureStorageBrowser
 
                 case "CloudPageBlob":
 
-                    CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                    cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
-                    string cpbname_ = cpb_.Name;
-                    string cpbtype_ = cpb_.GetType().ToString().Split('.').Last();
-                    string cpbsize_ = getSize(cpb_.Properties.Length);
-                    string cpblastmodified_ = cpb_.Properties.LastModified.ToString();
+                    cpbname_ = cpb_.Name;
+                    cpbtype_ = cpb_.GetType().Name;
+                    cpbsize_ = getSize(cpb_.Properties.Length);
+                    cpblastmodified_ = cpb_.Properties.LastModified.ToString();
 
                     if (cpbname_.Contains(".vhd"))
                     {
@@ -487,44 +497,40 @@ namespace AzureStorageBrowser
 
             string type_ = e.Node.ToolTipText;
             System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
-            //CloudFileShare
-            //CloudFileDirectory
-            //CloudFile
+
+            CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+            CloudFileDirectory cfd_;
+            CloudFile cf_;
+
+            string cfname_, cftype_, cfsize_, cflastmodified_;
+            string cfdname_, cfdtype_, cfdlastmodified_;
 
             switch (type_)
             {
                 case "CloudFileShare":
 
-                    string cfsname_ = e.Node.Tag.ToString().Split('/').Last();
-                    CloudFileShare cfs_ = myCloudFileClient.GetShareReference(cfsname_);
-
-                    //string cfstype_ = cfs_.GetType().ToString().Split('.').Last();
-                    //string cfsquota_ = cfs_.Properties.Quota.Value.ToString() + " GB";
-                    //string cfsquota_ = "... GB";
-                    //string cfslastmodified_ = cfs_.Properties.LastModified.ToString();
-
-                    //gvProperties.Rows.Add(imageList1.Images[3], cfsname_, cfstype_, cfsquota_, cfslastmodified_);
-
-                    foreach (var item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
+                    foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
                     {
-                        if (item_.GetType().ToString().Split('.').Last() == "CloudFileDirectory")
+                        if (item_.GetType().Name == "CloudFileDirectory")
                         {
-                            CloudFileDirectory cfd_ = (CloudFileDirectory)item_;
+                            cfd_ = (CloudFileDirectory)item_;
+                            cfd_.FetchAttributes();
 
-                            string cfdname_ = cfd_.Uri.Segments.Last();
-                            string cfdtype_ = cfd_.GetType().ToString().Split('.').Last();
-                            string cfdlastmodified_ = cfd_.Properties.LastModified.ToString();
+                            cfdname_ = cfd_.Uri.Segments.Last();
+                            cfdtype_ = cfd_.GetType().Name;
+                            cfdlastmodified_ = cfd_.Properties.LastModified.ToString();
 
                             gvProperties.Rows.Add(imageList1.Images[0], cfdname_, cfdtype_, "", cfdlastmodified_);
                         }
-                        else
+                        else //CloudFile
                         {
-                            CloudFile cf_ = (CloudFile)item_;
+                            cf_ = (CloudFile)item_;
+                            cf_.FetchAttributes();
 
-                            string cfname_ = cf_.Name;
-                            string cftype_ = cf_.GetType().ToString().Split('.').Last();
-                            string cfsize_ = getSize(cf_.Properties.Length);
-                            string cflastmodified_ = cf_.Properties.LastModified.ToString();
+                            cfname_ = cf_.Name;
+                            cftype_ = cf_.GetType().Name;
+                            cfsize_ = getSize(cf_.Properties.Length);
+                            cflastmodified_ = cf_.Properties.LastModified.ToString();
 
                             gvProperties.Rows.Add(imageList1.Images[6], cfname_, cftype_, cfsize_, cflastmodified_);
                         }
@@ -535,32 +541,74 @@ namespace AzureStorageBrowser
 
                 case "CloudFileDirectory":
 
+                    foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().GetDirectoryReference(uri_.Segments.Last()).ListFilesAndDirectories())
+                    {
+                        if (item_.GetType().Name == "CloudFileDirectory")
+                        {
+                            cfd_ = (CloudFileDirectory)item_;
+                            cfd_.FetchAttributes();
+
+                            cfdname_ = cfd_.Uri.Segments.Last();
+                            cfdtype_ = cfd_.GetType().Name;
+                            cfdlastmodified_ = cfd_.Properties.LastModified.ToString();
+
+                            gvProperties.Rows.Add(imageList1.Images[0], cfdname_, cfdtype_, "", cfdlastmodified_);
+                        }
+                        else //CloudFile
+                        {
+                            cf_ = (CloudFile)item_;
+                            cf_.FetchAttributes();
+
+                            cfname_ = cf_.Name;
+                            cftype_ = cf_.GetType().Name;
+                            cfsize_ = getSize(cf_.Properties.Length);
+                            cflastmodified_ = cf_.Properties.LastModified.ToString();
+
+                            gvProperties.Rows.Add(imageList1.Images[6], cfname_, cftype_, cfsize_, cflastmodified_);
+                        }
+                    }
                     break;
 
                 case "CloudFile":
 
+                    cf_ = cfs_.GetRootDirectoryReference().GetFileReference(uri_.Segments.Last());
+                    
+                    //MessageBox.Show("Uri.Segments.Last(): " + uri_.Segments.Last());  // -> file.txt
+                    //MessageBox.Show("Uri.AbsolutePath: " + uri_.AbsolutePath);        // -> /share/folder/file.txt
+                    //MessageBox.Show("Uri.AbsoluteUri: " + uri_.AbsoluteUri);          // -> https://storageaccount.file.core.windows.net/share/folder/file.txt
+                                                                                
+                    cf_.FetchAttributes();
+                  
+                    cfname_ = cf_.Name;
+                    cftype_ = cf_.GetType().Name;
+                    cfsize_ = getSize(cf_.Properties.Length);
+                    cflastmodified_ = cf_.Properties.LastModified.ToString();
+
+                    gvProperties.Rows.Add(imageList1.Images[6], cfname_, cftype_, cfsize_, cflastmodified_);
+
                     break;
             } //swith
+
+            gvProperties.Sort(gvProperties.Columns[2], ListSortDirection.Descending);
                 
         } //trFiles_AfterSelect
 
-        private string getSize(long bytes_)
+        private string getSize(long lbytes_)
         {
-
+            float fbytes_ = (float)lbytes_;
             string[] suffix_ = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
             int i = 0;
 
-            do
+            while (fbytes_ >= 1024)
             {
-                bytes_ = bytes_ / 1024;
+                fbytes_ = fbytes_ / 1024;
                 i++;
-            } while (bytes_ >= 1024);
+            }
 
-            return String.Format("{0:0.00} {1}", bytes_, suffix_[i]);
+            return String.Format("{0:0.##} {1}", fbytes_, suffix_[i]);
 
         } //getSize
 
-
-
     } //Form1
+
 } //AzureStorageBrowser
