@@ -455,6 +455,8 @@
             this.imageList1.Images.SetKeyName(7, "queue.gif");
             this.imageList1.Images.SetKeyName(8, "container.gif");
             this.imageList1.Images.SetKeyName(9, "hdd.gif");
+            this.imageList1.Images.SetKeyName(10, "containerclosed.gif");
+            this.imageList1.Images.SetKeyName(11, "containeropened.gif");
             // 
             // tabPage2
             // 
