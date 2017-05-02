@@ -407,7 +407,9 @@ namespace AzureStorageBrowser
             CloudPageBlob cpb_;
             CloudBlob cb_;
 
-            string name_ = "", size_ = "", lastmodified_ = "";
+            DataGridViewRow gvRow;
+
+            string url_ = "", name_ = "", size_ = "", lastmodified_ = "";
             Image img_ = null;
 
             switch (type_)
@@ -428,6 +430,7 @@ namespace AzureStorageBrowser
                         {
                             cbd_ = (CloudBlobDirectory)item_;
 
+                            url_ = cbd_.Uri.AbsoluteUri;
                             name_ = cbd_.Uri.Segments.Last();
                             type_ = cbd_.GetType().Name;
                             size_ = "";
@@ -438,6 +441,7 @@ namespace AzureStorageBrowser
                         {
                            cb_ = (CloudBlob)item_;
 
+                            url_ = cb_.Uri.AbsoluteUri;
                             name_ = cb_.Uri.Segments.Last();
                             type_ = cb_.GetType().Name;                            
                             size_ = getSize(cb_.Properties.Length);
@@ -453,7 +457,11 @@ namespace AzureStorageBrowser
                             }
                         }
 
-                        gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //forach
 
@@ -481,6 +489,7 @@ namespace AzureStorageBrowser
                         {
                             cbd_ = (CloudBlobDirectory)item_;
 
+                            url_ = cbd_.Uri.AbsoluteUri;
                             name_ = cbd_.Uri.Segments.Last();
                             type_ = cbd_.GetType().Name;
                             size_ = "";
@@ -491,6 +500,7 @@ namespace AzureStorageBrowser
                         {
                             cb_ = (CloudBlob)item_;
 
+                            url_ = cb_.Uri.AbsoluteUri;
                             name_ = cb_.Uri.Segments.Last();
                             type_ = cb_.GetType().Name;
                             size_ = getSize(cb_.Properties.Length);
@@ -506,7 +516,11 @@ namespace AzureStorageBrowser
                             }
                         }
 
-                        gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //forach
 
@@ -516,12 +530,13 @@ namespace AzureStorageBrowser
 
                     cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
+                    url_ = cbb_.Uri.AbsoluteUri;
                     name_ = cbb_.Uri.Segments.Last();
                     type_ = cbb_.GetType().Name;
                     size_ = getSize(cbb_.Properties.Length);
                     lastmodified_ = cbb_.Properties.LastModified.ToString();
 
-                    tbURL.Text = cbb_.Uri.ToString();
+                    tbURL.Text = url_;
                     tbType.Text = type_;
                     lbVar.Text = "Size:";
                     tbVar.Text = size_;
@@ -536,7 +551,11 @@ namespace AzureStorageBrowser
                         img_ = imageList1.Images[2];
                     }
 
-                    gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                    gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                    gvRow.Tag = url_;
+                    gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                    gvProperties.Rows.Add(gvRow);
+                    //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     break;
 
@@ -544,12 +563,13 @@ namespace AzureStorageBrowser
 
                     cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
+                    url_ = cpb_.Uri.AbsoluteUri;
                     name_ = cpb_.Uri.Segments.Last();
                     type_ = cpb_.GetType().Name;
                     size_ = getSize(cpb_.Properties.Length);
                     lastmodified_ = cpb_.Properties.LastModified.ToString();
 
-                    tbURL.Text = cpb_.Uri.ToString();
+                    tbURL.Text = url_;
                     tbType.Text = type_;
                     lbVar.Text = "Size:";
                     tbVar.Text = size_;
@@ -564,7 +584,11 @@ namespace AzureStorageBrowser
                         img_ = imageList1.Images[2];
                     }
 
-                    gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                    gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                    gvRow.Tag = url_;
+                    gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                    gvProperties.Rows.Add(gvRow);
+                    //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     break;
             } //switch
@@ -582,7 +606,9 @@ namespace AzureStorageBrowser
             CloudFileDirectory cfd_;
             CloudFile cf_;
 
-            string name_ = "", size_ = "", lastmodified_ = "", path_ = "";
+            DataGridViewRow gvRow;
+
+            string url_ = "", name_ = "", size_ = "", lastmodified_ = "", path_ = "";
             Image img_ = null;
 
             switch (type_)
@@ -604,6 +630,7 @@ namespace AzureStorageBrowser
                             cfd_ = (CloudFileDirectory)item_;
                             cfd_.FetchAttributes();
 
+                            url_ = cfd_.Uri.AbsoluteUri;
                             name_ = cfd_.Name;
                             type_ = cfd_.GetType().Name;
                             lastmodified_ = cfd_.Properties.LastModified.ToString();
@@ -614,6 +641,7 @@ namespace AzureStorageBrowser
                             cf_ = (CloudFile)item_;
                             cf_.FetchAttributes();
 
+                            url_ = cf_.Uri.AbsoluteUri;
                             name_ = cf_.Name;
                             size_ = getSize(cf_.Properties.Length);
                             type_ = cf_.GetType().Name;
@@ -621,7 +649,11 @@ namespace AzureStorageBrowser
                             img_ = imageList1.Images[6];
                         }
 
-                        gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //foreach
 
@@ -652,6 +684,7 @@ namespace AzureStorageBrowser
                             cfd_ = (CloudFileDirectory)item_;
                             cfd_.FetchAttributes();
 
+                            url_ = cfd_.Uri.AbsoluteUri;
                             name_ = cfd_.Name;
                             type_ = cfd_.GetType().Name;
                             lastmodified_ = cfd_.Properties.LastModified.ToString();
@@ -662,6 +695,7 @@ namespace AzureStorageBrowser
                             cf_ = (CloudFile)item_;
                             cf_.FetchAttributes();
 
+                            url_ = cf_.Uri.AbsoluteUri;
                             name_ = cf_.Name;
                             size_ = getSize(cf_.Properties.Length);
                             type_ = cf_.GetType().Name;
@@ -669,7 +703,11 @@ namespace AzureStorageBrowser
                             img_ = imageList1.Images[6];
                         }
 
-                        gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //foreach
 
@@ -693,19 +731,24 @@ namespace AzureStorageBrowser
 
                     cf_.FetchAttributes();
 
+                    url_ = cf_.Uri.AbsoluteUri;
                     name_ = cf_.Name.Split('/').Last().ToString();
                     size_ = getSize(cf_.Properties.Length);
                     type_ = cf_.GetType().Name;
                     lastmodified_ = cf_.Properties.LastModified.ToString();
                     img_ = imageList1.Images[6];
 
-                    tbURL.Text = cf_.Uri.ToString();
+                    tbURL.Text = url_;
                     tbType.Text = type_;
                     lbVar.Text = "Size:";
                     tbVar.Text = size_;
                     tbLastModified.Text = lastmodified_;
 
-                    gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
+                    gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                    gvRow.Tag = url_;
+                    gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                    gvProperties.Rows.Add(gvRow);
+                    //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
                     
                     break;
             } //swith
@@ -750,13 +793,26 @@ namespace AzureStorageBrowser
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                //MessageBox.Show(path_);
                 await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
             }
             
         } //btDownload
 
-       
+        private void gvProperties_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];
+
+            string uri_ = gvRow.Tag.ToString();
+            string type_ = gvRow.Cells[2].Value.ToString();
+            string lastmodified_ = gvRow.Cells[4].Value.ToString();
+
+            tbURL.Text = uri_ + " (!)";
+            tbType.Text = type_ + " (!)";
+            lbVar.Text = "";
+            tbVar.Text = "";
+            tbLastModified.Text = lastmodified_ + " (!)";
+
+        } //gvProperties click
 
     } //Form1
 

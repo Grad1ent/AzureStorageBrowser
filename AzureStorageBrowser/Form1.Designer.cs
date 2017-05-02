@@ -39,6 +39,8 @@
             this.tbAccountName = new System.Windows.Forms.TextBox();
             this.tbAccountKey = new System.Windows.Forms.TextBox();
             this.tbConnectionString = new System.Windows.Forms.TextBox();
+            this.btConnect = new System.Windows.Forms.Button();
+            this.btDisconnect = new System.Windows.Forms.Button();
             this.cbDefaultEnpointsProtocol = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -56,28 +58,26 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.trQueues = new System.Windows.Forms.TreeView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btExpandAll = new System.Windows.Forms.ToolStripButton();
+            this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
             this.gvProperties = new System.Windows.Forms.DataGridView();
             this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.btExpandAll = new System.Windows.Forms.ToolStripButton();
-            this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
             this.btDownload = new System.Windows.Forms.ToolStripButton();
             this.btUpload = new System.Windows.Forms.ToolStripButton();
-            this.btConnect = new System.Windows.Forms.Button();
-            this.btDisconnect = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tbLastModified = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tbURL = new System.Windows.Forms.TextBox();
             this.tbType = new System.Windows.Forms.TextBox();
-            this.tbLastModified = new System.Windows.Forms.TextBox();
             this.lbVar = new System.Windows.Forms.Label();
             this.tbVar = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -227,6 +227,33 @@
             this.tbConnectionString.Size = new System.Drawing.Size(732, 46);
             this.tbConnectionString.TabIndex = 6;
             // 
+            // btConnect
+            // 
+            this.btConnect.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btConnect.Image = ((System.Drawing.Image)(resources.GetObject("btConnect.Image")));
+            this.btConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btConnect.Location = new System.Drawing.Point(10, 133);
+            this.btConnect.Name = "btConnect";
+            this.btConnect.Size = new System.Drawing.Size(94, 24);
+            this.btConnect.TabIndex = 7;
+            this.btConnect.Text = "Connect";
+            this.btConnect.UseVisualStyleBackColor = true;
+            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
+            // 
+            // btDisconnect
+            // 
+            this.btDisconnect.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btDisconnect.Enabled = false;
+            this.btDisconnect.Image = ((System.Drawing.Image)(resources.GetObject("btDisconnect.Image")));
+            this.btDisconnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btDisconnect.Location = new System.Drawing.Point(110, 133);
+            this.btDisconnect.Name = "btDisconnect";
+            this.btDisconnect.Size = new System.Drawing.Size(95, 24);
+            this.btDisconnect.TabIndex = 8;
+            this.btDisconnect.Text = "Disconnect";
+            this.btDisconnect.UseVisualStyleBackColor = true;
+            this.btDisconnect.Click += new System.EventHandler(this.btDisconnect_Click);
+            // 
             // cbDefaultEnpointsProtocol
             // 
             this.cbDefaultEnpointsProtocol.Dock = System.Windows.Forms.DockStyle.Left;
@@ -349,7 +376,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(271, 233);
+            this.tabPage2.Size = new System.Drawing.Size(327, 255);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Files";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -363,7 +390,7 @@
             this.trFiles.Location = new System.Drawing.Point(3, 3);
             this.trFiles.Name = "trFiles";
             this.trFiles.SelectedImageIndex = 0;
-            this.trFiles.Size = new System.Drawing.Size(265, 227);
+            this.trFiles.Size = new System.Drawing.Size(321, 249);
             this.trFiles.TabIndex = 0;
             this.trFiles.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterCollapse);
             this.trFiles.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterExpand);
@@ -375,7 +402,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(271, 233);
+            this.tabPage3.Size = new System.Drawing.Size(327, 255);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tables";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -388,7 +415,7 @@
             this.trTables.Location = new System.Drawing.Point(3, 3);
             this.trTables.Name = "trTables";
             this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(265, 227);
+            this.trTables.Size = new System.Drawing.Size(321, 249);
             this.trTables.TabIndex = 0;
             // 
             // tabPage4
@@ -397,7 +424,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(271, 233);
+            this.tabPage4.Size = new System.Drawing.Size(327, 255);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Queues";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -410,7 +437,7 @@
             this.trQueues.Location = new System.Drawing.Point(3, 3);
             this.trQueues.Name = "trQueues";
             this.trQueues.SelectedImageIndex = 0;
-            this.trQueues.Size = new System.Drawing.Size(265, 227);
+            this.trQueues.Size = new System.Drawing.Size(321, 249);
             this.trQueues.TabIndex = 0;
             // 
             // toolStrip1
@@ -425,6 +452,30 @@
             this.toolStrip1.Size = new System.Drawing.Size(335, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // btExpandAll
+            // 
+            this.btExpandAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btExpandAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btExpandAll.Image = ((System.Drawing.Image)(resources.GetObject("btExpandAll.Image")));
+            this.btExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btExpandAll.Name = "btExpandAll";
+            this.btExpandAll.Size = new System.Drawing.Size(23, 22);
+            this.btExpandAll.Text = "+";
+            this.btExpandAll.ToolTipText = "Expand All";
+            this.btExpandAll.Click += new System.EventHandler(this.btExpandAll_Click);
+            // 
+            // btCollapseAll
+            // 
+            this.btCollapseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btCollapseAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btCollapseAll.Image = ((System.Drawing.Image)(resources.GetObject("btCollapseAll.Image")));
+            this.btCollapseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btCollapseAll.Name = "btCollapseAll";
+            this.btCollapseAll.Size = new System.Drawing.Size(23, 22);
+            this.btCollapseAll.Text = "-";
+            this.btCollapseAll.ToolTipText = "Collapse All";
+            this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
             // 
             // gvProperties
             // 
@@ -445,6 +496,7 @@
             this.gvProperties.ShowCellToolTips = false;
             this.gvProperties.Size = new System.Drawing.Size(504, 281);
             this.gvProperties.TabIndex = 0;
+            this.gvProperties.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellContentClick);
             // 
             // Column0
             // 
@@ -490,10 +542,6 @@
             this.Column4.ReadOnly = true;
             this.Column4.Width = 95;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -504,30 +552,6 @@
             this.toolStrip2.Size = new System.Drawing.Size(504, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
-            // 
-            // btExpandAll
-            // 
-            this.btExpandAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btExpandAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btExpandAll.Image = ((System.Drawing.Image)(resources.GetObject("btExpandAll.Image")));
-            this.btExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btExpandAll.Name = "btExpandAll";
-            this.btExpandAll.Size = new System.Drawing.Size(23, 22);
-            this.btExpandAll.Text = "+";
-            this.btExpandAll.ToolTipText = "Expand All";
-            this.btExpandAll.Click += new System.EventHandler(this.btExpandAll_Click);
-            // 
-            // btCollapseAll
-            // 
-            this.btCollapseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btCollapseAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btCollapseAll.Image = ((System.Drawing.Image)(resources.GetObject("btCollapseAll.Image")));
-            this.btCollapseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btCollapseAll.Name = "btCollapseAll";
-            this.btCollapseAll.Size = new System.Drawing.Size(23, 22);
-            this.btCollapseAll.Text = "-";
-            this.btCollapseAll.ToolTipText = "Collapse All";
-            this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
             // 
             // btDownload
             // 
@@ -550,32 +574,9 @@
             this.btUpload.Text = "toolStripButton2";
             this.btUpload.ToolTipText = "Upload";
             // 
-            // btConnect
+            // openFileDialog1
             // 
-            this.btConnect.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btConnect.Image = ((System.Drawing.Image)(resources.GetObject("btConnect.Image")));
-            this.btConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btConnect.Location = new System.Drawing.Point(10, 133);
-            this.btConnect.Name = "btConnect";
-            this.btConnect.Size = new System.Drawing.Size(94, 24);
-            this.btConnect.TabIndex = 7;
-            this.btConnect.Text = "Connect";
-            this.btConnect.UseVisualStyleBackColor = true;
-            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
-            // 
-            // btDisconnect
-            // 
-            this.btDisconnect.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btDisconnect.Enabled = false;
-            this.btDisconnect.Image = ((System.Drawing.Image)(resources.GetObject("btDisconnect.Image")));
-            this.btDisconnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btDisconnect.Location = new System.Drawing.Point(110, 133);
-            this.btDisconnect.Name = "btDisconnect";
-            this.btDisconnect.Size = new System.Drawing.Size(95, 24);
-            this.btDisconnect.TabIndex = 8;
-            this.btDisconnect.Text = "Disconnect";
-            this.btDisconnect.UseVisualStyleBackColor = true;
-            this.btDisconnect.Click += new System.EventHandler(this.btDisconnect_Click);
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // tableLayoutPanel3
             // 
@@ -600,6 +601,15 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(845, 103);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // tbLastModified
+            // 
+            this.tbLastModified.BackColor = System.Drawing.SystemColors.Control;
+            this.tbLastModified.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbLastModified.Location = new System.Drawing.Point(81, 81);
+            this.tbLastModified.Name = "tbLastModified";
+            this.tbLastModified.Size = new System.Drawing.Size(761, 20);
+            this.tbLastModified.TabIndex = 5;
             // 
             // label5
             // 
@@ -651,15 +661,6 @@
             this.tbType.Name = "tbType";
             this.tbType.Size = new System.Drawing.Size(761, 20);
             this.tbType.TabIndex = 4;
-            // 
-            // tbLastModified
-            // 
-            this.tbLastModified.BackColor = System.Drawing.SystemColors.Control;
-            this.tbLastModified.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbLastModified.Location = new System.Drawing.Point(81, 81);
-            this.tbLastModified.Name = "tbLastModified";
-            this.tbLastModified.Size = new System.Drawing.Size(761, 20);
-            this.tbLastModified.TabIndex = 5;
             // 
             // lbVar
             // 
