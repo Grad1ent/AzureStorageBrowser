@@ -814,6 +814,24 @@ namespace AzureStorageBrowser
 
         } //gvProperties click
 
+        private void btExport_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "Filter|*.csv";
+            saveFileDialog1.Title = "Export";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                gvProperties.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+                gvProperties.SelectAll();
+
+                DataObject obj_ = gvProperties.GetClipboardContent();               
+                File.WriteAllText(path_, obj_.GetText(TextDataFormat.CommaSeparatedValue));
+
+                gvProperties.ClearSelection();
+            }
+
+        } //btExport
+
     } //Form1
 
 } //AzureStorageBrowser
