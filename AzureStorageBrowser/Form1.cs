@@ -414,6 +414,14 @@ namespace AzureStorageBrowser
             {
                 case "CloudBlobContainer":
 
+                    cbc_.FetchAttributes();
+
+                    tbURL.Text = cbc_.Uri.ToString();
+                    tbType.Text = cbc_.GetType().Name;
+                    lbVar.Text = "Public access:";
+                    tbVar.Text = cbc_.Properties.PublicAccess.ToString();
+                    tbLastModified.Text = cbc_.Properties.LastModified.ToString();
+
                     foreach (var item_ in cbc_.ListBlobs())
                     {
                         if (item_.GetType().Name == "CloudBlobDirectory")
@@ -460,6 +468,13 @@ namespace AzureStorageBrowser
                     }
 
                     CloudBlobDirectory cbdroot_ = cbc_.GetDirectoryReference(path_);
+
+                    tbURL.Text = cbdroot_.Uri.ToString();
+                    tbType.Text = cbdroot_.GetType().Name;
+                    lbVar.Text = "";
+                    tbVar.Text = "";
+                    tbLastModified.Text = "";
+
                     foreach (var item_ in cbdroot_.ListBlobs())
                     {
                         if (item_.GetType().Name == "CloudBlobDirectory")
@@ -506,6 +521,12 @@ namespace AzureStorageBrowser
                     size_ = getSize(cbb_.Properties.Length);
                     lastmodified_ = cbb_.Properties.LastModified.ToString();
 
+                    tbURL.Text = cbb_.Uri.ToString();
+                    tbType.Text = type_;
+                    lbVar.Text = "Size:";
+                    tbVar.Text = size_;
+                    tbLastModified.Text = lastmodified_;
+
                     if (name_.Contains(".vhd"))
                     {
                         img_ = imageList1.Images[9];
@@ -527,6 +548,12 @@ namespace AzureStorageBrowser
                     type_ = cpb_.GetType().Name;
                     size_ = getSize(cpb_.Properties.Length);
                     lastmodified_ = cpb_.Properties.LastModified.ToString();
+
+                    tbURL.Text = cpb_.Uri.ToString();
+                    tbType.Text = type_;
+                    lbVar.Text = "Size:";
+                    tbVar.Text = size_;
+                    tbLastModified.Text = lastmodified_;
 
                     if (name_.Contains(".vhd"))
                     {
@@ -561,6 +588,14 @@ namespace AzureStorageBrowser
             switch (type_)
             {
                 case "CloudFileShare":
+
+                    cfs_.FetchAttributes();
+
+                    tbURL.Text = cfs_.Uri.ToString();
+                    tbType.Text = cfs_.GetType().Name;
+                    lbVar.Text = "Quota:";
+                    tbVar.Text = cfs_.Properties.Quota + " GiB";
+                    tbLastModified.Text = cfs_.Properties.LastModified.ToString();
 
                     foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
                     {
@@ -601,6 +636,14 @@ namespace AzureStorageBrowser
                     }
 
                     CloudFileDirectory cfdroot_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
+
+                    cfdroot_.FetchAttributes();
+
+                    tbURL.Text = cfdroot_.Uri.ToString();
+                    tbType.Text = cfdroot_.GetType().Name;
+                    lbVar.Text = "";
+                    tbVar.Text = "";
+                    tbLastModified.Text = cfdroot_.Properties.LastModified.ToString();
 
                     foreach (IListFileItem item_ in cfdroot_.ListFilesAndDirectories())
                     {
@@ -656,9 +699,14 @@ namespace AzureStorageBrowser
                     lastmodified_ = cf_.Properties.LastModified.ToString();
                     img_ = imageList1.Images[6];
 
+                    tbURL.Text = cf_.Uri.ToString();
+                    tbType.Text = type_;
+                    lbVar.Text = "Size:";
+                    tbVar.Text = size_;
+                    tbLastModified.Text = lastmodified_;
+
                     gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
                     
-
                     break;
             } //swith
 
@@ -681,6 +729,34 @@ namespace AzureStorageBrowser
             return String.Format("{0:0.##} {1}", fbytes_, suffix_[i]);
 
         } //getSize
+
+        private async void btDownload_Click(object sender, EventArgs e)
+        {
+            TreeNode node_ = trFiles.SelectedNode;
+            System.Uri uri_ = new System.Uri(node_.Tag.ToString());
+
+            string path_ = "";
+            for (int i = 2; i < uri_.Segments.Length; i++)
+            {
+                path_ = path_ + uri_.Segments[i];
+            }
+
+            CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+            CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
+
+            saveFileDialog1.Filter = "Filter|*.*";
+            saveFileDialog1.Title = "Download";
+            saveFileDialog1.FileName = cf_.Name.Split('/').Last();
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                //MessageBox.Show(path_);
+                await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
+            }
+            
+        } //btDownload
+
+       
 
     } //Form1
 

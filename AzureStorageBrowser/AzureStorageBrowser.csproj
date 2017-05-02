@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cloud_storage_filled128x128.ico" />
+    <None Include="pics\download.gif" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
