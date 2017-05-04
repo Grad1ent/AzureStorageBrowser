@@ -46,6 +46,7 @@
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbUri = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pbDownload = new System.Windows.Forms.ToolStripProgressBar();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -63,37 +64,37 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.btDownload = new System.Windows.Forms.ToolStripButton();
-            this.btUpload = new System.Windows.Forms.ToolStripButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.tbVar = new System.Windows.Forms.TextBox();
-            this.lbVar = new System.Windows.Forms.Label();
-            this.tbType = new System.Windows.Forms.TextBox();
-            this.tbURL = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbLastModified = new System.Windows.Forms.TextBox();
-            this.gvProperties = new System.Windows.Forms.DataGridView();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.trBlobs = new System.Windows.Forms.TreeView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.trFiles = new System.Windows.Forms.TreeView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.trTables = new System.Windows.Forms.TreeView();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.trQueues = new System.Windows.Forms.TreeView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.trQueues = new System.Windows.Forms.TreeView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.trTables = new System.Windows.Forms.TreeView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.trFiles = new System.Windows.Forms.TreeView();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.trBlobs = new System.Windows.Forms.TreeView();
+            this.gvProperties = new System.Windows.Forms.DataGridView();
+            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tbLastModified = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbURL = new System.Windows.Forms.TextBox();
+            this.tbType = new System.Windows.Forms.TextBox();
+            this.lbVar = new System.Windows.Forms.Label();
+            this.tbVar = new System.Windows.Forms.TextBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.btDownload = new System.Windows.Forms.ToolStripButton();
+            this.btUpload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btExport = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
@@ -105,16 +106,16 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).BeginInit();
-            this.toolStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -272,8 +273,9 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbStatusLabel,
             this.lbStatus,
-            this.lbUri});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 658);
+            this.lbUri,
+            this.pbDownload});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 606);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(857, 22);
             this.statusStrip1.TabIndex = 1;
@@ -294,6 +296,12 @@
             // 
             this.lbUri.Name = "lbUri";
             this.lbUri.Size = new System.Drawing.Size(0, 17);
+            // 
+            // pbDownload
+            // 
+            this.pbDownload.Name = "pbDownload";
+            this.pbDownload.Size = new System.Drawing.Size(100, 16);
+            this.pbDownload.Visible = false;
             // 
             // imageList1
             // 
@@ -441,227 +449,117 @@
             this.splitContainer1.Panel2.Controls.Add(this.gvProperties);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
-            this.splitContainer1.Size = new System.Drawing.Size(857, 444);
+            this.splitContainer1.Size = new System.Drawing.Size(857, 392);
             this.splitContainer1.SplitterDistance = 341;
             this.splitContainer1.TabIndex = 2;
             // 
-            // toolStrip2
+            // tabControl1
             // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btDownload,
-            this.btUpload,
-            this.toolStripSeparator3,
-            this.btExport});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(508, 25);
-            this.toolStrip2.TabIndex = 1;
-            this.toolStrip2.Text = "toolStrip2";
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 25);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(337, 363);
+            this.tabControl1.TabIndex = 1;
             // 
-            // btDownload
+            // tabPage1
             // 
-            this.btDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btDownload.Image = ((System.Drawing.Image)(resources.GetObject("btDownload.Image")));
-            this.btDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btDownload.Name = "btDownload";
-            this.btDownload.Size = new System.Drawing.Size(23, 22);
-            this.btDownload.Text = "toolStripButton1";
-            this.btDownload.ToolTipText = "Download";
-            this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
+            this.tabPage1.Controls.Add(this.trBlobs);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(329, 337);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Blobs";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // btUpload
+            // trBlobs
             // 
-            this.btUpload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btUpload.Image = ((System.Drawing.Image)(resources.GetObject("btUpload.Image")));
-            this.btUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btUpload.Name = "btUpload";
-            this.btUpload.Size = new System.Drawing.Size(23, 22);
-            this.btUpload.Text = "toolStripButton2";
-            this.btUpload.ToolTipText = "Upload";
+            this.trBlobs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trBlobs.ImageIndex = 0;
+            this.trBlobs.ImageList = this.imageList1;
+            this.trBlobs.Location = new System.Drawing.Point(3, 3);
+            this.trBlobs.Name = "trBlobs";
+            this.trBlobs.SelectedImageIndex = 0;
+            this.trBlobs.Size = new System.Drawing.Size(323, 331);
+            this.trBlobs.TabIndex = 0;
+            this.trBlobs.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterCollapse);
+            this.trBlobs.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterExpand);
+            this.trBlobs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterSelect);
             // 
-            // groupBox3
+            // tabPage2
             // 
-            this.groupBox3.Controls.Add(this.tableLayoutPanel3);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(0, 349);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(508, 91);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Details";
+            this.tabPage2.Controls.Add(this.trFiles);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(329, 337);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Files";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel3
+            // trFiles
             // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.tbLastModified, 1, 3);
-            this.tableLayoutPanel3.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label7, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.tbURL, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.tbType, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.lbVar, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.tbVar, 1, 2);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 4;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(502, 72);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.trFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trFiles.ImageIndex = 0;
+            this.trFiles.ImageList = this.imageList1;
+            this.trFiles.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.trFiles.Location = new System.Drawing.Point(3, 3);
+            this.trFiles.Name = "trFiles";
+            this.trFiles.SelectedImageIndex = 0;
+            this.trFiles.Size = new System.Drawing.Size(323, 331);
+            this.trFiles.TabIndex = 0;
+            this.trFiles.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterCollapse);
+            this.trFiles.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterExpand);
+            this.trFiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterSelect);
             // 
-            // tbVar
+            // tabPage3
             // 
-            this.tbVar.BackColor = System.Drawing.SystemColors.Control;
-            this.tbVar.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbVar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbVar.Location = new System.Drawing.Point(81, 39);
-            this.tbVar.Name = "tbVar";
-            this.tbVar.Size = new System.Drawing.Size(418, 13);
-            this.tbVar.TabIndex = 7;
+            this.tabPage3.Controls.Add(this.trTables);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(329, 337);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Tables";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // lbVar
+            // trTables
             // 
-            this.lbVar.AutoSize = true;
-            this.lbVar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbVar.Location = new System.Drawing.Point(3, 36);
-            this.lbVar.Name = "lbVar";
-            this.lbVar.Size = new System.Drawing.Size(72, 18);
-            this.lbVar.TabIndex = 6;
-            this.lbVar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.trTables.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trTables.ImageIndex = 0;
+            this.trTables.ImageList = this.imageList1;
+            this.trTables.Location = new System.Drawing.Point(3, 3);
+            this.trTables.Name = "trTables";
+            this.trTables.SelectedImageIndex = 0;
+            this.trTables.Size = new System.Drawing.Size(323, 331);
+            this.trTables.TabIndex = 0;
             // 
-            // tbType
+            // tabPage4
             // 
-            this.tbType.BackColor = System.Drawing.SystemColors.Control;
-            this.tbType.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbType.Location = new System.Drawing.Point(81, 21);
-            this.tbType.Name = "tbType";
-            this.tbType.Size = new System.Drawing.Size(418, 13);
-            this.tbType.TabIndex = 4;
+            this.tabPage4.Controls.Add(this.trQueues);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(329, 337);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Queues";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // tbURL
+            // trQueues
             // 
-            this.tbURL.BackColor = System.Drawing.SystemColors.Control;
-            this.tbURL.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbURL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbURL.Location = new System.Drawing.Point(81, 3);
-            this.tbURL.Name = "tbURL";
-            this.tbURL.Size = new System.Drawing.Size(418, 13);
-            this.tbURL.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 54);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(72, 18);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Last modified:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(3, 18);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(72, 18);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Type:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 18);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Url:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tbLastModified
-            // 
-            this.tbLastModified.BackColor = System.Drawing.SystemColors.Control;
-            this.tbLastModified.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbLastModified.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbLastModified.Location = new System.Drawing.Point(81, 57);
-            this.tbLastModified.Name = "tbLastModified";
-            this.tbLastModified.Size = new System.Drawing.Size(418, 13);
-            this.tbLastModified.TabIndex = 5;
-            // 
-            // gvProperties
-            // 
-            this.gvProperties.AllowUserToAddRows = false;
-            this.gvProperties.AllowUserToDeleteRows = false;
-            this.gvProperties.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.gvProperties.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gvProperties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gvProperties.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column0,
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4});
-            this.gvProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gvProperties.Location = new System.Drawing.Point(0, 25);
-            this.gvProperties.Name = "gvProperties";
-            this.gvProperties.ReadOnly = true;
-            this.gvProperties.ShowCellToolTips = false;
-            this.gvProperties.Size = new System.Drawing.Size(508, 324);
-            this.gvProperties.TabIndex = 0;
-            this.gvProperties.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellContentClick);
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column4.FillWeight = 110F;
-            this.Column4.HeaderText = "Last Modified";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 95;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column3.FillWeight = 59.37977F;
-            this.Column3.HeaderText = "Size";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 52;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column2.FillWeight = 190.3553F;
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 56;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.FillWeight = 124.9152F;
-            this.Column1.HeaderText = "Name";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column0
-            // 
-            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column0.FillWeight = 2.604999F;
-            this.Column0.HeaderText = "";
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Width = 5;
+            this.trQueues.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trQueues.ImageIndex = 0;
+            this.trQueues.ImageList = this.imageList1;
+            this.trQueues.Location = new System.Drawing.Point(3, 3);
+            this.trQueues.Name = "trQueues";
+            this.trQueues.SelectedImageIndex = 0;
+            this.trQueues.Size = new System.Drawing.Size(323, 331);
+            this.trQueues.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -700,113 +598,224 @@
             this.btCollapseAll.ToolTipText = "Collapse All";
             this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
             // 
-            // tabControl1
+            // gvProperties
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 25);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(337, 415);
-            this.tabControl1.TabIndex = 1;
+            this.gvProperties.AllowUserToAddRows = false;
+            this.gvProperties.AllowUserToDeleteRows = false;
+            this.gvProperties.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.gvProperties.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gvProperties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gvProperties.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column0,
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4});
+            this.gvProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gvProperties.Location = new System.Drawing.Point(0, 25);
+            this.gvProperties.Name = "gvProperties";
+            this.gvProperties.ReadOnly = true;
+            this.gvProperties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gvProperties.ShowCellToolTips = false;
+            this.gvProperties.Size = new System.Drawing.Size(508, 272);
+            this.gvProperties.TabIndex = 0;
+            this.gvProperties.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellClick);
             // 
-            // tabPage4
+            // Column0
             // 
-            this.tabPage4.Controls.Add(this.trQueues);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(303, 212);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Queues";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column0.FillWeight = 2.604999F;
+            this.Column0.HeaderText = "";
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Width = 5;
             // 
-            // trQueues
+            // Column1
             // 
-            this.trQueues.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trQueues.ImageIndex = 0;
-            this.trQueues.ImageList = this.imageList1;
-            this.trQueues.Location = new System.Drawing.Point(3, 3);
-            this.trQueues.Name = "trQueues";
-            this.trQueues.SelectedImageIndex = 0;
-            this.trQueues.Size = new System.Drawing.Size(297, 206);
-            this.trQueues.TabIndex = 0;
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 124.9152F;
+            this.Column1.HeaderText = "Name";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
-            // tabPage3
+            // Column2
             // 
-            this.tabPage3.Controls.Add(this.trTables);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(303, 212);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Tables";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.FillWeight = 190.3553F;
+            this.Column2.HeaderText = "Type";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 56;
             // 
-            // trTables
+            // Column3
             // 
-            this.trTables.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trTables.ImageIndex = 0;
-            this.trTables.ImageList = this.imageList1;
-            this.trTables.Location = new System.Drawing.Point(3, 3);
-            this.trTables.Name = "trTables";
-            this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(297, 206);
-            this.trTables.TabIndex = 0;
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column3.FillWeight = 59.37977F;
+            this.Column3.HeaderText = "Size";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 52;
             // 
-            // tabPage2
+            // Column4
             // 
-            this.tabPage2.Controls.Add(this.trFiles);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(303, 212);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Files";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column4.FillWeight = 110F;
+            this.Column4.HeaderText = "Last Modified";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 95;
             // 
-            // trFiles
+            // groupBox3
             // 
-            this.trFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trFiles.ImageIndex = 0;
-            this.trFiles.ImageList = this.imageList1;
-            this.trFiles.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.trFiles.Location = new System.Drawing.Point(3, 3);
-            this.trFiles.Name = "trFiles";
-            this.trFiles.SelectedImageIndex = 0;
-            this.trFiles.Size = new System.Drawing.Size(297, 206);
-            this.trFiles.TabIndex = 0;
-            this.trFiles.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterCollapse);
-            this.trFiles.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterExpand);
-            this.trFiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterSelect);
+            this.groupBox3.Controls.Add(this.tableLayoutPanel3);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox3.Location = new System.Drawing.Point(0, 297);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(508, 91);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Details";
             // 
-            // tabPage1
+            // tableLayoutPanel3
             // 
-            this.tabPage1.Controls.Add(this.trBlobs);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(329, 389);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Blobs";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.tbLastModified, 1, 3);
+            this.tableLayoutPanel3.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label7, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.tbURL, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tbType, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.lbVar, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.tbVar, 1, 2);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(502, 72);
+            this.tableLayoutPanel3.TabIndex = 0;
             // 
-            // trBlobs
+            // tbLastModified
             // 
-            this.trBlobs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trBlobs.ImageIndex = 0;
-            this.trBlobs.ImageList = this.imageList1;
-            this.trBlobs.Location = new System.Drawing.Point(3, 3);
-            this.trBlobs.Name = "trBlobs";
-            this.trBlobs.SelectedImageIndex = 0;
-            this.trBlobs.Size = new System.Drawing.Size(323, 383);
-            this.trBlobs.TabIndex = 0;
-            this.trBlobs.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterCollapse);
-            this.trBlobs.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterExpand);
-            this.trBlobs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trBlobs_AfterSelect);
+            this.tbLastModified.BackColor = System.Drawing.SystemColors.Control;
+            this.tbLastModified.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbLastModified.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbLastModified.Location = new System.Drawing.Point(91, 57);
+            this.tbLastModified.Name = "tbLastModified";
+            this.tbLastModified.Size = new System.Drawing.Size(408, 13);
+            this.tbLastModified.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(82, 18);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Url:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Location = new System.Drawing.Point(3, 18);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(82, 18);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Type:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Location = new System.Drawing.Point(3, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(82, 18);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Last modified:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tbURL
+            // 
+            this.tbURL.BackColor = System.Drawing.SystemColors.Control;
+            this.tbURL.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbURL.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbURL.Location = new System.Drawing.Point(91, 3);
+            this.tbURL.Name = "tbURL";
+            this.tbURL.Size = new System.Drawing.Size(408, 13);
+            this.tbURL.TabIndex = 3;
+            // 
+            // tbType
+            // 
+            this.tbType.BackColor = System.Drawing.SystemColors.Control;
+            this.tbType.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbType.Location = new System.Drawing.Point(91, 21);
+            this.tbType.Name = "tbType";
+            this.tbType.Size = new System.Drawing.Size(408, 13);
+            this.tbType.TabIndex = 4;
+            // 
+            // lbVar
+            // 
+            this.lbVar.AutoSize = true;
+            this.lbVar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbVar.Location = new System.Drawing.Point(3, 36);
+            this.lbVar.Name = "lbVar";
+            this.lbVar.Size = new System.Drawing.Size(82, 18);
+            this.lbVar.TabIndex = 6;
+            this.lbVar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tbVar
+            // 
+            this.tbVar.BackColor = System.Drawing.SystemColors.Control;
+            this.tbVar.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbVar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbVar.Location = new System.Drawing.Point(91, 39);
+            this.tbVar.Name = "tbVar";
+            this.tbVar.Size = new System.Drawing.Size(408, 13);
+            this.tbVar.TabIndex = 7;
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btDownload,
+            this.btUpload,
+            this.toolStripSeparator3,
+            this.btExport});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(508, 25);
+            this.toolStrip2.TabIndex = 1;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // btDownload
+            // 
+            this.btDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btDownload.Image = ((System.Drawing.Image)(resources.GetObject("btDownload.Image")));
+            this.btDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btDownload.Name = "btDownload";
+            this.btDownload.Size = new System.Drawing.Size(23, 22);
+            this.btDownload.Text = "toolStripButton1";
+            this.btDownload.ToolTipText = "Download";
+            this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
+            // 
+            // btUpload
+            // 
+            this.btUpload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btUpload.Image = ((System.Drawing.Image)(resources.GetObject("btUpload.Image")));
+            this.btUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btUpload.Name = "btUpload";
+            this.btUpload.Size = new System.Drawing.Size(23, 22);
+            this.btUpload.Text = "toolStripButton2";
+            this.btUpload.ToolTipText = "Upload";
             // 
             // toolStripSeparator3
             // 
@@ -821,13 +830,14 @@
             this.btExport.Name = "btExport";
             this.btExport.Size = new System.Drawing.Size(23, 22);
             this.btExport.Text = "toolStripButton1";
+            this.btExport.ToolTipText = "Export";
             this.btExport.Click += new System.EventHandler(this.btExport_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 680);
+            this.ClientSize = new System.Drawing.Size(857, 628);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -851,19 +861,19 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -936,6 +946,7 @@
         private System.Windows.Forms.ToolStripButton btUpload;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btExport;
+        private System.Windows.Forms.ToolStripProgressBar pbDownload;
     }
 }
 

@@ -461,7 +461,6 @@ namespace AzureStorageBrowser
                         gvRow.Tag = url_;
                         gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
-                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //forach
 
@@ -520,7 +519,6 @@ namespace AzureStorageBrowser
                         gvRow.Tag = url_;
                         gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
-                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //forach
 
@@ -555,7 +553,6 @@ namespace AzureStorageBrowser
                     gvRow.Tag = url_;
                     gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                     gvProperties.Rows.Add(gvRow);
-                    //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     break;
 
@@ -588,7 +585,6 @@ namespace AzureStorageBrowser
                     gvRow.Tag = url_;
                     gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                     gvProperties.Rows.Add(gvRow);
-                    //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     break;
             } //switch
@@ -707,7 +703,6 @@ namespace AzureStorageBrowser
                         gvRow.Tag = url_;
                         gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
-                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //foreach
 
@@ -748,7 +743,6 @@ namespace AzureStorageBrowser
                     gvRow.Tag = url_;
                     gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                     gvProperties.Rows.Add(gvRow);
-                    //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
                     
                     break;
             } //swith
@@ -775,30 +769,73 @@ namespace AzureStorageBrowser
 
         private async void btDownload_Click(object sender, EventArgs e)
         {
-            TreeNode node_ = trFiles.SelectedNode;
-            System.Uri uri_ = new System.Uri(node_.Tag.ToString());
-
-            string path_ = "";
-            for (int i = 2; i < uri_.Segments.Length; i++)
-            {
-                path_ = path_ + uri_.Segments[i];
-            }
-
-            CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-            CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
-
             saveFileDialog1.Filter = "Filter|*.*";
             saveFileDialog1.Title = "Download";
-            saveFileDialog1.FileName = cf_.Name.Split('/').Last();
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+
+            foreach (DataGridViewRow row_ in gvProperties.SelectedRows)
             {
-                path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
-            }
+                System.Uri uri_ = new System.Uri(row_.Tag.ToString());
+
+                string path_ = "";
+                for (int i = 2; i < uri_.Segments.Length; i++)
+                {
+                    path_ = path_ + uri_.Segments[i];
+                }
+
+                string name_ = row_.Cells[1].Value.ToString();
+                string type_ = row_.Cells[2].Value.ToString();
+                saveFileDialog1.FileName = name_;
+
+                switch (type_)
+                {
+                    case "CloudBlockBlob":
+                        CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+
+                        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                            await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                        }
+
+                        break;
+
+                    case "CloudPageBlob":
+                        CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+
+                        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                            await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                        }
+
+                        break;
+
+                    case "CloudFile":
+
+                        CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                        CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
+
+                        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            lbStatus.Text = "Downloading...";
+                            pbDownload.Visible = true;
+
+                            path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                            await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
+
+                            lbStatus.Text = "Downloaded";
+                            pbDownload.Visible = false;
+                        }
+
+                        break;
+
+                } //switch
+
+            } //foreach
             
         } //btDownload
 
-        private void gvProperties_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];
 
@@ -806,12 +843,29 @@ namespace AzureStorageBrowser
             string type_ = gvRow.Cells[2].Value.ToString();
             string lastmodified_ = gvRow.Cells[4].Value.ToString();
 
-            tbURL.Text = uri_ + " (!)";
-            tbType.Text = type_ + " (!)";
+            tbURL.Text = uri_;
+            tbType.Text = type_;
             lbVar.Text = "";
             tbVar.Text = "";
-            tbLastModified.Text = lastmodified_ + " (!)";
+            tbLastModified.Text = lastmodified_;
 
+            switch (type_) {
+                case "CloudBlockBlob":
+                    lbVar.Text = "Size:";
+                    tbVar.Text = gvRow.Cells[3].Value.ToString();
+                    break;
+
+                case "CloudPageBlob":
+                    lbVar.Text = "Size:";
+                    tbVar.Text = gvRow.Cells[3].Value.ToString();
+                    break;
+
+                case "CloudFile":
+                    lbVar.Text = "Size:";
+                    tbVar.Text = gvRow.Cells[3].Value.ToString();
+                    break;
+            } //switch
+            
         } //gvProperties click
 
         private void btExport_Click(object sender, EventArgs e)
