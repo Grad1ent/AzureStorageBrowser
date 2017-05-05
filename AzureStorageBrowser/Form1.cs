@@ -206,6 +206,12 @@ namespace AzureStorageBrowser
             trQueues.Nodes.Clear();
             gvProperties.Rows.Clear();
 
+            tbURL.Text = "";
+            tbType.Text = "";
+            lbSize.Text = "";
+            tbSize.Text = "";
+            tbLastModified.Text = "";
+
             lbStatus.Text = "Disconnected";
             btConnect.Enabled = true;
             btDisconnect.Enabled = false;
@@ -255,7 +261,6 @@ namespace AzureStorageBrowser
         {
             foreach (CloudBlobContainer myCloudBlobContainer in myCloudBlobClient.ListContainers())
             {
-                //TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 8, 8);
                 TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 10, 10);
 
                 await Task.Run(() =>
@@ -271,53 +276,60 @@ namespace AzureStorageBrowser
 
         } //getBlobsAsync
 
-        private async Task addBlobsAsync(TreeNode parentNode, IEnumerable<IListBlobItem> blobItems)
+        private async Task addBlobsAsync(TreeNode parentnode_, IEnumerable<IListBlobItem> blobItems)
         {
             foreach (IListBlobItem blobItem in blobItems)
             {
-                TreeNode childNode = null;
+                TreeNode node_ = null;
 
+                /*
                 if (blobItem.GetType() == typeof(CloudBlockBlob))
                 {
-                    CloudBlockBlob myCloudBlockBlob = (CloudBlockBlob)blobItem;
+                    
+                    CloudBlockBlob cbb_ = (CloudBlockBlob)blobItem;
 
-                    string cbbname_ = myCloudBlockBlob.Uri.Segments.Last();
+                    string cbbname_ = cbb_.Uri.Segments.Last();
                     if (cbbname_.Contains(".vhd"))
                     {
-                        childNode = new TreeNode(cbbname_, 9, 9);
+                        node_ = new TreeNode(cbbname_, 9, 9);
                     }
                     else
                     {
-                        childNode = new TreeNode(cbbname_, 2, 2);
+                        node_ = new TreeNode(cbbname_, 2, 2);
                     }
-                    
+                                        
                 }
                 else if (blobItem.GetType() == typeof(CloudPageBlob))
                 {
-                    CloudPageBlob myCloudPageBlob = (CloudPageBlob)blobItem;
+                    
+                    CloudPageBlob cpb_ = (CloudPageBlob)blobItem;
 
-                    string cpbname_ = myCloudPageBlob.Uri.Segments.Last();
+                    string cpbname_ = cpb_.Uri.Segments.Last();
                     if (cpbname_.Contains(".vhd"))
                     {
-                        childNode = new TreeNode(cpbname_, 9, 9);
+                        node_ = new TreeNode(cpbname_, 9, 9);
                     } else
                     {
-                        childNode = new TreeNode(cpbname_, 2, 2);
+                        node_ = new TreeNode(cpbname_, 2, 2);
                     }
-                    
+                                        
                 }
-                else if (blobItem.GetType() == typeof(CloudBlobDirectory))
+                else */ if (blobItem.GetType() == typeof(CloudBlobDirectory))
                 {
-                    CloudBlobDirectory myCloudBlobDirectory = (CloudBlobDirectory)blobItem;
-                    childNode = new TreeNode(myCloudBlobDirectory.Uri.Segments.Last(), 0, 0);
+                    CloudBlobDirectory cbd_ = (CloudBlobDirectory)blobItem;
+                    node_ = new TreeNode(cbd_.Uri.Segments.Last(), 0, 0);
 
                     //req:
-                    await addBlobsAsync(childNode, myCloudBlobDirectory.ListBlobs());
+                    await addBlobsAsync(node_, cbd_.ListBlobs());
+
+                    node_.Tag = blobItem.Uri.AbsoluteUri;
+                    node_.ToolTipText = blobItem.GetType().Name;
+                    parentnode_.Nodes.Add(node_);
                 }
 
-                childNode.Tag = blobItem.Uri.AbsoluteUri;
-                childNode.ToolTipText = blobItem.GetType().Name;
-                parentNode.Nodes.Add(childNode);
+
+
+
 
             } //foreach blobItem
 
@@ -342,29 +354,30 @@ namespace AzureStorageBrowser
 
         } //getFilesAsync
 
-        private async Task addFilesAsync(TreeNode parentNode, IEnumerable<IListFileItem> fileItems)
+        private async Task addFilesAsync(TreeNode parentnode_, IEnumerable<IListFileItem> fileItems)
         {
             foreach (IListFileItem fileItem in fileItems)
             {
-                TreeNode childNode = null;
+                TreeNode node_ = null;
 
+                /*
                 if (fileItem.GetType() == typeof(CloudFile))
                 {
-                    CloudFile myCloudFile = (CloudFile)fileItem;
-                    childNode = new TreeNode(myCloudFile.Uri.Segments.Last(), 6, 6);
+                    CloudFile cf_ = (CloudFile)fileItem;
+                    node_ = new TreeNode(cf_.Uri.Segments.Last(), 6, 6);
                 }
-                else if (fileItem.GetType() == typeof(CloudFileDirectory))
+                else */ if (fileItem.GetType() == typeof(CloudFileDirectory))
                 {
-                    CloudFileDirectory myCloudFileDirectory = (CloudFileDirectory)fileItem;
-                    childNode = new TreeNode(myCloudFileDirectory.Uri.Segments.Last(), 0, 0);
+                    CloudFileDirectory cfd_ = (CloudFileDirectory)fileItem;
+                    node_ = new TreeNode(cfd_.Uri.Segments.Last(), 0, 0);
 
                     //req:
-                    await addFilesAsync(childNode, myCloudFileDirectory.ListFilesAndDirectories());
-                }
+                    await addFilesAsync(node_, cfd_.ListFilesAndDirectories());
 
-                childNode.Tag = fileItem.Uri.AbsoluteUri;
-                childNode.ToolTipText = fileItem.GetType().Name;
-                parentNode.Nodes.Add(childNode);
+                    node_.Tag = fileItem.Uri.AbsoluteUri;
+                    node_.ToolTipText = fileItem.GetType().Name;
+                    parentnode_.Nodes.Add(node_);
+                }
 
             } //foreach fileItem
 
@@ -420,8 +433,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = cbc_.Uri.ToString();
                     tbType.Text = cbc_.GetType().Name;
-                    lbVar.Text = "Public access:";
-                    tbVar.Text = cbc_.Properties.PublicAccess.ToString();
+                    tbSize.Text = cbc_.ListBlobs().Count().ToString() + " item(s)";
                     tbLastModified.Text = cbc_.Properties.LastModified.ToString();
 
                     foreach (var item_ in cbc_.ListBlobs())
@@ -433,13 +445,14 @@ namespace AzureStorageBrowser
                             url_ = cbd_.Uri.AbsoluteUri;
                             name_ = cbd_.Uri.Segments.Last();
                             type_ = cbd_.GetType().Name;
-                            size_ = "";
+                            size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
                             lastmodified_ = "";
                             img_ = imageList1.Images[0];
                         }
                         else //CloudBlob
                         {
-                           cb_ = (CloudBlob)item_;
+                            cb_ = (CloudBlob)item_;
+                            cb_.FetchAttributes();
 
                             url_ = cb_.Uri.AbsoluteUri;
                             name_ = cb_.Uri.Segments.Last();
@@ -478,8 +491,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = cbdroot_.Uri.ToString();
                     tbType.Text = cbdroot_.GetType().Name;
-                    lbVar.Text = "";
-                    tbVar.Text = "";
+                    tbSize.Text = cbdroot_.ListBlobs().Count().ToString() + " item(s)";
                     tbLastModified.Text = "";
 
                     foreach (var item_ in cbdroot_.ListBlobs())
@@ -491,13 +503,14 @@ namespace AzureStorageBrowser
                             url_ = cbd_.Uri.AbsoluteUri;
                             name_ = cbd_.Uri.Segments.Last();
                             type_ = cbd_.GetType().Name;
-                            size_ = "";
+                            size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
                             lastmodified_ = "";
                             img_ = imageList1.Images[0];
                         }
                         else
                         {
                             cb_ = (CloudBlob)item_;
+                            cb_.FetchAttributes();
 
                             url_ = cb_.Uri.AbsoluteUri;
                             name_ = cb_.Uri.Segments.Last();
@@ -524,9 +537,11 @@ namespace AzureStorageBrowser
 
                     break;
 
+                /*
                 case "CloudBlockBlob":
 
                     cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                    cbb_.FetchAttributes();
 
                     url_ = cbb_.Uri.AbsoluteUri;
                     name_ = cbb_.Uri.Segments.Last();
@@ -536,8 +551,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = url_;
                     tbType.Text = type_;
-                    lbVar.Text = "Size:";
-                    tbVar.Text = size_;
+                    tbSize.Text = size_;
                     tbLastModified.Text = lastmodified_;
 
                     if (name_.Contains(".vhd"))
@@ -559,6 +573,7 @@ namespace AzureStorageBrowser
                 case "CloudPageBlob":
 
                     cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                    cpb_.FetchAttributes();
 
                     url_ = cpb_.Uri.AbsoluteUri;
                     name_ = cpb_.Uri.Segments.Last();
@@ -568,8 +583,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = url_;
                     tbType.Text = type_;
-                    lbVar.Text = "Size:";
-                    tbVar.Text = size_;
+                    tbSize.Text = size_;
                     tbLastModified.Text = lastmodified_;
 
                     if (name_.Contains(".vhd"))
@@ -587,6 +601,7 @@ namespace AzureStorageBrowser
                     gvProperties.Rows.Add(gvRow);
 
                     break;
+                */
             } //switch
 
         } //trBlobs_AfterSelect
@@ -615,8 +630,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = cfs_.Uri.ToString();
                     tbType.Text = cfs_.GetType().Name;
-                    lbVar.Text = "Quota:";
-                    tbVar.Text = cfs_.Properties.Quota + " GiB";
+                    tbSize.Text = cfs_.Properties.Quota + " GiB of quota";
                     tbLastModified.Text = cfs_.Properties.LastModified.ToString();
 
                     foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
@@ -628,6 +642,7 @@ namespace AzureStorageBrowser
 
                             url_ = cfd_.Uri.AbsoluteUri;
                             name_ = cfd_.Name;
+                            size_ = cfd_.ListFilesAndDirectories().Count().ToString() + " item(s)";
                             type_ = cfd_.GetType().Name;
                             lastmodified_ = cfd_.Properties.LastModified.ToString();
                             img_ = imageList1.Images[0];
@@ -649,7 +664,6 @@ namespace AzureStorageBrowser
                         gvRow.Tag = url_;
                         gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
-                        //gvProperties.Rows.Add(img_, name_, type_, size_, lastmodified_);
 
                     } //foreach
 
@@ -669,8 +683,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = cfdroot_.Uri.ToString();
                     tbType.Text = cfdroot_.GetType().Name;
-                    lbVar.Text = "";
-                    tbVar.Text = "";
+                    tbSize.Text = cfdroot_.ListFilesAndDirectories().Count().ToString() + " item(s)";
                     tbLastModified.Text = cfdroot_.Properties.LastModified.ToString();
 
                     foreach (IListFileItem item_ in cfdroot_.ListFilesAndDirectories())
@@ -682,6 +695,7 @@ namespace AzureStorageBrowser
 
                             url_ = cfd_.Uri.AbsoluteUri;
                             name_ = cfd_.Name;
+                            size_ = cfd_.ListFilesAndDirectories().Count().ToString() + " item(s)";
                             type_ = cfd_.GetType().Name;
                             lastmodified_ = cfd_.Properties.LastModified.ToString();
                             img_ = imageList1.Images[0];
@@ -708,6 +722,7 @@ namespace AzureStorageBrowser
 
                     break;
 
+                /*
                 case "CloudFile":
 
                     path_ = "";
@@ -735,8 +750,7 @@ namespace AzureStorageBrowser
 
                     tbURL.Text = url_;
                     tbType.Text = type_;
-                    lbVar.Text = "Size:";
-                    tbVar.Text = size_;
+                    tbSize.Text = size_;
                     tbLastModified.Text = lastmodified_;
 
                     gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
@@ -745,6 +759,7 @@ namespace AzureStorageBrowser
                     gvProperties.Rows.Add(gvRow);
                     
                     break;
+                */
             } //swith
 
             gvProperties.Sort(gvProperties.Columns[2], ListSortDirection.Descending);
@@ -839,33 +854,11 @@ namespace AzureStorageBrowser
         {
             DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];
 
-            string uri_ = gvRow.Tag.ToString();
-            string type_ = gvRow.Cells[2].Value.ToString();
-            string lastmodified_ = gvRow.Cells[4].Value.ToString();
+            tbURL.Text = gvRow.Tag.ToString();
+            tbType.Text = gvRow.Cells[2].Value.ToString();
+            tbSize.Text = gvRow.Cells[3].Value.ToString();
+            tbLastModified.Text = gvRow.Cells[4].Value.ToString();
 
-            tbURL.Text = uri_;
-            tbType.Text = type_;
-            lbVar.Text = "";
-            tbVar.Text = "";
-            tbLastModified.Text = lastmodified_;
-
-            switch (type_) {
-                case "CloudBlockBlob":
-                    lbVar.Text = "Size:";
-                    tbVar.Text = gvRow.Cells[3].Value.ToString();
-                    break;
-
-                case "CloudPageBlob":
-                    lbVar.Text = "Size:";
-                    tbVar.Text = gvRow.Cells[3].Value.ToString();
-                    break;
-
-                case "CloudFile":
-                    lbVar.Text = "Size:";
-                    tbVar.Text = gvRow.Cells[3].Value.ToString();
-                    break;
-            } //switch
-            
         } //gvProperties click
 
         private void btExport_Click(object sender, EventArgs e)
