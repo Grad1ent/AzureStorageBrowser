@@ -39,6 +39,8 @@
             this.tbAccountName = new System.Windows.Forms.TextBox();
             this.tbAccountKey = new System.Windows.Forms.TextBox();
             this.tbConnectionString = new System.Windows.Forms.TextBox();
+            this.btConnect = new System.Windows.Forms.Button();
+            this.btDisconnect = new System.Windows.Forms.Button();
             this.cbDefaultEnpointsProtocol = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -71,6 +73,17 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.trQueues = new System.Windows.Forms.TreeView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btExpandAll = new System.Windows.Forms.ToolStripButton();
+            this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.btLeft = new System.Windows.Forms.ToolStripButton();
+            this.btRight = new System.Windows.Forms.ToolStripButton();
+            this.btUp = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btDownload = new System.Windows.Forms.ToolStripButton();
+            this.btUpload = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btExport = new System.Windows.Forms.ToolStripButton();
             this.gvProperties = new System.Windows.Forms.DataGridView();
             this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,19 +101,9 @@
             this.lbSize = new System.Windows.Forms.Label();
             this.tbSize = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.btExpandAll = new System.Windows.Forms.ToolStripButton();
-            this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
-            this.btConnect = new System.Windows.Forms.Button();
-            this.btDisconnect = new System.Windows.Forms.Button();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.btDownload = new System.Windows.Forms.ToolStripButton();
-            this.btUpload = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btExport = new System.Windows.Forms.ToolStripButton();
-            this.btUp = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btLeft = new System.Windows.Forms.ToolStripButton();
-            this.btRight = new System.Windows.Forms.ToolStripButton();
+            this.btNew = new System.Windows.Forms.ToolStripButton();
+            this.btDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -116,11 +119,11 @@
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -232,6 +235,33 @@
             this.tbConnectionString.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbConnectionString.Size = new System.Drawing.Size(732, 46);
             this.tbConnectionString.TabIndex = 6;
+            // 
+            // btConnect
+            // 
+            this.btConnect.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btConnect.Image = ((System.Drawing.Image)(resources.GetObject("btConnect.Image")));
+            this.btConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btConnect.Location = new System.Drawing.Point(10, 133);
+            this.btConnect.Name = "btConnect";
+            this.btConnect.Size = new System.Drawing.Size(94, 24);
+            this.btConnect.TabIndex = 7;
+            this.btConnect.Text = "Connect";
+            this.btConnect.UseVisualStyleBackColor = true;
+            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
+            // 
+            // btDisconnect
+            // 
+            this.btDisconnect.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btDisconnect.Enabled = false;
+            this.btDisconnect.Image = ((System.Drawing.Image)(resources.GetObject("btDisconnect.Image")));
+            this.btDisconnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btDisconnect.Location = new System.Drawing.Point(110, 133);
+            this.btDisconnect.Name = "btDisconnect";
+            this.btDisconnect.Size = new System.Drawing.Size(95, 24);
+            this.btDisconnect.TabIndex = 8;
+            this.btDisconnect.Text = "Disconnect";
+            this.btDisconnect.UseVisualStyleBackColor = true;
+            this.btDisconnect.Click += new System.EventHandler(this.btDisconnect_Click);
             // 
             // cbDefaultEnpointsProtocol
             // 
@@ -546,6 +576,121 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btExpandAll
+            // 
+            this.btExpandAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btExpandAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btExpandAll.Image = ((System.Drawing.Image)(resources.GetObject("btExpandAll.Image")));
+            this.btExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btExpandAll.Name = "btExpandAll";
+            this.btExpandAll.Size = new System.Drawing.Size(23, 22);
+            this.btExpandAll.Text = "+";
+            this.btExpandAll.ToolTipText = "Expand All";
+            this.btExpandAll.Click += new System.EventHandler(this.btExpandAll_Click);
+            // 
+            // btCollapseAll
+            // 
+            this.btCollapseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btCollapseAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btCollapseAll.Image = ((System.Drawing.Image)(resources.GetObject("btCollapseAll.Image")));
+            this.btCollapseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btCollapseAll.Name = "btCollapseAll";
+            this.btCollapseAll.Size = new System.Drawing.Size(23, 22);
+            this.btCollapseAll.Text = "-";
+            this.btCollapseAll.ToolTipText = "Collapse All";
+            this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btLeft,
+            this.btRight,
+            this.btUp,
+            this.toolStripSeparator4,
+            this.btNew,
+            this.btDelete,
+            this.toolStripSeparator5,
+            this.btDownload,
+            this.btUpload,
+            this.toolStripSeparator3,
+            this.btExport});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(508, 25);
+            this.toolStrip2.TabIndex = 1;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // btLeft
+            // 
+            this.btLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btLeft.Enabled = false;
+            this.btLeft.Image = ((System.Drawing.Image)(resources.GetObject("btLeft.Image")));
+            this.btLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btLeft.Name = "btLeft";
+            this.btLeft.Size = new System.Drawing.Size(23, 22);
+            this.btLeft.Text = "Left";
+            // 
+            // btRight
+            // 
+            this.btRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btRight.Enabled = false;
+            this.btRight.Image = ((System.Drawing.Image)(resources.GetObject("btRight.Image")));
+            this.btRight.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btRight.Name = "btRight";
+            this.btRight.Size = new System.Drawing.Size(23, 22);
+            this.btRight.Text = "Right";
+            // 
+            // btUp
+            // 
+            this.btUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btUp.Image = ((System.Drawing.Image)(resources.GetObject("btUp.Image")));
+            this.btUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btUp.Name = "btUp";
+            this.btUp.Size = new System.Drawing.Size(23, 22);
+            this.btUp.Text = "Up";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btDownload
+            // 
+            this.btDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btDownload.Image = ((System.Drawing.Image)(resources.GetObject("btDownload.Image")));
+            this.btDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btDownload.Name = "btDownload";
+            this.btDownload.Size = new System.Drawing.Size(23, 22);
+            this.btDownload.Text = "toolStripButton1";
+            this.btDownload.ToolTipText = "Download";
+            this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
+            // 
+            // btUpload
+            // 
+            this.btUpload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btUpload.Image = ((System.Drawing.Image)(resources.GetObject("btUpload.Image")));
+            this.btUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btUpload.Name = "btUpload";
+            this.btUpload.Size = new System.Drawing.Size(23, 22);
+            this.btUpload.Text = "toolStripButton2";
+            this.btUpload.ToolTipText = "Upload";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btExport
+            // 
+            this.btExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btExport.Image = ((System.Drawing.Image)(resources.GetObject("btExport.Image")));
+            this.btExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btExport.Name = "btExport";
+            this.btExport.Size = new System.Drawing.Size(23, 22);
+            this.btExport.Text = "toolStripButton1";
+            this.btExport.ToolTipText = "Export";
+            this.btExport.Click += new System.EventHandler(this.btExport_Click);
+            // 
             // gvProperties
             // 
             this.gvProperties.AllowUserToAddRows = false;
@@ -746,144 +891,28 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(857, 113);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
-            // btExpandAll
+            // btNew
             // 
-            this.btExpandAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btExpandAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btExpandAll.Image = ((System.Drawing.Image)(resources.GetObject("btExpandAll.Image")));
-            this.btExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btExpandAll.Name = "btExpandAll";
-            this.btExpandAll.Size = new System.Drawing.Size(23, 22);
-            this.btExpandAll.Text = "+";
-            this.btExpandAll.ToolTipText = "Expand All";
-            this.btExpandAll.Click += new System.EventHandler(this.btExpandAll_Click);
+            this.btNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btNew.Image = ((System.Drawing.Image)(resources.GetObject("btNew.Image")));
+            this.btNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btNew.Name = "btNew";
+            this.btNew.Size = new System.Drawing.Size(23, 22);
+            this.btNew.Text = "New";
             // 
-            // btCollapseAll
+            // btDelete
             // 
-            this.btCollapseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btCollapseAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btCollapseAll.Image = ((System.Drawing.Image)(resources.GetObject("btCollapseAll.Image")));
-            this.btCollapseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btCollapseAll.Name = "btCollapseAll";
-            this.btCollapseAll.Size = new System.Drawing.Size(23, 22);
-            this.btCollapseAll.Text = "-";
-            this.btCollapseAll.ToolTipText = "Collapse All";
-            this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
+            this.btDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btDelete.Image = ((System.Drawing.Image)(resources.GetObject("btDelete.Image")));
+            this.btDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btDelete.Name = "btDelete";
+            this.btDelete.Size = new System.Drawing.Size(23, 22);
+            this.btDelete.Text = "Delete";
             // 
-            // btConnect
+            // toolStripSeparator5
             // 
-            this.btConnect.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btConnect.Image = ((System.Drawing.Image)(resources.GetObject("btConnect.Image")));
-            this.btConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btConnect.Location = new System.Drawing.Point(10, 133);
-            this.btConnect.Name = "btConnect";
-            this.btConnect.Size = new System.Drawing.Size(94, 24);
-            this.btConnect.TabIndex = 7;
-            this.btConnect.Text = "Connect";
-            this.btConnect.UseVisualStyleBackColor = true;
-            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
-            // 
-            // btDisconnect
-            // 
-            this.btDisconnect.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btDisconnect.Enabled = false;
-            this.btDisconnect.Image = ((System.Drawing.Image)(resources.GetObject("btDisconnect.Image")));
-            this.btDisconnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btDisconnect.Location = new System.Drawing.Point(110, 133);
-            this.btDisconnect.Name = "btDisconnect";
-            this.btDisconnect.Size = new System.Drawing.Size(95, 24);
-            this.btDisconnect.TabIndex = 8;
-            this.btDisconnect.Text = "Disconnect";
-            this.btDisconnect.UseVisualStyleBackColor = true;
-            this.btDisconnect.Click += new System.EventHandler(this.btDisconnect_Click);
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btLeft,
-            this.btRight,
-            this.btUp,
-            this.toolStripSeparator4,
-            this.btDownload,
-            this.btUpload,
-            this.toolStripSeparator3,
-            this.btExport});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(508, 25);
-            this.toolStrip2.TabIndex = 1;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // btDownload
-            // 
-            this.btDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btDownload.Image = ((System.Drawing.Image)(resources.GetObject("btDownload.Image")));
-            this.btDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btDownload.Name = "btDownload";
-            this.btDownload.Size = new System.Drawing.Size(23, 22);
-            this.btDownload.Text = "toolStripButton1";
-            this.btDownload.ToolTipText = "Download";
-            this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
-            // 
-            // btUpload
-            // 
-            this.btUpload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btUpload.Image = ((System.Drawing.Image)(resources.GetObject("btUpload.Image")));
-            this.btUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btUpload.Name = "btUpload";
-            this.btUpload.Size = new System.Drawing.Size(23, 22);
-            this.btUpload.Text = "toolStripButton2";
-            this.btUpload.ToolTipText = "Upload";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btExport
-            // 
-            this.btExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btExport.Image = ((System.Drawing.Image)(resources.GetObject("btExport.Image")));
-            this.btExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btExport.Name = "btExport";
-            this.btExport.Size = new System.Drawing.Size(23, 22);
-            this.btExport.Text = "toolStripButton1";
-            this.btExport.ToolTipText = "Export";
-            this.btExport.Click += new System.EventHandler(this.btExport_Click);
-            // 
-            // btUp
-            // 
-            this.btUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btUp.Image = ((System.Drawing.Image)(resources.GetObject("btUp.Image")));
-            this.btUp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btUp.Name = "btUp";
-            this.btUp.Size = new System.Drawing.Size(23, 22);
-            this.btUp.Text = "Up";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btLeft
-            // 
-            this.btLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btLeft.Enabled = false;
-            this.btLeft.Image = ((System.Drawing.Image)(resources.GetObject("btLeft.Image")));
-            this.btLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btLeft.Name = "btLeft";
-            this.btLeft.Size = new System.Drawing.Size(23, 22);
-            this.btLeft.Text = "Left";
-            // 
-            // btRight
-            // 
-            this.btRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btRight.Enabled = false;
-            this.btRight.Image = ((System.Drawing.Image)(resources.GetObject("btRight.Image")));
-            this.btRight.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btRight.Name = "btRight";
-            this.btRight.Size = new System.Drawing.Size(23, 22);
-            this.btRight.Text = "Right";
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // Form1
             // 
@@ -920,14 +949,14 @@
             this.tabPage4.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProperties)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1004,6 +1033,9 @@
         private System.Windows.Forms.ToolStripButton btUpload;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btExport;
+        private System.Windows.Forms.ToolStripButton btNew;
+        private System.Windows.Forms.ToolStripButton btDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

@@ -208,7 +208,6 @@ namespace AzureStorageBrowser
 
             tbURL.Text = "";
             tbType.Text = "";
-            lbSize.Text = "";
             tbSize.Text = "";
             tbLastModified.Text = "";
 
@@ -865,6 +864,8 @@ namespace AzureStorageBrowser
         {
             saveFileDialog1.Filter = "Filter|*.csv";
             saveFileDialog1.Title = "Export";
+            saveFileDialog1.FileName = "";
+
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string path_ = Path.GetFullPath(saveFileDialog1.FileName);
