@@ -67,10 +67,10 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.myTree = new System.Windows.Forms.TreeView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
-            this.myTree = new System.Windows.Forms.TreeView();
             this.gvProperties = new System.Windows.Forms.DataGridView();
             this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -450,6 +450,47 @@
             this.splitContainer1.SplitterDistance = 341;
             this.splitContainer1.TabIndex = 2;
             // 
+            // myTree
+            // 
+            this.myTree.BackColor = System.Drawing.SystemColors.Window;
+            this.myTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.myTree.ImageIndex = 0;
+            this.myTree.ImageList = this.imageList1;
+            this.myTree.Location = new System.Drawing.Point(0, 25);
+            this.myTree.Name = "myTree";
+            treeNode1.ImageIndex = 10;
+            treeNode1.Name = "blobNodes";
+            treeNode1.SelectedImageIndex = 11;
+            treeNode1.Tag = "https://";
+            treeNode1.Text = "Blobs";
+            treeNode1.ToolTipText = "blobNodes";
+            treeNode2.ImageIndex = 3;
+            treeNode2.Name = "fileNodes";
+            treeNode2.SelectedImageIndex = 4;
+            treeNode2.Text = "Files";
+            treeNode2.ToolTipText = "fileNodes";
+            treeNode3.ImageIndex = 14;
+            treeNode3.Name = "tableNodes";
+            treeNode3.SelectedImageIndex = 15;
+            treeNode3.Text = "Tables";
+            treeNode3.ToolTipText = "tableNodes";
+            treeNode4.ImageIndex = 12;
+            treeNode4.Name = "queueNodes";
+            treeNode4.SelectedImageIndex = 13;
+            treeNode4.Text = "Queues";
+            treeNode4.ToolTipText = "queueNodes";
+            this.myTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
+            this.myTree.SelectedImageIndex = 0;
+            this.myTree.Size = new System.Drawing.Size(337, 272);
+            this.myTree.TabIndex = 0;
+            this.myTree.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.myTree_AfterCollapse);
+            this.myTree.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.myTree_AfterExpand);
+            this.myTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.myTree_AfterSelect);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -486,46 +527,6 @@
             this.btCollapseAll.Text = "-";
             this.btCollapseAll.ToolTipText = "Collapse All";
             this.btCollapseAll.Click += new System.EventHandler(this.btCollapseAll_Click);
-            // 
-            // myTree
-            // 
-            this.myTree.BackColor = System.Drawing.SystemColors.Window;
-            this.myTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.myTree.ImageIndex = 0;
-            this.myTree.ImageList = this.imageList1;
-            this.myTree.Location = new System.Drawing.Point(0, 25);
-            this.myTree.Name = "myTree";
-            treeNode1.ImageIndex = 10;
-            treeNode1.Name = "blobNodes";
-            treeNode1.SelectedImageIndex = 11;
-            treeNode1.Text = "Blobs";
-            treeNode1.ToolTipText = "blobNodes";
-            treeNode2.ImageIndex = 3;
-            treeNode2.Name = "fileNodes";
-            treeNode2.SelectedImageIndex = 4;
-            treeNode2.Text = "Files";
-            treeNode2.ToolTipText = "fileNodes";
-            treeNode3.ImageIndex = 14;
-            treeNode3.Name = "tableNodes";
-            treeNode3.SelectedImageIndex = 15;
-            treeNode3.Text = "Tables";
-            treeNode3.ToolTipText = "tableNodes";
-            treeNode4.ImageIndex = 12;
-            treeNode4.Name = "queueNodes";
-            treeNode4.SelectedImageIndex = 13;
-            treeNode4.Text = "Queues";
-            treeNode4.ToolTipText = "queueNodes";
-            this.myTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
-            this.myTree.SelectedImageIndex = 0;
-            this.myTree.Size = new System.Drawing.Size(337, 272);
-            this.myTree.TabIndex = 0;
-            this.myTree.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.myTree_AfterCollapse);
-            this.myTree.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.myTree_AfterExpand);
-            this.myTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.myTree_AfterSelect);
             // 
             // gvProperties
             // 

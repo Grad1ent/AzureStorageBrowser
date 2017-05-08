@@ -112,16 +112,19 @@ namespace AzureStorageBrowser
                 }
 
             } //if
+
         } //openToolStripMenuItem
 
         private void btExpandAll_Click(object sender, EventArgs e)
         {
             myTree.ExpandAll();
+
         } //btExpandAll
 
         private void btCollapseAll_Click(object sender, EventArgs e)
         {
             myTree.CollapseAll();
+
         } //btCollapseAll
 
         private void myTree_AfterExpand(object sender, TreeViewEventArgs e)
@@ -147,7 +150,30 @@ namespace AzureStorageBrowser
                     e.Node.ImageIndex = 1;
                     e.Node.SelectedImageIndex = 1;
                     break;
+
+                case "blobNodes":
+                    e.Node.ImageIndex = 11;
+                    e.Node.SelectedImageIndex = 11;
+                    break;
+
+                case "fileNodes":
+                    e.Node.ImageIndex = 4;
+                    e.Node.SelectedImageIndex = 4;
+                    break;
+
+                case "tableNodes":
+                    e.Node.ImageIndex = 15;
+                    e.Node.SelectedImageIndex = 15;
+                    break;
+
+                case "queueNodes":
+                    e.Node.ImageIndex = 13;
+                    e.Node.SelectedImageIndex = 13;
+
+                    break;
+
             } //switch
+
         } //myTree_AfterExpand
 
         private void myTree_AfterCollapse(object sender, TreeViewEventArgs e)
@@ -168,11 +194,35 @@ namespace AzureStorageBrowser
                     e.Node.ImageIndex = 3;
                     e.Node.SelectedImageIndex = 3;
                     break;
+
                 case "CloudFileDirectory":
                     e.Node.ImageIndex = 0;
                     e.Node.SelectedImageIndex = 0;
                     break;
+
+                case "blobNodes":
+                    e.Node.ImageIndex = 10;
+                    e.Node.SelectedImageIndex = 10;
+                    break;
+
+                case "fileNodes":
+                    e.Node.ImageIndex = 3;
+                    e.Node.SelectedImageIndex = 3;
+                    break;
+
+                case "tableNodes":
+                    e.Node.ImageIndex = 14;
+                    e.Node.SelectedImageIndex = 14;
+                    break;
+
+                case "queueNodes":
+                    e.Node.ImageIndex = 12;
+                    e.Node.SelectedImageIndex = 12;
+
+                    break;
+
             } //switch
+
         } //myTree_AfterCollapse
 
 
@@ -189,6 +239,7 @@ namespace AzureStorageBrowser
             lbStatus.Text = "Disconnected";
             btConnect.Enabled = true;
             btDisconnect.Enabled = false;
+
         } //btDisconnect
 
         private async void btConnect_Click(object sender, EventArgs e)
@@ -233,6 +284,7 @@ namespace AzureStorageBrowser
                 }
 
             } //if
+
         } //btConnect
 
         private async Task getBlobsAsync()
@@ -350,6 +402,11 @@ namespace AzureStorageBrowser
         private void myTree_AfterSelect(object sender, TreeViewEventArgs e)
         {            
             gvProperties.Rows.Clear();
+
+            tbURL.Text = "";
+            tbSize.Text = "";
+            tbType.Text = "";
+            tbLastModified.Text = "";
 
             string type_ = e.Node.ToolTipText;
             System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
@@ -589,6 +646,8 @@ namespace AzureStorageBrowser
 
                 case "blobNodes":
 
+                    tbURL.Text = myTree.Nodes[0].Tag.ToString();
+
                     foreach (var item_ in myCloudBlobClient.ListContainers())
                     {
                         cbc_ = (CloudBlobContainer)item_;
@@ -611,6 +670,9 @@ namespace AzureStorageBrowser
                     break;
 
                 case "fileNodes":
+
+                    tbURL.Text = myTree.Nodes[1].Tag.ToString();
+
                     foreach (var item_ in myCloudFileClient.ListShares())
                     {
                         cfs_ = (CloudFileShare)item_;
@@ -634,6 +696,8 @@ namespace AzureStorageBrowser
 
                 case "tableNodes":
 
+                    tbURL.Text = myTree.Nodes[2].Tag.ToString();
+
                     foreach (var item_ in myCloudTableClient.ListTables())
                     {
                         ct_ = (CloudTable)item_;
@@ -655,6 +719,8 @@ namespace AzureStorageBrowser
                     break;
 
                 case "queueNodes":
+
+                    tbURL.Text = myTree.Nodes[3].Tag.ToString();
 
                     foreach (var item_ in myCloudQueueClient.ListQueues())
                     {
@@ -720,6 +786,7 @@ namespace AzureStorageBrowser
                 switch (type_)
                 {
                     case "CloudBlockBlob":
+
                         CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
                         if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -731,6 +798,7 @@ namespace AzureStorageBrowser
                         break;
 
                     case "CloudPageBlob":
+
                         CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
                         if (saveFileDialog1.ShowDialog() == DialogResult.OK)
