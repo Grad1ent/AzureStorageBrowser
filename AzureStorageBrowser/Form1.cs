@@ -207,8 +207,8 @@ namespace AzureStorageBrowser
             gvProperties.Rows.Clear();
 
             tbURL.Text = "";
-            tbType.Text = "";
             tbSize.Text = "";
+            tbType.Text = "";
             tbLastModified.Text = "";
 
             lbStatus.Text = "Disconnected";
@@ -431,8 +431,8 @@ namespace AzureStorageBrowser
                     cbc_.FetchAttributes();
 
                     tbURL.Text = cbc_.Uri.ToString();
-                    tbType.Text = cbc_.GetType().Name;
                     tbSize.Text = cbc_.ListBlobs().Count().ToString() + " item(s)";
+                    tbType.Text = cbc_.GetType().Name;
                     tbLastModified.Text = cbc_.Properties.LastModified.ToString();
 
                     foreach (var item_ in cbc_.ListBlobs())
@@ -443,8 +443,8 @@ namespace AzureStorageBrowser
 
                             url_ = cbd_.Uri.AbsoluteUri;
                             name_ = cbd_.Uri.Segments.Last();
-                            type_ = cbd_.GetType().Name;
                             size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
+                            type_ = cbd_.GetType().Name;
                             lastmodified_ = "";
                             img_ = imageList1.Images[0];
                         }
@@ -455,8 +455,8 @@ namespace AzureStorageBrowser
 
                             url_ = cb_.Uri.AbsoluteUri;
                             name_ = cb_.Uri.Segments.Last();
-                            type_ = cb_.GetType().Name;                            
                             size_ = getSize(cb_.Properties.Length);
+                            type_ = cb_.GetType().Name;                            
                             lastmodified_ = cb_.Properties.LastModified.ToString();
 
                             if (name_.Contains(".vhd"))
@@ -471,7 +471,7 @@ namespace AzureStorageBrowser
 
                         gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
                         gvRow.Tag = url_;
-                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
 
                     } //forach
@@ -489,8 +489,8 @@ namespace AzureStorageBrowser
                     CloudBlobDirectory cbdroot_ = cbc_.GetDirectoryReference(path_);
 
                     tbURL.Text = cbdroot_.Uri.ToString();
-                    tbType.Text = cbdroot_.GetType().Name;
                     tbSize.Text = cbdroot_.ListBlobs().Count().ToString() + " item(s)";
+                    tbType.Text = cbdroot_.GetType().Name;
                     tbLastModified.Text = "";
 
                     foreach (var item_ in cbdroot_.ListBlobs())
@@ -501,8 +501,8 @@ namespace AzureStorageBrowser
 
                             url_ = cbd_.Uri.AbsoluteUri;
                             name_ = cbd_.Uri.Segments.Last();
-                            type_ = cbd_.GetType().Name;
                             size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
+                            type_ = cbd_.GetType().Name;
                             lastmodified_ = "";
                             img_ = imageList1.Images[0];
                         }
@@ -513,8 +513,8 @@ namespace AzureStorageBrowser
 
                             url_ = cb_.Uri.AbsoluteUri;
                             name_ = cb_.Uri.Segments.Last();
-                            type_ = cb_.GetType().Name;
                             size_ = getSize(cb_.Properties.Length);
+                            type_ = cb_.GetType().Name;
                             lastmodified_ = cb_.Properties.LastModified.ToString();
 
                             if (name_.Contains(".vhd"))
@@ -529,78 +529,13 @@ namespace AzureStorageBrowser
 
                         gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
                         gvRow.Tag = url_;
-                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
 
                     } //forach
 
                     break;
 
-                /*
-                case "CloudBlockBlob":
-
-                    cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
-                    cbb_.FetchAttributes();
-
-                    url_ = cbb_.Uri.AbsoluteUri;
-                    name_ = cbb_.Uri.Segments.Last();
-                    type_ = cbb_.GetType().Name;
-                    size_ = getSize(cbb_.Properties.Length);
-                    lastmodified_ = cbb_.Properties.LastModified.ToString();
-
-                    tbURL.Text = url_;
-                    tbType.Text = type_;
-                    tbSize.Text = size_;
-                    tbLastModified.Text = lastmodified_;
-
-                    if (name_.Contains(".vhd"))
-                    {
-                        img_ = imageList1.Images[9];
-                    }
-                    else
-                    {
-                        img_ = imageList1.Images[2];
-                    }
-
-                    gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                    gvRow.Tag = url_;
-                    gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
-                    gvProperties.Rows.Add(gvRow);
-
-                    break;
-
-                case "CloudPageBlob":
-
-                    cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
-                    cpb_.FetchAttributes();
-
-                    url_ = cpb_.Uri.AbsoluteUri;
-                    name_ = cpb_.Uri.Segments.Last();
-                    type_ = cpb_.GetType().Name;
-                    size_ = getSize(cpb_.Properties.Length);
-                    lastmodified_ = cpb_.Properties.LastModified.ToString();
-
-                    tbURL.Text = url_;
-                    tbType.Text = type_;
-                    tbSize.Text = size_;
-                    tbLastModified.Text = lastmodified_;
-
-                    if (name_.Contains(".vhd"))
-                    {
-                        img_ = imageList1.Images[9];
-                    }
-                    else
-                    {
-                        img_ = imageList1.Images[2];
-                    }
-
-                    gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                    gvRow.Tag = url_;
-                    gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
-                    gvProperties.Rows.Add(gvRow);
-
-                    break;
-                */
             } //switch
 
         } //trBlobs_AfterSelect
@@ -628,8 +563,8 @@ namespace AzureStorageBrowser
                     cfs_.FetchAttributes();
 
                     tbURL.Text = cfs_.Uri.ToString();
-                    tbType.Text = cfs_.GetType().Name;
                     tbSize.Text = cfs_.Properties.Quota + " GiB of quota";
+                    tbType.Text = cfs_.GetType().Name;
                     tbLastModified.Text = cfs_.Properties.LastModified.ToString();
 
                     foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
@@ -661,7 +596,7 @@ namespace AzureStorageBrowser
 
                         gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
                         gvRow.Tag = url_;
-                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
 
                     } //foreach
@@ -681,8 +616,8 @@ namespace AzureStorageBrowser
                     cfdroot_.FetchAttributes();
 
                     tbURL.Text = cfdroot_.Uri.ToString();
-                    tbType.Text = cfdroot_.GetType().Name;
                     tbSize.Text = cfdroot_.ListFilesAndDirectories().Count().ToString() + " item(s)";
+                    tbType.Text = cfdroot_.GetType().Name;
                     tbLastModified.Text = cfdroot_.Properties.LastModified.ToString();
 
                     foreach (IListFileItem item_ in cfdroot_.ListFilesAndDirectories())
@@ -714,54 +649,16 @@ namespace AzureStorageBrowser
 
                         gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
                         gvRow.Tag = url_;
-                        gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
                         gvProperties.Rows.Add(gvRow);
 
                     } //foreach
 
                     break;
 
-                /*
-                case "CloudFile":
-
-                    path_ = "";
-                    for (int i = 2; i < uri_.Segments.Length; i++)
-                    {
-                        path_ = path_ + uri_.Segments[i];
-                    }
-
-                    cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
-
-                    //MessageBox.Show("Uri.Segments.Last(): " + uri_.Segments.Last());    // -> file.txt
-                    //MessageBox.Show("path_: " + path_);                                 // -> folder/file.txt
-                    //MessageBox.Show("Uri.AbsolutePath: " + uri_.AbsolutePath);          // -> /share/folder/file.txt
-                    //MessageBox.Show("Uri.LocalPath: " + uri_.LocalPath);                // -> /share/folder/file.txt
-                    //MessageBox.Show("Uri.AbsoluteUri: " + uri_.AbsoluteUri);            // -> https://storageaccount.file.core.windows.net/share/folder/file.txt
-
-                    cf_.FetchAttributes();
-
-                    url_ = cf_.Uri.AbsoluteUri;
-                    name_ = cf_.Name.Split('/').Last().ToString();
-                    size_ = getSize(cf_.Properties.Length);
-                    type_ = cf_.GetType().Name;
-                    lastmodified_ = cf_.Properties.LastModified.ToString();
-                    img_ = imageList1.Images[6];
-
-                    tbURL.Text = url_;
-                    tbType.Text = type_;
-                    tbSize.Text = size_;
-                    tbLastModified.Text = lastmodified_;
-
-                    gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                    gvRow.Tag = url_;
-                    gvRow.CreateCells(gvProperties, img_, name_, type_, size_, lastmodified_);
-                    gvProperties.Rows.Add(gvRow);
-                    
-                    break;
-                */
             } //swith
 
-            gvProperties.Sort(gvProperties.Columns[2], ListSortDirection.Descending);
+            gvProperties.Sort(gvProperties.Columns[3], ListSortDirection.Descending);
                 
         } //trFiles_AfterSelect
        
@@ -797,7 +694,7 @@ namespace AzureStorageBrowser
                 }
 
                 string name_ = row_.Cells[1].Value.ToString();
-                string type_ = row_.Cells[2].Value.ToString();
+                string type_ = row_.Cells[3].Value.ToString();
                 saveFileDialog1.FileName = name_;
 
                 switch (type_)
@@ -854,8 +751,8 @@ namespace AzureStorageBrowser
             DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];
 
             tbURL.Text = gvRow.Tag.ToString();
-            tbType.Text = gvRow.Cells[2].Value.ToString();
-            tbSize.Text = gvRow.Cells[3].Value.ToString();
+            tbSize.Text = gvRow.Cells[2].Value.ToString();
+            tbType.Text = gvRow.Cells[3].Value.ToString();
             tbLastModified.Text = gvRow.Cells[4].Value.ToString();
 
         } //gvProperties click

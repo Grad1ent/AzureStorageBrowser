@@ -76,20 +76,16 @@
             this.btExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btCollapseAll = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.btLeft = new System.Windows.Forms.ToolStripButton();
-            this.btRight = new System.Windows.Forms.ToolStripButton();
             this.btUp = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btNew = new System.Windows.Forms.ToolStripButton();
+            this.btDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btDownload = new System.Windows.Forms.ToolStripButton();
             this.btUpload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btExport = new System.Windows.Forms.ToolStripButton();
             this.gvProperties = new System.Windows.Forms.DataGridView();
-            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tbLastModified = new System.Windows.Forms.TextBox();
@@ -101,9 +97,13 @@
             this.lbSize = new System.Windows.Forms.Label();
             this.tbSize = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.btNew = new System.Windows.Forms.ToolStripButton();
-            this.btDelete = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -449,8 +449,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
             this.splitContainer1.Panel2.Controls.Add(this.gvProperties);
+            this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
             this.splitContainer1.Size = new System.Drawing.Size(857, 301);
             this.splitContainer1.SplitterDistance = 341;
             this.splitContainer1.TabIndex = 2;
@@ -499,7 +499,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(329, 246);
+            this.tabPage2.Size = new System.Drawing.Size(329, 105);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Files";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -513,7 +513,7 @@
             this.trFiles.Location = new System.Drawing.Point(3, 3);
             this.trFiles.Name = "trFiles";
             this.trFiles.SelectedImageIndex = 0;
-            this.trFiles.Size = new System.Drawing.Size(323, 240);
+            this.trFiles.Size = new System.Drawing.Size(323, 99);
             this.trFiles.TabIndex = 0;
             this.trFiles.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterCollapse);
             this.trFiles.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.trFiles_AfterExpand);
@@ -525,7 +525,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(329, 246);
+            this.tabPage3.Size = new System.Drawing.Size(329, 105);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tables";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -538,7 +538,7 @@
             this.trTables.Location = new System.Drawing.Point(3, 3);
             this.trTables.Name = "trTables";
             this.trTables.SelectedImageIndex = 0;
-            this.trTables.Size = new System.Drawing.Size(323, 240);
+            this.trTables.Size = new System.Drawing.Size(323, 99);
             this.trTables.TabIndex = 0;
             // 
             // tabPage4
@@ -547,7 +547,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(329, 246);
+            this.tabPage4.Size = new System.Drawing.Size(329, 105);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Queues";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -560,7 +560,7 @@
             this.trQueues.Location = new System.Drawing.Point(3, 3);
             this.trQueues.Name = "trQueues";
             this.trQueues.SelectedImageIndex = 0;
-            this.trQueues.Size = new System.Drawing.Size(323, 240);
+            this.trQueues.Size = new System.Drawing.Size(323, 99);
             this.trQueues.TabIndex = 0;
             // 
             // toolStrip1
@@ -603,13 +603,13 @@
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btLeft,
-            this.btRight,
             this.btUp,
             this.toolStripSeparator4,
             this.btNew,
             this.btDelete,
             this.toolStripSeparator5,
+            this.toolStripLabel1,
+            this.toolStripSeparator6,
             this.btDownload,
             this.btUpload,
             this.toolStripSeparator3,
@@ -619,26 +619,6 @@
             this.toolStrip2.Size = new System.Drawing.Size(508, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
-            // 
-            // btLeft
-            // 
-            this.btLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btLeft.Enabled = false;
-            this.btLeft.Image = ((System.Drawing.Image)(resources.GetObject("btLeft.Image")));
-            this.btLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btLeft.Name = "btLeft";
-            this.btLeft.Size = new System.Drawing.Size(23, 22);
-            this.btLeft.Text = "Left";
-            // 
-            // btRight
-            // 
-            this.btRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btRight.Enabled = false;
-            this.btRight.Image = ((System.Drawing.Image)(resources.GetObject("btRight.Image")));
-            this.btRight.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btRight.Name = "btRight";
-            this.btRight.Size = new System.Drawing.Size(23, 22);
-            this.btRight.Text = "Right";
             // 
             // btUp
             // 
@@ -653,6 +633,29 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btNew
+            // 
+            this.btNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btNew.Image = ((System.Drawing.Image)(resources.GetObject("btNew.Image")));
+            this.btNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btNew.Name = "btNew";
+            this.btNew.Size = new System.Drawing.Size(23, 22);
+            this.btNew.Text = "New";
+            // 
+            // btDelete
+            // 
+            this.btDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btDelete.Image = ((System.Drawing.Image)(resources.GetObject("btDelete.Image")));
+            this.btDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btDelete.Name = "btDelete";
+            this.btDelete.Size = new System.Drawing.Size(23, 22);
+            this.btDelete.Text = "Delete";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // btDownload
             // 
@@ -701,9 +704,10 @@
             this.gvProperties.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column0,
             this.Column1,
-            this.Column2,
             this.Column3,
+            this.Column2,
             this.Column4});
+            this.gvProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvProperties.Location = new System.Drawing.Point(0, 25);
             this.gvProperties.Name = "gvProperties";
             this.gvProperties.ReadOnly = true;
@@ -712,50 +716,6 @@
             this.gvProperties.Size = new System.Drawing.Size(508, 272);
             this.gvProperties.TabIndex = 0;
             this.gvProperties.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellClick);
-            // 
-            // Column0
-            // 
-            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column0.FillWeight = 2.604999F;
-            this.Column0.HeaderText = "";
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Width = 5;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.FillWeight = 124.9152F;
-            this.Column1.HeaderText = "Name";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column2.FillWeight = 190.3553F;
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 56;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column3.FillWeight = 59.37977F;
-            this.Column3.HeaderText = "Size";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 52;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column4.FillWeight = 110F;
-            this.Column4.HeaderText = "Last Modified";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 95;
             // 
             // groupBox3
             // 
@@ -775,12 +735,12 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Controls.Add(this.tbLastModified, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tbSize, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.label6, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.label7, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.tbURL, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.tbType, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.lbSize, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.tbSize, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.tbType, 1, 2);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -821,7 +781,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(82, 16);
             this.label6.TabIndex = 1;
-            this.label6.Text = "Type:";
+            this.label6.Text = "Size:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label7
@@ -832,7 +792,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(82, 19);
             this.label7.TabIndex = 2;
-            this.label7.Text = "Last modified:";
+            this.label7.Text = "Modified:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tbURL
@@ -850,7 +810,7 @@
             this.tbType.BackColor = System.Drawing.SystemColors.Control;
             this.tbType.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbType.Location = new System.Drawing.Point(91, 19);
+            this.tbType.Location = new System.Drawing.Point(91, 35);
             this.tbType.Name = "tbType";
             this.tbType.Size = new System.Drawing.Size(751, 13);
             this.tbType.TabIndex = 4;
@@ -863,7 +823,7 @@
             this.lbSize.Name = "lbSize";
             this.lbSize.Size = new System.Drawing.Size(82, 16);
             this.lbSize.TabIndex = 6;
-            this.lbSize.Text = "Size:";
+            this.lbSize.Text = "Type:";
             this.lbSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tbSize
@@ -871,7 +831,7 @@
             this.tbSize.BackColor = System.Drawing.SystemColors.Control;
             this.tbSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbSize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSize.Location = new System.Drawing.Point(91, 35);
+            this.tbSize.Location = new System.Drawing.Point(91, 19);
             this.tbSize.Name = "tbSize";
             this.tbSize.Size = new System.Drawing.Size(751, 13);
             this.tbSize.TabIndex = 7;
@@ -891,28 +851,61 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(857, 113);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
-            // btNew
+            // toolStripLabel1
             // 
-            this.btNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btNew.Image = ((System.Drawing.Image)(resources.GetObject("btNew.Image")));
-            this.btNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btNew.Name = "btNew";
-            this.btNew.Size = new System.Drawing.Size(23, 22);
-            this.btNew.Text = "New";
+            this.toolStripLabel1.Enabled = false;
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(91, 22);
+            this.toolStripLabel1.Text = "                            ";
             // 
-            // btDelete
+            // toolStripSeparator6
             // 
-            this.btDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btDelete.Image = ((System.Drawing.Image)(resources.GetObject("btDelete.Image")));
-            this.btDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(23, 22);
-            this.btDelete.Text = "Delete";
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripSeparator5
+            // Column0
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column0.FillWeight = 2.604999F;
+            this.Column0.HeaderText = "";
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Width = 5;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 124.9152F;
+            this.Column1.HeaderText = "Name";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column3.FillWeight = 59.37977F;
+            this.Column3.HeaderText = "Size";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 52;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.FillWeight = 190.3553F;
+            this.Column2.HeaderText = "Type";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 56;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column4.FillWeight = 110F;
+            this.Column4.HeaderText = "Modified";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 72;
             // 
             // Form1
             // 
@@ -1007,11 +1000,6 @@
         private System.Windows.Forms.ToolStripButton btExpandAll;
         private System.Windows.Forms.ToolStripButton btCollapseAll;
         private System.Windows.Forms.DataGridView gvProperties;
-        private System.Windows.Forms.DataGridViewImageColumn Column0;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TextBox tbLastModified;
@@ -1025,8 +1013,6 @@
         private System.Windows.Forms.ToolStripProgressBar pbDownload;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton btLeft;
-        private System.Windows.Forms.ToolStripButton btRight;
         private System.Windows.Forms.ToolStripButton btUp;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton btDownload;
@@ -1036,6 +1022,13 @@
         private System.Windows.Forms.ToolStripButton btNew;
         private System.Windows.Forms.ToolStripButton btDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.DataGridViewImageColumn Column0;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
     }
 }
 
