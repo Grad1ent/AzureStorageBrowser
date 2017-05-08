@@ -112,81 +112,58 @@ namespace AzureStorageBrowser
                 }
 
             } //if
-        }
+        } //openToolStripMenuItem
 
         private void btExpandAll_Click(object sender, EventArgs e)
         {
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    trBlobs.ExpandAll();
-                    break;
-                case 1:
-                    trFiles.ExpandAll();
-                    break;
-            } //switch
-        }
+            myTree.ExpandAll();
+        } //btExpandAll
 
         private void btCollapseAll_Click(object sender, EventArgs e)
         {
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    trBlobs.CollapseAll();
-                    break;
-                case 1:
-                    trFiles.CollapseAll();
-                    break;
-            } //switch
-        }
+            myTree.CollapseAll();
+        } //btCollapseAll
 
-        private void trBlobs_AfterExpand(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.ToolTipText != "CloudBlobContainer")
-            {
-                e.Node.ImageIndex = 1;
-                e.Node.SelectedImageIndex = 1;
-            }
-            else
-            {
-                e.Node.ImageIndex = 11;
-                e.Node.SelectedImageIndex = 11;
-            }
-        }
-
-        private void trBlobs_AfterCollapse(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.ToolTipText != "CloudBlobContainer")
-            {
-                e.Node.ImageIndex = 0;
-                e.Node.SelectedImageIndex = 0;
-            } else
-            {
-                e.Node.ImageIndex = 10;
-                e.Node.SelectedImageIndex = 10;
-            }
-        }
-
-        private void trFiles_AfterExpand(object sender, TreeViewEventArgs e)
+        private void myTree_AfterExpand(object sender, TreeViewEventArgs e)
         {
             switch (e.Node.ToolTipText)
             {
+                case "CloudBlobDirectory":
+                    e.Node.ImageIndex = 1;
+                    e.Node.SelectedImageIndex = 1;
+                    break;
+
+                case "CloudBlobContainer":
+                    e.Node.ImageIndex = 11;
+                    e.Node.SelectedImageIndex = 11;
+                    break;
+
                 case "CloudFileShare":
                     e.Node.ImageIndex = 4;
                     e.Node.SelectedImageIndex = 4;
                     break;
+
                 case "CloudFileDirectory":
                     e.Node.ImageIndex = 1;
                     e.Node.SelectedImageIndex = 1;
                     break;
             } //switch
+        } //myTree_AfterExpand
 
-        }
-
-        private void trFiles_AfterCollapse(object sender, TreeViewEventArgs e)
+        private void myTree_AfterCollapse(object sender, TreeViewEventArgs e)
         {
             switch (e.Node.ToolTipText)
             {
+                case "CloudBlobDirectory":
+                    e.Node.ImageIndex = 0;
+                    e.Node.SelectedImageIndex = 0;
+                    break;
+
+                case "CloudBlobContainer":
+                    e.Node.ImageIndex = 10;
+                    e.Node.SelectedImageIndex = 10;
+                    break;
+
                 case "CloudFileShare":
                     e.Node.ImageIndex = 3;
                     e.Node.SelectedImageIndex = 3;
@@ -196,14 +173,12 @@ namespace AzureStorageBrowser
                     e.Node.SelectedImageIndex = 0;
                     break;
             } //switch
-        }
+        } //myTree_AfterCollapse
+
 
         private void btDisconnect_Click(object sender, EventArgs e)
         {
-            trBlobs.Nodes.Clear();
-            trFiles.Nodes.Clear();
-            trTables.Nodes.Clear();
-            trQueues.Nodes.Clear();
+            myTree.Nodes.Clear();
             gvProperties.Rows.Clear();
 
             tbURL.Text = "";
@@ -214,7 +189,7 @@ namespace AzureStorageBrowser
             lbStatus.Text = "Disconnected";
             btConnect.Enabled = true;
             btDisconnect.Enabled = false;
-        }
+        } //btDisconnect
 
         private async void btConnect_Click(object sender, EventArgs e)
         {
@@ -241,6 +216,11 @@ namespace AzureStorageBrowser
                     myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
                     myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
 
+                    myTree.Nodes[0].Tag = myCloudBlobClient.BaseUri.ToString();
+                    myTree.Nodes[1].Tag = myCloudFileClient.BaseUri.ToString();
+                    myTree.Nodes[2].Tag = myCloudTableClient.BaseUri.ToString();
+                    myTree.Nodes[3].Tag = myCloudQueueClient.BaseUri.ToString();
+
                     await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
 
                     lbStatus.Text = "Connected";
@@ -253,8 +233,7 @@ namespace AzureStorageBrowser
                 }
 
             } //if
-
-        }
+        } //btConnect
 
         private async Task getBlobsAsync()
         {
@@ -269,7 +248,7 @@ namespace AzureStorageBrowser
 
                 trNode.Tag = myCloudBlobContainer.Uri.AbsoluteUri;
                 trNode.ToolTipText = myCloudBlobContainer.GetType().Name;
-                trBlobs.Nodes.Add(trNode);
+                myTree.Nodes[0].Nodes.Add(trNode);
 
             } //foreach myCloudBlobContainer
 
@@ -281,39 +260,7 @@ namespace AzureStorageBrowser
             {
                 TreeNode node_ = null;
 
-                /*
-                if (blobItem.GetType() == typeof(CloudBlockBlob))
-                {
-                    
-                    CloudBlockBlob cbb_ = (CloudBlockBlob)blobItem;
-
-                    string cbbname_ = cbb_.Uri.Segments.Last();
-                    if (cbbname_.Contains(".vhd"))
-                    {
-                        node_ = new TreeNode(cbbname_, 9, 9);
-                    }
-                    else
-                    {
-                        node_ = new TreeNode(cbbname_, 2, 2);
-                    }
-                                        
-                }
-                else if (blobItem.GetType() == typeof(CloudPageBlob))
-                {
-                    
-                    CloudPageBlob cpb_ = (CloudPageBlob)blobItem;
-
-                    string cpbname_ = cpb_.Uri.Segments.Last();
-                    if (cpbname_.Contains(".vhd"))
-                    {
-                        node_ = new TreeNode(cpbname_, 9, 9);
-                    } else
-                    {
-                        node_ = new TreeNode(cpbname_, 2, 2);
-                    }
-                                        
-                }
-                else */ if (blobItem.GetType() == typeof(CloudBlobDirectory))
+                if (blobItem.GetType() == typeof(CloudBlobDirectory))
                 {
                     CloudBlobDirectory cbd_ = (CloudBlobDirectory)blobItem;
                     node_ = new TreeNode(cbd_.Uri.Segments.Last(), 0, 0);
@@ -325,10 +272,6 @@ namespace AzureStorageBrowser
                     node_.ToolTipText = blobItem.GetType().Name;
                     parentnode_.Nodes.Add(node_);
                 }
-
-
-
-
 
             } //foreach blobItem
 
@@ -347,7 +290,7 @@ namespace AzureStorageBrowser
 
                 trNode.Tag = myCloudFileShare.Uri.AbsoluteUri;
                 trNode.ToolTipText = myCloudFileShare.GetType().Name;
-                trFiles.Nodes.Add(trNode);
+                myTree.Nodes[1].Nodes.Add(trNode);
 
             } //foreach myCloudFileShare
 
@@ -359,13 +302,7 @@ namespace AzureStorageBrowser
             {
                 TreeNode node_ = null;
 
-                /*
-                if (fileItem.GetType() == typeof(CloudFile))
-                {
-                    CloudFile cf_ = (CloudFile)fileItem;
-                    node_ = new TreeNode(cf_.Uri.Segments.Last(), 6, 6);
-                }
-                else */ if (fileItem.GetType() == typeof(CloudFileDirectory))
+                if (fileItem.GetType() == typeof(CloudFileDirectory))
                 {
                     CloudFileDirectory cfd_ = (CloudFileDirectory)fileItem;
                     node_ = new TreeNode(cfd_.Uri.Segments.Last(), 0, 0);
@@ -387,7 +324,10 @@ namespace AzureStorageBrowser
             foreach (var myCloudTable in myCloudTableClient.ListTables())
             {
                 TreeNode trNode = new TreeNode(myCloudTable.Name, 5, 5);
-                trTables.Nodes.Add(trNode);
+
+                trNode.Tag = myCloudTable.Uri.ToString();
+                trNode.ToolTipText = myCloudTable.GetType().Name;
+                myTree.Nodes[2].Nodes.Add(trNode);
 
             } //foreach myCloudTable
 
@@ -398,26 +338,35 @@ namespace AzureStorageBrowser
             foreach (var myCloudQueue in myCloudQueueClient.ListQueues())
             {
                 TreeNode trNode = new TreeNode(myCloudQueue.Name, 7, 7);
-                trQueues.Nodes.Add(trNode);
+
+                trNode.Tag = myCloudQueue.Uri.ToString();
+                trNode.ToolTipText = myCloudQueue.GetType().Name;
+                myTree.Nodes[3].Nodes.Add(trNode);
 
             } //foreach myCloudQueue
 
-
         } //getQueuesAsync
 
-        private void trBlobs_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            
+        private void myTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {            
             gvProperties.Rows.Clear();
 
             string type_ = e.Node.ToolTipText;
             System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
             
-            CloudBlobContainer cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+            CloudBlobContainer cbc_;
             CloudBlobDirectory cbd_;
             CloudBlockBlob cbb_;
             CloudPageBlob cpb_;
             CloudBlob cb_;
+
+            CloudFileShare cfs_;
+            CloudFileDirectory cfd_;
+            CloudFile cf_;
+
+            CloudTable ct_;
+
+            CloudQueue cq_;
 
             DataGridViewRow gvRow;
 
@@ -428,6 +377,7 @@ namespace AzureStorageBrowser
             {
                 case "CloudBlobContainer":
 
+                    cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
                     cbc_.FetchAttributes();
 
                     tbURL.Text = cbc_.Uri.ToString();
@@ -486,6 +436,7 @@ namespace AzureStorageBrowser
                         path_ = path_ + uri_.Segments[i];
                     }
 
+                    cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
                     CloudBlobDirectory cbdroot_ = cbc_.GetDirectoryReference(path_);
 
                     tbURL.Text = cbdroot_.Uri.ToString();
@@ -536,30 +487,9 @@ namespace AzureStorageBrowser
 
                     break;
 
-            } //switch
-
-        } //trBlobs_AfterSelect
-
-        private void trFiles_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            gvProperties.Rows.Clear();
-
-            string type_ = e.Node.ToolTipText;
-            System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
-
-            CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-            CloudFileDirectory cfd_;
-            CloudFile cf_;
-
-            DataGridViewRow gvRow;
-
-            string url_ = "", name_ = "", size_ = "", lastmodified_ = "", path_ = "";
-            Image img_ = null;
-
-            switch (type_)
-            {
                 case "CloudFileShare":
 
+                    cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                     cfs_.FetchAttributes();
 
                     tbURL.Text = cfs_.Uri.ToString();
@@ -611,6 +541,7 @@ namespace AzureStorageBrowser
                         path_ = path_ + uri_.Segments[i];
                     }
 
+                    cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                     CloudFileDirectory cfdroot_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
 
                     cfdroot_.FetchAttributes();
@@ -656,11 +587,100 @@ namespace AzureStorageBrowser
 
                     break;
 
-            } //swith
+                case "blobNodes":
+
+                    foreach (var item_ in myCloudBlobClient.ListContainers())
+                    {
+                        cbc_ = (CloudBlobContainer)item_;
+                        cbc_.FetchAttributes();
+
+                        url_ = cbc_.Uri.AbsoluteUri;
+                        name_ = cbc_.Name;
+                        size_ = cbc_.ListBlobs().Count().ToString() + " item(s)";
+                        type_ = cbc_.GetType().Name;
+                        lastmodified_ = cbc_.Properties.LastModified.ToString();
+                        img_ = imageList1.Images[10];
+
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+
+                    } //foreach
+
+                    break;
+
+                case "fileNodes":
+                    foreach (var item_ in myCloudFileClient.ListShares())
+                    {
+                        cfs_ = (CloudFileShare)item_;
+                        cfs_.FetchAttributes();
+
+                        url_ = cfs_.Uri.ToString();
+                        name_ = cfs_.Name;
+                        size_ = cfs_.Properties.Quota + " GiB of quota";
+                        type_ = cfs_.GetType().Name;
+                        lastmodified_ = cfs_.Properties.LastModified.ToString();
+                        img_ = imageList1.Images[3];
+
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+
+                    } //foreach
+
+                    break;
+
+                case "tableNodes":
+
+                    foreach (var item_ in myCloudTableClient.ListTables())
+                    {
+                        ct_ = (CloudTable)item_;
+                       
+                        url_ = ct_.Uri.AbsoluteUri;
+                        name_ = ct_.Name;
+                        size_ = "";
+                        type_ = ct_.GetType().Name;
+                        lastmodified_ = "";
+                        img_ = imageList1.Images[5];
+
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+
+                    } //foreach myCloudTable
+
+                    break;
+
+                case "queueNodes":
+
+                    foreach (var item_ in myCloudQueueClient.ListQueues())
+                    {
+                        cq_ = (CloudQueue)item_;
+
+                        url_ = cq_.Uri.AbsoluteUri;
+                        name_ = cq_.Name;
+                        size_ = cq_.ApproximateMessageCount.ToString() + " msg(s)";
+                        type_ = cq_.GetType().Name;
+                        lastmodified_ = "";
+                        img_ = imageList1.Images[7];
+
+                        gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                        gvRow.Tag = url_;
+                        gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                        gvProperties.Rows.Add(gvRow);
+
+                    } //foreach myCloudQueue
+
+                    break;
+
+            } //switch
 
             gvProperties.Sort(gvProperties.Columns[3], ListSortDirection.Descending);
-                
-        } //trFiles_AfterSelect
+
+        } //myTree_AfterSelect
        
         private string getSize(long lbytes_)
         {
