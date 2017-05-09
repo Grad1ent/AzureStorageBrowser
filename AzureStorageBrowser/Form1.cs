@@ -859,17 +859,6 @@ namespace AzureStorageBrowser
             
         } //btDownload
 
-        private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];
-
-            tbURL.Text = gvRow.Tag.ToString();
-            tbSize.Text = gvRow.Cells[2].Value.ToString();
-            tbType.Text = gvRow.Cells[3].Value.ToString();
-            tbLastModified.Text = gvRow.Cells[4].Value.ToString();
-
-        } //gvProperties click
-
         private void btExport_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Filter = "Filter|*.csv";
@@ -890,6 +879,21 @@ namespace AzureStorageBrowser
 
         } //btExport
 
+        private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];           
+
+            tbURL.Text = gvRow.Tag.ToString();
+            tbSize.Text = gvRow.Cells[2].Value.ToString();
+            tbType.Text = gvRow.Cells[3].Value.ToString();
+            tbLastModified.Text = gvRow.Cells[4].Value.ToString();
+
+        } //gvProperties click
+
+        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.btDownload_Click(null, null);
+        }
     } //Form1
 
 } //AzureStorageBrowser
