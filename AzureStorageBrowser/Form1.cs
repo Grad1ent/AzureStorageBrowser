@@ -794,70 +794,177 @@ namespace AzureStorageBrowser
             saveFileDialog1.Filter = "Filter|*.*";
             saveFileDialog1.Title = "Download";
 
-            foreach (DataGridViewRow row_ in gvProperties.SelectedRows)
+            try
             {
-                System.Uri uri_ = new System.Uri(row_.Tag.ToString());
-
-                string path_ = "";
-                for (int i = 2; i < uri_.Segments.Length; i++)
+                foreach (DataGridViewRow row_ in gvProperties.SelectedRows)
                 {
-                    path_ = path_ + uri_.Segments[i];
-                }
+                    System.Uri uri_ = new System.Uri(row_.Tag.ToString());
 
-                string name_ = row_.Cells[1].Value.ToString();
-                string type_ = row_.Cells[3].Value.ToString();
-                saveFileDialog1.FileName = name_;
+                    string path_ = "";
+                    for (int i = 2; i < uri_.Segments.Length; i++)
+                    {
+                        path_ = path_ + uri_.Segments[i];
+                    }
 
-                switch (type_)
-                {
-                    case "CloudBlockBlob":
+                    string name_ = row_.Cells[1].Value.ToString();
+                    string type_ = row_.Cells[3].Value.ToString();
+                    saveFileDialog1.FileName = name_;
 
-                        CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                    switch (type_)
+                    {
+                        case "CloudBlockBlob":
 
-                        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                        {
-                            path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                            await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew);                            
-                        }
+                            CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
-                        break;
+                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                            {
+                                path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                                await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                            }
 
-                    case "CloudPageBlob":
+                            break;
 
-                        CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                        case "CloudPageBlob":
 
-                        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                        {
-                            path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                            await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew);
-                        }
+                            CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
-                        break;
+                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                            {
+                                path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                                await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                            }
 
-                    case "CloudFile":
+                            break;
 
-                        CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-                        CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
+                        case "CloudFile":
 
-                        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                        {
-                            lbStatus.Text = "Downloading...";
-                            pbDownload.Visible = true;
+                            CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
 
-                            path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                            await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                            {
+                                lbStatus.Text = "Downloading...";
+                                pbProgress.Visible = true;
 
-                            lbStatus.Text = "Downloaded";
-                            pbDownload.Visible = false;
-                        }
+                                path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                                await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
 
-                        break;
+                                lbStatus.Text = "Downloaded";
+                                pbProgress.Visible = false;
+                            }
 
-                } //switch
+                            break;
 
-            } //foreach
-            
+                    } //switch
+
+                } //foreach
+
+            }
+            catch (Exception ex)
+            {
+                lbStatus.Text = ex.Message;
+            }
+
         } //btDownload
+
+        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.btDownload_Click(null, null);
+        } //download
+
+        private async void btUpload_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Filter|*.*";
+            openFileDialog1.Title = "Upload";
+            openFileDialog1.FileName = "";
+
+            try
+            {
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    CloudBlobContainer cbc_;
+                    CloudBlobDirectory cbd_;
+                    CloudBlockBlob cbb_;
+
+                    CloudFileShare cfs_;
+                    CloudFileDirectory cfd_;
+                    CloudFile cf_;
+
+                    string type_ = myTree.SelectedNode.ToolTipText;
+                    System.Uri uri_ = new System.Uri(myTree.SelectedNode.Tag.ToString());
+
+                    string srcpath_ = Path.GetFullPath(openFileDialog1.FileName);
+                    string dstpath_ = "";
+                    string filename_ = openFileDialog1.FileName.Split('\\').Last().ToString();
+
+                    lbStatus.Text = "Uploading...";
+                    pbProgress.Visible = true;
+
+                    switch (type_)
+                    {
+                        case "CloudBlobContainer":
+
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            cbb_ = cbc_.GetBlockBlobReference(filename_);
+
+                            await cbb_.UploadFromFileAsync(srcpath_);
+
+                            break;
+
+                        case "CloudBlobDirectory":
+
+                            dstpath_ = "";
+                            for (int i = 2; i < uri_.Segments.Length; i++)
+                            {
+                                dstpath_ = dstpath_ + uri_.Segments[i];
+                            }
+
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            cbd_ = cbc_.GetDirectoryReference(dstpath_);
+                            cbb_ = cbd_.GetBlockBlobReference(filename_);
+
+                            await cbb_.UploadFromFileAsync(srcpath_);
+
+                            break;
+
+                        case "CloudFileShare":
+
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            cf_ = cfs_.GetRootDirectoryReference().GetFileReference(filename_);
+
+                            await cf_.UploadFromFileAsync(srcpath_);
+
+                            break;
+
+                        case "CloudFileDirectory":
+
+                            dstpath_ = "";
+                            for (int i = 2; i < uri_.Segments.Length; i++)
+                            {
+                                dstpath_ = dstpath_ + uri_.Segments[i];
+                            }
+
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(dstpath_);
+                            cf_ = cfd_.GetFileReference(filename_);
+
+                            await cf_.UploadFromFileAsync(srcpath_);
+
+                            break;
+
+                    } //switch
+
+                    lbStatus.Text = "Uploaded";
+                    pbProgress.Visible = false;
+
+                } //if OK
+            }
+            catch (Exception ex)
+            {
+                lbStatus.Text = ex.Message;
+            }
+
+        } //btUpload
 
         private void btExport_Click(object sender, EventArgs e)
         {
@@ -889,11 +996,76 @@ namespace AzureStorageBrowser
             tbLastModified.Text = gvRow.Cells[4].Value.ToString();
 
         } //gvProperties click
-
-        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        
+        private async void btDelete_Click(object sender, EventArgs e)
         {
-            this.btDownload_Click(null, null);
+            DialogResult result_ = MessageBox.Show("Delete selected item(s)?", "Deleting...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+
+            if (result_ == DialogResult.Yes)
+            {
+                try
+                {
+                    foreach (DataGridViewRow row_ in gvProperties.SelectedRows)
+                    {
+                        System.Uri uri_ = new System.Uri(row_.Tag.ToString());
+
+                        string path_ = "";
+                        for (int i = 2; i < uri_.Segments.Length; i++)
+                        {
+                            path_ = path_ + uri_.Segments[i];
+                        }
+
+                        string name_ = row_.Cells[1].Value.ToString();
+                        string type_ = row_.Cells[3].Value.ToString();
+
+                        lbStatus.Text = "Deleting...";
+
+                        switch (type_)
+                        {
+                            case "CloudBlockBlob":
+
+                                CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                                await cbb_.DeleteIfExistsAsync();
+
+                                break;
+
+                            case "CloudPageBlob":
+
+                                CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                                await cpb_.DeleteIfExistsAsync();
+
+                                break;
+
+                            case "CloudFile":
+
+                                CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                                CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
+
+                                await cf_.DeleteIfExistsAsync();
+
+                                break;
+
+                        } //switch
+
+                        lbStatus.Text = "Deleted";
+
+                    } //foreach
+
+                }
+                catch (Exception ex)
+                {
+                    lbStatus.Text = ex.Message;
+                }
+
+            } //result_
+
+        } //btDelete
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.btDelete_Click(null, null);
         }
+
     } //Form1
 
 } //AzureStorageBrowser
