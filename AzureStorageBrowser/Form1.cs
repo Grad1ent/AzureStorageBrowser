@@ -225,7 +225,6 @@ namespace AzureStorageBrowser
 
         } //myTree_AfterCollapse
 
-
         private void btDisconnect_Click(object sender, EventArgs e)
         {
             myTree.Nodes[0].Nodes.Clear();
@@ -409,7 +408,13 @@ namespace AzureStorageBrowser
         } //getQueuesAsync
 
         private void myTree_AfterSelect(object sender, TreeViewEventArgs e)
-        {            
+        {
+            getNode(e.Node);
+
+        } //myTree_AfterSelect
+
+        private void getNode(TreeNode node_)
+        {
             gvProperties.Rows.Clear();
 
             tbURL.Text = "";
@@ -418,9 +423,9 @@ namespace AzureStorageBrowser
             tbLastModified.Text = "";
 
             if (myCloudBlobClient != null || myCloudFileClient != null || myCloudTableClient != null || myCloudQueueClient != null)
-            {
-                string type_ = e.Node.ToolTipText;
-                System.Uri uri_ = new System.Uri(e.Node.Tag.ToString());
+            {                
+                string type_ = node_.ToolTipText;
+                System.Uri uri_ = new System.Uri(node_.Tag.ToString());
 
                 CloudBlobContainer cbc_;
                 CloudBlobDirectory cbd_;
@@ -768,11 +773,12 @@ namespace AzureStorageBrowser
                 } //switch
 
                 gvProperties.Sort(gvProperties.Columns[3], ListSortDirection.Descending);
+                gvProperties.ClearSelection();
 
             } //null
 
-        } //myTree_AfterSelect
-       
+        } //getNode
+
         private string getSize(long lbytes_)
         {
             float fbytes_ = (float)lbytes_;
@@ -954,6 +960,7 @@ namespace AzureStorageBrowser
 
                     } //switch
 
+                    getNode(myTree.SelectedNode);
                     lbStatus.Text = "Uploaded";
                     pbProgress.Visible = false;
 
@@ -1047,6 +1054,7 @@ namespace AzureStorageBrowser
 
                         } //switch
 
+                        getNode(myTree.SelectedNode);
                         lbStatus.Text = "Deleted";
 
                     } //foreach
@@ -1063,9 +1071,23 @@ namespace AzureStorageBrowser
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.btDelete_Click(null, null);
+            this.btDelete_Click(sender, e);
         }
 
+        private void btNewFolder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btNewFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
     } //Form1
 
 } //AzureStorageBrowser

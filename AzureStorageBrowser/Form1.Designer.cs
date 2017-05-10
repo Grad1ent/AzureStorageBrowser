@@ -87,13 +87,14 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btUp = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btNew = new System.Windows.Forms.ToolStripButton();
+            this.btNewFolder = new System.Windows.Forms.ToolStripButton();
+            this.btNewFile = new System.Windows.Forms.ToolStripButton();
             this.btDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.btDownload = new System.Windows.Forms.ToolStripButton();
             this.btUpload = new System.Windows.Forms.ToolStripButton();
+            this.btDownload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btExport = new System.Windows.Forms.ToolStripButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -309,8 +310,8 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "cFolder.gif");
-            this.imageList1.Images.SetKeyName(1, "ofolder.gif");
+            this.imageList1.Images.SetKeyName(0, "folderclosed.gif");
+            this.imageList1.Images.SetKeyName(1, "folderopened.gif");
             this.imageList1.Images.SetKeyName(2, "doc.gif");
             this.imageList1.Images.SetKeyName(3, "containerclosed.gif");
             this.imageList1.Images.SetKeyName(4, "containeropened.gif");
@@ -615,20 +616,21 @@
             this.toolStripSeparator8,
             this.propertiesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 104);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 126);
             // 
             // renameToolStripMenuItem
             // 
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.renameToolStripMenuItem.Text = "Rename...";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteToolStripMenuItem.Image")));
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Text = "Delete Item";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
@@ -660,7 +662,8 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btUp,
             this.toolStripSeparator4,
-            this.btNew,
+            this.btNewFolder,
+            this.btNewFile,
             this.btDelete,
             this.toolStripSeparator5,
             this.toolStripLabel1,
@@ -677,26 +680,37 @@
             // 
             // btUp
             // 
-            this.btUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btUp.Image = ((System.Drawing.Image)(resources.GetObject("btUp.Image")));
             this.btUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btUp.Name = "btUp";
-            this.btUp.Size = new System.Drawing.Size(23, 22);
-            this.btUp.Text = "Up";
+            this.btUp.Size = new System.Drawing.Size(33, 22);
+            this.btUp.Text = "..";
+            this.btUp.ToolTipText = "Up";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // btNew
+            // btNewFolder
             // 
-            this.btNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btNew.Image = ((System.Drawing.Image)(resources.GetObject("btNew.Image")));
-            this.btNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btNew.Name = "btNew";
-            this.btNew.Size = new System.Drawing.Size(23, 22);
-            this.btNew.Text = "New";
+            this.btNewFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btNewFolder.Image = ((System.Drawing.Image)(resources.GetObject("btNewFolder.Image")));
+            this.btNewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btNewFolder.Name = "btNewFolder";
+            this.btNewFolder.Size = new System.Drawing.Size(23, 22);
+            this.btNewFolder.Text = "New Folder";
+            this.btNewFolder.Click += new System.EventHandler(this.btNewFolder_Click);
+            // 
+            // btNewFile
+            // 
+            this.btNewFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btNewFile.Image = ((System.Drawing.Image)(resources.GetObject("btNewFile.Image")));
+            this.btNewFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btNewFile.Name = "btNewFile";
+            this.btNewFile.Size = new System.Drawing.Size(23, 22);
+            this.btNewFile.Text = "New Item";
+            this.btNewFile.Click += new System.EventHandler(this.btNewFile_Click);
             // 
             // btDelete
             // 
@@ -705,7 +719,8 @@
             this.btDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(23, 22);
-            this.btDelete.Text = "Delete";
+            this.btDelete.Text = "Delete Item";
+            this.btDelete.ToolTipText = "Delete Item";
             this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
             // 
             // toolStripSeparator5
@@ -717,24 +732,13 @@
             // 
             this.toolStripLabel1.Enabled = false;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(91, 22);
-            this.toolStripLabel1.Text = "                            ";
+            this.toolStripLabel1.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel1.Text = "  ";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btDownload
-            // 
-            this.btDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btDownload.Image = ((System.Drawing.Image)(resources.GetObject("btDownload.Image")));
-            this.btDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btDownload.Name = "btDownload";
-            this.btDownload.Size = new System.Drawing.Size(23, 22);
-            this.btDownload.Text = "toolStripButton1";
-            this.btDownload.ToolTipText = "Download";
-            this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
             // 
             // btUpload
             // 
@@ -746,6 +750,17 @@
             this.btUpload.Text = "toolStripButton2";
             this.btUpload.ToolTipText = "Upload";
             this.btUpload.Click += new System.EventHandler(this.btUpload_Click);
+            // 
+            // btDownload
+            // 
+            this.btDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btDownload.Image = ((System.Drawing.Image)(resources.GetObject("btDownload.Image")));
+            this.btDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btDownload.Name = "btDownload";
+            this.btDownload.Size = new System.Drawing.Size(23, 22);
+            this.btDownload.Text = "toolStripButton1";
+            this.btDownload.ToolTipText = "Download";
+            this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
             // 
             // toolStripSeparator3
             // 
@@ -997,7 +1012,7 @@
         private System.Windows.Forms.ToolStripButton btUpload;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btExport;
-        private System.Windows.Forms.ToolStripButton btNew;
+        private System.Windows.Forms.ToolStripButton btNewFile;
         private System.Windows.Forms.ToolStripButton btDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
@@ -1014,6 +1029,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btNewFolder;
     }
 }
 
