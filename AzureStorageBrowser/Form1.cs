@@ -341,16 +341,16 @@ namespace AzureStorageBrowser
         {
             foreach (CloudFileShare myCloudFileShare in myCloudFileClient.ListShares())
             {
-                TreeNode trNode = new TreeNode(myCloudFileShare.Name, 3, 3);
+                TreeNode node_ = new TreeNode(myCloudFileShare.Name, 3, 3);
 
                 await Task.Run(() =>
                 {
-                    addFilesAsync(trNode, myCloudFileShare.GetRootDirectoryReference().ListFilesAndDirectories());
+                    addFilesAsync(node_, myCloudFileShare.GetRootDirectoryReference().ListFilesAndDirectories());
                 });
 
-                trNode.Tag = myCloudFileShare.Uri.AbsoluteUri;
-                trNode.ToolTipText = myCloudFileShare.GetType().Name;
-                myTree.Nodes[1].Nodes.Add(trNode);
+                node_.Tag = myCloudFileShare.Uri.AbsoluteUri;
+                node_.ToolTipText = myCloudFileShare.GetType().Name;
+                myTree.Nodes[1].Nodes.Add(node_);
 
             } //foreach myCloudFileShare
 
@@ -383,11 +383,11 @@ namespace AzureStorageBrowser
         {
             foreach (var myCloudTable in myCloudTableClient.ListTables())
             {
-                TreeNode trNode = new TreeNode(myCloudTable.Name, 5, 5);
+                TreeNode node_ = new TreeNode(myCloudTable.Name, 5, 5);
 
-                trNode.Tag = myCloudTable.Uri.ToString();
-                trNode.ToolTipText = myCloudTable.GetType().Name;
-                myTree.Nodes[2].Nodes.Add(trNode);
+                node_.Tag = myCloudTable.Uri.ToString();
+                node_.ToolTipText = myCloudTable.GetType().Name;
+                myTree.Nodes[2].Nodes.Add(node_);
 
             } //foreach myCloudTable
 
@@ -397,11 +397,11 @@ namespace AzureStorageBrowser
         {
             foreach (var myCloudQueue in myCloudQueueClient.ListQueues())
             {
-                TreeNode trNode = new TreeNode(myCloudQueue.Name, 7, 7);
+                TreeNode node_ = new TreeNode(myCloudQueue.Name, 7, 7);
 
-                trNode.Tag = myCloudQueue.Uri.ToString();
-                trNode.ToolTipText = myCloudQueue.GetType().Name;
-                myTree.Nodes[3].Nodes.Add(trNode);
+                node_.Tag = myCloudQueue.Uri.ToString();
+                node_.ToolTipText = myCloudQueue.GetType().Name;
+                myTree.Nodes[3].Nodes.Add(node_);
 
             } //foreach myCloudQueue
 
@@ -530,7 +530,7 @@ namespace AzureStorageBrowser
                                 lastmodified_ = "";
                                 img_ = imageList1.Images[0];
                             }
-                            else
+                            else //CloudBlob
                             {
                                 cb_ = (CloudBlob)item_;
                                 cb_.FetchAttributes();
@@ -1008,6 +1008,11 @@ namespace AzureStorageBrowser
         {
             DialogResult result_ = MessageBox.Show("Delete selected item(s)?", "Deleting...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
+            CloudBlobContainer cbc_;
+            CloudFileShare cfs_;
+
+            string path_ = "";
+
             if (result_ == DialogResult.Yes)
             {
                 try
@@ -1016,7 +1021,6 @@ namespace AzureStorageBrowser
                     {
                         System.Uri uri_ = new System.Uri(row_.Tag.ToString());
 
-                        string path_ = "";
                         for (int i = 2; i < uri_.Segments.Length; i++)
                         {
                             path_ = path_ + uri_.Segments[i];
@@ -1029,6 +1033,25 @@ namespace AzureStorageBrowser
 
                         switch (type_)
                         {
+                            case "CloudBlobContainer":
+
+                                cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                                await cbc_.DeleteIfExistsAsync();
+                                                                
+                                break;
+
+                            case "CloudBlobDirectory":
+
+                                cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                                CloudBlobDirectory cbd_ = cbc_.GetDirectoryReference(path_);
+
+                                await Task.Run(() =>
+                                {
+                                    removeCloudBlobDirectoryAsync(cbd_);
+                                });
+
+                                break;
+
                             case "CloudBlockBlob":
 
                                 CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
@@ -1043,18 +1066,60 @@ namespace AzureStorageBrowser
 
                                 break;
 
+                            case "CloudFileShare":
+
+                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                                await cfs_.DeleteIfExistsAsync();
+
+                                break;
+
+                            case "CloudFileDirectory":
+
+                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                                CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
+                                await cfd_.DeleteIfExistsAsync();
+
+                                break;
+
                             case "CloudFile":
 
-                                CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                                 CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
-
                                 await cf_.DeleteIfExistsAsync();
+
+                                break;
+
+                            case "CloudTable":
+
+                                CloudTable ct_ = myCloudTableClient.GetTableReference(uri_.Segments[1]);
+                                await ct_.DeleteIfExistsAsync();
+
+
+                                break;
+
+                            case "CloudQueue":
+
+                                CloudQueue cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                                await cq_.DeleteIfExistsAsync();
 
                                 break;
 
                         } //switch
 
-                        getNode(myTree.SelectedNode);
+                        //Refreshing Grid
+                        gvProperties.Rows.Remove(row_);
+
+                        // Refreshing Tree
+                        foreach (TreeNode node_ in myTree.SelectedNode.Nodes)
+                        {
+                            if (node_.Tag.ToString() == row_.Tag.ToString())
+                            {
+                                node_.Remove();
+                                break;
+                            } //if
+
+                        } //forach
+
                         lbStatus.Text = "Deleted";
 
                     } //foreach
@@ -1068,6 +1133,25 @@ namespace AzureStorageBrowser
             } //result_
 
         } //btDelete
+
+        private async Task removeCloudBlobDirectoryAsync(CloudBlobDirectory cbd_)
+        {
+            foreach (var item_ in cbd_.ListBlobs())
+            {
+                if (item_.GetType().Name == "CloudBlobDirectory")
+                {
+                    //req
+                    await removeCloudBlobDirectoryAsync((CloudBlobDirectory)item_);
+
+                } else //CloudBlob
+                {
+                    CloudBlob cb_ = (CloudBlob)item_;
+                    await cb_.DeleteIfExistsAsync();
+                }
+
+            } //foreach
+
+        } //removeCloudBlobDirectoryAsync
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
