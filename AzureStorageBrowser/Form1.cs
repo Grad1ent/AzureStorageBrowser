@@ -299,7 +299,7 @@ namespace AzureStorageBrowser
         {
             foreach (CloudBlobContainer myCloudBlobContainer in myCloudBlobClient.ListContainers())
             {
-                TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 10, 10);
+                TreeNode trNode = new TreeNode(myCloudBlobContainer.Name, 10, 11);
 
                 await Task.Run(() =>
                 {
@@ -323,7 +323,7 @@ namespace AzureStorageBrowser
                 if (blobItem.GetType() == typeof(CloudBlobDirectory))
                 {
                     CloudBlobDirectory cbd_ = (CloudBlobDirectory)blobItem;
-                    node_ = new TreeNode(cbd_.Uri.Segments.Last(), 0, 0);
+                    node_ = new TreeNode(cbd_.Uri.Segments.Last(), 0, 1);
 
                     //req:
                     await addBlobsAsync(node_, cbd_.ListBlobs());
@@ -341,7 +341,7 @@ namespace AzureStorageBrowser
         {
             foreach (CloudFileShare myCloudFileShare in myCloudFileClient.ListShares())
             {
-                TreeNode node_ = new TreeNode(myCloudFileShare.Name, 3, 3);
+                TreeNode node_ = new TreeNode(myCloudFileShare.Name, 3, 4);
 
                 await Task.Run(() =>
                 {
@@ -365,7 +365,7 @@ namespace AzureStorageBrowser
                 if (fileItem.GetType() == typeof(CloudFileDirectory))
                 {
                     CloudFileDirectory cfd_ = (CloudFileDirectory)fileItem;
-                    node_ = new TreeNode(cfd_.Uri.Segments.Last(), 0, 0);
+                    node_ = new TreeNode(cfd_.Uri.Segments.Last(), 0, 1);
 
                     //req:
                     await addFilesAsync(node_, cfd_.ListFilesAndDirectories());
@@ -412,6 +412,14 @@ namespace AzureStorageBrowser
             getNode(e.Node);
 
         } //myTree_AfterSelect
+
+        private void myTree_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            myTree.LabelEdit = false;
+
+            MessageBox.Show("Text: " + myTree.SelectedNode.Text);
+
+        } //myTree_AfterLabelEdit
 
         private void getNode(TreeNode node_)
         {
@@ -973,6 +981,11 @@ namespace AzureStorageBrowser
 
         } //btUpload
 
+        private void uploadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.btUpload_Click(sender, e);
+        }
+
         private void btExport_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Filter = "Filter|*.csv";
@@ -993,6 +1006,11 @@ namespace AzureStorageBrowser
 
         } //btExport
 
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.btExport_Click(sender, e);
+        }
+
         private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];           
@@ -1004,7 +1022,7 @@ namespace AzureStorageBrowser
 
         } //gvProperties click
         
-        private async void btDelete_Click(object sender, EventArgs e)
+        private async void btDeleteInGrid_Click(object sender, EventArgs e)
         {
             DialogResult result_ = MessageBox.Show("Delete selected item(s)?", "Deleting...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
@@ -1155,23 +1173,87 @@ namespace AzureStorageBrowser
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.btDelete_Click(sender, e);
+            this.btDeleteInGrid_Click(sender, e);
         }
 
-        private void btNewFolder_Click(object sender, EventArgs e)
+        private void btDeleteInTree_Click(object sender, EventArgs e)
         {
-
+            myTree.SelectedNode.Remove();
         }
 
-        private void btNewFile_Click(object sender, EventArgs e)
+        private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
+            this.btDeleteInTree_Click(sender, e);
         }
 
-        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            
-        }
+            /*
+            CloudFileShare cfs_ = myCloudFileClient.GetShareReference("aaa");
+            await cfs_.CreateIfNotExistsAsync();
+            cfs_.Properties.Quota = 10;
+            cfs_.SetProperties();
+            */
+
+            string type_ = myTree.SelectedNode.ToolTipText;
+            TreeNode node_ = null;
+
+            switch (type_)
+            {
+                case "blobNodes":
+
+                    node_ = new TreeNode("",10,11);
+
+                    break;
+
+                case "fileNodes":
+
+                    node_ = new TreeNode("", 3, 4);
+
+                    break;
+
+                case "tableNodes":
+
+                    node_ = new TreeNode("", 5, 5);
+
+                    break;
+
+                case "queueNodes":
+
+                    node_ = new TreeNode("", 7, 7);
+
+                    break;
+
+                case "CloudBlobContainer":
+
+                    break;
+
+                case "CloudBlobDirectory":
+
+                    break;
+
+                case "CloudFileShare":
+
+                    break;
+
+                case "CloudFileDirectory":
+
+                    break;
+
+            } //switch
+
+            if (node_ != null)
+            {
+                myTree.SelectedNode.Nodes.Add(node_);
+                myTree.SelectedNode.Expand();
+
+                myTree.LabelEdit = true;
+                node_.BeginEdit();
+
+            } //if null
+
+        } //btNewInTree
+
     } //Form1
 
 } //AzureStorageBrowser
