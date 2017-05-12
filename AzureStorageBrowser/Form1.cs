@@ -385,7 +385,7 @@ namespace AzureStorageBrowser
             {
                 TreeNode node_ = new TreeNode(myCloudTable.Name, 5, 5);
 
-                node_.Tag = myCloudTable.Uri.ToString();
+                node_.Tag = myCloudTable.Uri.AbsoluteUri;
                 node_.ToolTipText = myCloudTable.GetType().Name;
                 myTree.Nodes[2].Nodes.Add(node_);
 
@@ -399,7 +399,7 @@ namespace AzureStorageBrowser
             {
                 TreeNode node_ = new TreeNode(myCloudQueue.Name, 7, 7);
 
-                node_.Tag = myCloudQueue.Uri.ToString();
+                node_.Tag = myCloudQueue.Uri.AbsoluteUri;
                 node_.ToolTipText = myCloudQueue.GetType().Name;
                 myTree.Nodes[3].Nodes.Add(node_);
 
@@ -413,11 +413,136 @@ namespace AzureStorageBrowser
 
         } //myTree_AfterSelect
 
-        private void myTree_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
-        {
-            myTree.LabelEdit = false;
+        private async void myTree_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {            
+            if (e.Node.IsEditing)
+            {
+                e.CancelEdit = true;
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(e.Label))
+                {
+                    e.Node.Remove();
+                }
+                else
+                {
+                    try
+                    {
+                        Uri parenturi_ = null;
 
-            MessageBox.Show("Text: " + myTree.SelectedNode.Text);
+                        CloudFileShare cfs_ = null;
+                        CloudFileDirectory cfd_ = null;
+
+                        string type_ = e.Node.Parent.ToolTipText;
+                        switch (type_)
+                        {
+                            case "blobNodes":
+
+                                CloudBlobContainer cbc_ = myCloudBlobClient.GetContainerReference(e.Label);
+                                await cbc_.CreateIfNotExistsAsync();
+
+                                e.Node.Tag = cbc_.Uri.AbsoluteUri;
+                                e.Node.ToolTipText = cbc_.GetType().Name;
+
+                                getNode(e.Node);
+
+                                break;
+
+                            case "fileNodes":
+
+                                cfs_ = myCloudFileClient.GetShareReference(e.Label);
+                                await cfs_.CreateIfNotExistsAsync();
+                                cfs_.Properties.Quota = 25;
+                                cfs_.SetProperties();
+
+                                e.Node.Tag = cfs_.Uri.AbsoluteUri;
+                                e.Node.ToolTipText = cfs_.GetType().Name;
+
+                                getNode(e.Node);
+
+                                break;
+
+                            case "tableNodes":
+
+                                CloudTable ct_ = myCloudTableClient.GetTableReference(e.Label);
+                                await ct_.CreateIfNotExistsAsync();
+
+                                e.Node.Tag = ct_.Uri.AbsoluteUri;
+                                e.Node.ToolTipText = ct_.GetType().Name;
+
+                                getNode(e.Node);
+
+                                break;
+
+                            case "queueNodes":
+
+                                CloudQueue cq_ = myCloudQueueClient.GetQueueReference(e.Label);
+                                await cq_.CreateIfNotExistsAsync();
+
+                                e.Node.Tag = cq_.Uri.AbsoluteUri;
+                                e.Node.ToolTipText = cq_.GetType().Name;
+
+                                getNode(e.Node);
+
+                                break;
+
+                            case "CloudBlobContainer":
+
+                                break;
+
+                            case "CloudBlobDirectory":
+
+                                break;
+
+                            case "CloudFileShare":
+
+                                parenturi_ = new Uri(e.Node.Parent.Tag.ToString());
+
+                                cfs_ = myCloudFileClient.GetShareReference(parenturi_.Segments[1]);
+                                cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(e.Label);
+                                await cfd_.CreateIfNotExistsAsync();
+
+                                e.Node.Tag = cfd_.Uri.AbsoluteUri;
+                                e.Node.ToolTipText = cfd_.GetType().Name;
+
+                                getNode(e.Node);
+
+                                break;
+
+                            case "CloudFileDirectory":
+
+                                parenturi_ = new Uri(e.Node.Parent.Tag.ToString());
+
+                                string path_ = "";
+                                for (int i = 2; i < parenturi_.Segments.Length; i++)
+                                {
+                                    path_ = path_ + parenturi_.Segments[i];
+                                }
+
+                                cfs_ = myCloudFileClient.GetShareReference(parenturi_.Segments[1]);
+                                cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_).GetDirectoryReference(e.Label);
+                                await cfd_.CreateIfNotExistsAsync();
+
+                                e.Node.Tag = cfd_.Uri.AbsoluteUri;
+                                e.Node.ToolTipText = cfd_.GetType().Name;
+
+                                getNode(e.Node);
+
+                                break;
+
+                        } //switch
+                    }
+                    catch (Exception ex)
+                    {
+                        lbStatus.Text = ex.Message;
+                    }
+
+                } //else
+
+            } //else
+
+            myTree.LabelEdit = false;
 
         } //myTree_AfterLabelEdit
 
@@ -430,360 +555,390 @@ namespace AzureStorageBrowser
             tbType.Text = "";
             tbLastModified.Text = "";
 
-            if (myCloudBlobClient != null || myCloudFileClient != null || myCloudTableClient != null || myCloudQueueClient != null)
-            {                
-                string type_ = node_.ToolTipText;
-                System.Uri uri_ = new System.Uri(node_.Tag.ToString());
-
-                CloudBlobContainer cbc_;
-                CloudBlobDirectory cbd_;
-                CloudBlockBlob cbb_;
-                CloudPageBlob cpb_;
-                CloudBlob cb_;
-
-                CloudFileShare cfs_;
-                CloudFileDirectory cfd_;
-                CloudFile cf_;
-
-                CloudTable ct_;
-
-                CloudQueue cq_;
-
-                DataGridViewRow gvRow;
-
-                string url_ = "", name_ = "", size_ = "", lastmodified_ = "";
-                Image img_ = null;
-
-                switch (type_)
+            try
+            {
+                if (!String.IsNullOrEmpty(node_.Text))
+                if (myCloudBlobClient != null || myCloudFileClient != null || myCloudTableClient != null || myCloudQueueClient != null)
                 {
-                    case "CloudBlobContainer":
+                    string type_ = node_.ToolTipText;
+                    System.Uri uri_ = new System.Uri(node_.Tag.ToString());
 
-                        cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
-                        cbc_.FetchAttributes();
+                    CloudBlobContainer cbc_;
+                    CloudBlobDirectory cbd_;
+                    CloudBlockBlob cbb_;
+                    CloudPageBlob cpb_;
+                    CloudBlob cb_;
 
-                        tbURL.Text = cbc_.Uri.ToString();
-                        tbSize.Text = cbc_.ListBlobs().Count().ToString() + " item(s)";
-                        tbType.Text = cbc_.GetType().Name;
-                        tbLastModified.Text = cbc_.Properties.LastModified.ToString();
+                    CloudFileShare cfs_;
+                    CloudFileDirectory cfd_;
+                    CloudFile cf_;
 
-                        foreach (var item_ in cbc_.ListBlobs())
-                        {
-                            if (item_.GetType().Name == "CloudBlobDirectory")
-                            {
-                                cbd_ = (CloudBlobDirectory)item_;
+                    CloudTable ct_;
 
-                                url_ = cbd_.Uri.AbsoluteUri;
-                                name_ = cbd_.Uri.Segments.Last();
-                                size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
-                                type_ = cbd_.GetType().Name;
-                                lastmodified_ = "";
-                                img_ = imageList1.Images[0];
-                            }
-                            else //CloudBlob
-                            {
-                                cb_ = (CloudBlob)item_;
-                                cb_.FetchAttributes();
+                    CloudQueue cq_;
 
-                                url_ = cb_.Uri.AbsoluteUri;
-                                name_ = cb_.Uri.Segments.Last();
-                                size_ = getSize(cb_.Properties.Length);
-                                type_ = cb_.GetType().Name;
-                                lastmodified_ = cb_.Properties.LastModified.ToString();
+                    DataGridViewRow gvRow;
 
-                                if (name_.Contains(".vhd"))
-                                {
-                                    img_ = imageList1.Images[9];
-                                }
-                                else
-                                {
-                                    img_ = imageList1.Images[2];
-                                }
-                            }
+                    string url_ = "", name_ = "", size_ = "", lastmodified_ = "";
+                    Image img_ = null;
 
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
+                    switch (type_)
+                    {
+                        case "CloudBlobContainer":
 
-                        } //forach
-
-                        break;
-
-                    case "CloudBlobDirectory":
-
-                        string path_ = "";
-                        for (int i = 2; i < uri_.Segments.Length; i++)
-                        {
-                            path_ = path_ + uri_.Segments[i];
-                        }
-
-                        cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
-                        CloudBlobDirectory cbdroot_ = cbc_.GetDirectoryReference(path_);
-
-                        tbURL.Text = cbdroot_.Uri.ToString();
-                        tbSize.Text = cbdroot_.ListBlobs().Count().ToString() + " item(s)";
-                        tbType.Text = cbdroot_.GetType().Name;
-                        tbLastModified.Text = "";
-
-                        foreach (var item_ in cbdroot_.ListBlobs())
-                        {
-                            if (item_.GetType().Name == "CloudBlobDirectory")
-                            {
-                                cbd_ = (CloudBlobDirectory)item_;
-
-                                url_ = cbd_.Uri.AbsoluteUri;
-                                name_ = cbd_.Uri.Segments.Last();
-                                size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
-                                type_ = cbd_.GetType().Name;
-                                lastmodified_ = "";
-                                img_ = imageList1.Images[0];
-                            }
-                            else //CloudBlob
-                            {
-                                cb_ = (CloudBlob)item_;
-                                cb_.FetchAttributes();
-
-                                url_ = cb_.Uri.AbsoluteUri;
-                                name_ = cb_.Uri.Segments.Last();
-                                size_ = getSize(cb_.Properties.Length);
-                                type_ = cb_.GetType().Name;
-                                lastmodified_ = cb_.Properties.LastModified.ToString();
-
-                                if (name_.Contains(".vhd"))
-                                {
-                                    img_ = imageList1.Images[9];
-                                }
-                                else
-                                {
-                                    img_ = imageList1.Images[2];
-                                }
-                            }
-
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
-
-                        } //forach
-
-                        break;
-
-                    case "CloudFileShare":
-
-                        cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-                        cfs_.FetchAttributes();
-
-                        tbURL.Text = cfs_.Uri.ToString();
-                        tbSize.Text = cfs_.Properties.Quota + " GiB of quota";
-                        tbType.Text = cfs_.GetType().Name;
-                        tbLastModified.Text = cfs_.Properties.LastModified.ToString();
-
-                        foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
-                        {
-                            if (item_.GetType().Name == "CloudFileDirectory")
-                            {
-                                cfd_ = (CloudFileDirectory)item_;
-                                cfd_.FetchAttributes();
-
-                                url_ = cfd_.Uri.AbsoluteUri;
-                                name_ = cfd_.Name;
-                                size_ = cfd_.ListFilesAndDirectories().Count().ToString() + " item(s)";
-                                type_ = cfd_.GetType().Name;
-                                lastmodified_ = cfd_.Properties.LastModified.ToString();
-                                img_ = imageList1.Images[0];
-                            }
-                            else //CloudFile
-                            {
-                                cf_ = (CloudFile)item_;
-                                cf_.FetchAttributes();
-
-                                url_ = cf_.Uri.AbsoluteUri;
-                                name_ = cf_.Name;
-                                size_ = getSize(cf_.Properties.Length);
-                                type_ = cf_.GetType().Name;
-                                lastmodified_ = cf_.Properties.LastModified.ToString();
-                                img_ = imageList1.Images[6];
-                            }
-
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
-
-                        } //foreach
-
-                        break;
-
-                    case "CloudFileDirectory":
-
-                        path_ = "";
-                        for (int i = 2; i < uri_.Segments.Length; i++)
-                        {
-                            path_ = path_ + uri_.Segments[i];
-                        }
-
-                        cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-                        CloudFileDirectory cfdroot_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
-
-                        cfdroot_.FetchAttributes();
-
-                        tbURL.Text = cfdroot_.Uri.ToString();
-                        tbSize.Text = cfdroot_.ListFilesAndDirectories().Count().ToString() + " item(s)";
-                        tbType.Text = cfdroot_.GetType().Name;
-                        tbLastModified.Text = cfdroot_.Properties.LastModified.ToString();
-
-                        foreach (IListFileItem item_ in cfdroot_.ListFilesAndDirectories())
-                        {
-                            if (item_.GetType().Name == "CloudFileDirectory")
-                            {
-                                cfd_ = (CloudFileDirectory)item_;
-                                cfd_.FetchAttributes();
-
-                                url_ = cfd_.Uri.AbsoluteUri;
-                                name_ = cfd_.Name;
-                                size_ = cfd_.ListFilesAndDirectories().Count().ToString() + " item(s)";
-                                type_ = cfd_.GetType().Name;
-                                lastmodified_ = cfd_.Properties.LastModified.ToString();
-                                img_ = imageList1.Images[0];
-                            }
-                            else //CloudFile
-                            {
-                                cf_ = (CloudFile)item_;
-                                cf_.FetchAttributes();
-
-                                url_ = cf_.Uri.AbsoluteUri;
-                                name_ = cf_.Name;
-                                size_ = getSize(cf_.Properties.Length);
-                                type_ = cf_.GetType().Name;
-                                lastmodified_ = cf_.Properties.LastModified.ToString();
-                                img_ = imageList1.Images[6];
-                            }
-
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
-
-                        } //foreach
-
-                        break;
-
-                    case "blobNodes":
-
-                        tbURL.Text = myCloudBlobClient.BaseUri.ToString();
-                        tbSize.Text = myCloudBlobClient.ListContainers().Count().ToString() + " item(s)";
-                        tbType.Text = myCloudBlobClient.GetType().Name;
-                        tbLastModified.Text = "";
-
-                        foreach (var item_ in myCloudBlobClient.ListContainers())
-                        {
-                            cbc_ = (CloudBlobContainer)item_;
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
                             cbc_.FetchAttributes();
 
-                            url_ = cbc_.Uri.AbsoluteUri;
-                            name_ = cbc_.Name;
-                            size_ = cbc_.ListBlobs().Count().ToString() + " item(s)";
-                            type_ = cbc_.GetType().Name;
-                            lastmodified_ = cbc_.Properties.LastModified.ToString();
-                            img_ = imageList1.Images[10];
+                            tbURL.Text = cbc_.Uri.ToString();
+                            tbSize.Text = cbc_.ListBlobs().Count().ToString() + " item(s)";
+                            tbType.Text = cbc_.GetType().Name;
+                            tbLastModified.Text = cbc_.Properties.LastModified.ToString();
 
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
+                            foreach (var item_ in cbc_.ListBlobs())
+                            {
+                                if (item_.GetType().Name == "CloudBlobDirectory")
+                                {
+                                    cbd_ = (CloudBlobDirectory)item_;
 
-                        } //foreach
+                                    url_ = cbd_.Uri.AbsoluteUri;
+                                    name_ = cbd_.Uri.Segments.Last();
+                                    size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
+                                    type_ = cbd_.GetType().Name;
+                                    lastmodified_ = "";
+                                    img_ = imageList1.Images[0];
+                                }
+                                else //CloudBlob
+                                {
+                                    cb_ = (CloudBlob)item_;
+                                    cb_.FetchAttributes();
 
-                        break;
+                                    url_ = cb_.Uri.AbsoluteUri;
+                                    name_ = cb_.Uri.Segments.Last();
+                                    size_ = getSize(cb_.Properties.Length);
+                                    type_ = cb_.GetType().Name;
+                                    lastmodified_ = cb_.Properties.LastModified.ToString();
 
-                    case "fileNodes":
+                                    if (name_.Contains(".vhd"))
+                                    {
+                                        img_ = imageList1.Images[9];
+                                    }
+                                    else
+                                    {
+                                        img_ = imageList1.Images[2];
+                                    }
+                                }
 
-                        tbURL.Text = myCloudFileClient.BaseUri.ToString();
-                        tbSize.Text = myCloudFileClient.ListShares().Count().ToString() + " item(s)";
-                        tbType.Text = myCloudFileClient.GetType().Name;
-                        tbLastModified.Text = "";
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
 
-                        foreach (var item_ in myCloudFileClient.ListShares())
-                        {
-                            cfs_ = (CloudFileShare)item_;
+                            } //forach
+
+                            break;
+
+                        case "CloudBlobDirectory":
+
+                            string path_ = "";
+                            for (int i = 2; i < uri_.Segments.Length; i++)
+                            {
+                                path_ = path_ + uri_.Segments[i];
+                            }
+
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            CloudBlobDirectory cbdroot_ = cbc_.GetDirectoryReference(path_);
+
+                            tbURL.Text = cbdroot_.Uri.ToString();
+                            tbSize.Text = cbdroot_.ListBlobs().Count().ToString() + " item(s)";
+                            tbType.Text = cbdroot_.GetType().Name;
+                            tbLastModified.Text = "";
+
+                            foreach (var item_ in cbdroot_.ListBlobs())
+                            {
+                                if (item_.GetType().Name == "CloudBlobDirectory")
+                                {
+                                    cbd_ = (CloudBlobDirectory)item_;
+
+                                    url_ = cbd_.Uri.AbsoluteUri;
+                                    name_ = cbd_.Uri.Segments.Last();
+                                    size_ = cbd_.ListBlobs().Count().ToString() + " item(s)";
+                                    type_ = cbd_.GetType().Name;
+                                    lastmodified_ = "";
+                                    img_ = imageList1.Images[0];
+                                }
+                                else //CloudBlob
+                                {
+                                    cb_ = (CloudBlob)item_;
+                                    cb_.FetchAttributes();
+
+                                    url_ = cb_.Uri.AbsoluteUri;
+                                    name_ = cb_.Uri.Segments.Last();
+                                    size_ = getSize(cb_.Properties.Length);
+                                    type_ = cb_.GetType().Name;
+                                    lastmodified_ = cb_.Properties.LastModified.ToString();
+
+                                    if (name_.Contains(".vhd"))
+                                    {
+                                        img_ = imageList1.Images[9];
+                                    }
+                                    else
+                                    {
+                                        img_ = imageList1.Images[2];
+                                    }
+                                }
+
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
+
+                            } //forach
+
+                            break;
+
+                        case "CloudFileShare":
+
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                             cfs_.FetchAttributes();
 
-                            url_ = cfs_.Uri.ToString();
-                            name_ = cfs_.Name;
-                            size_ = cfs_.Properties.Quota + " GiB of quota";
-                            type_ = cfs_.GetType().Name;
-                            lastmodified_ = cfs_.Properties.LastModified.ToString();
-                            img_ = imageList1.Images[3];
+                            tbURL.Text = cfs_.Uri.ToString();
+                            tbSize.Text = cfs_.Properties.Quota + " GiB of quota";
+                            tbType.Text = cfs_.GetType().Name;
+                            tbLastModified.Text = cfs_.Properties.LastModified.ToString();
 
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
+                            foreach (IListFileItem item_ in cfs_.GetRootDirectoryReference().ListFilesAndDirectories())
+                            {
+                                if (item_.GetType().Name == "CloudFileDirectory")
+                                {
+                                    cfd_ = (CloudFileDirectory)item_;
+                                    cfd_.FetchAttributes();
 
-                        } //foreach
+                                    url_ = cfd_.Uri.AbsoluteUri;
+                                    name_ = cfd_.Name;
+                                    size_ = cfd_.ListFilesAndDirectories().Count().ToString() + " item(s)";
+                                    type_ = cfd_.GetType().Name;
+                                    lastmodified_ = cfd_.Properties.LastModified.ToString();
+                                    img_ = imageList1.Images[0];
+                                }
+                                else //CloudFile
+                                {
+                                    cf_ = (CloudFile)item_;
+                                    cf_.FetchAttributes();
 
-                        break;
+                                    url_ = cf_.Uri.AbsoluteUri;
+                                    name_ = cf_.Name;
+                                    size_ = getSize(cf_.Properties.Length);
+                                    type_ = cf_.GetType().Name;
+                                    lastmodified_ = cf_.Properties.LastModified.ToString();
+                                    img_ = imageList1.Images[6];
+                                }
 
-                    case "tableNodes":
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
 
-                        tbURL.Text = myCloudTableClient.BaseUri.ToString();
-                        tbSize.Text = myCloudTableClient.ListTables().Count().ToString() + " item(s)";
-                        tbType.Text = myCloudTableClient.GetType().Name;
-                        tbLastModified.Text = "";
+                            } //foreach
 
-                        foreach (var item_ in myCloudTableClient.ListTables())
-                        {
-                            ct_ = (CloudTable)item_;
+                            break;
 
-                            url_ = ct_.Uri.AbsoluteUri;
-                            name_ = ct_.Name;
-                            size_ = "";
-                            type_ = ct_.GetType().Name;
-                            lastmodified_ = "";
-                            img_ = imageList1.Images[5];
+                        case "CloudFileDirectory":
 
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
+                            path_ = "";
+                            for (int i = 2; i < uri_.Segments.Length; i++)
+                            {
+                                path_ = path_ + uri_.Segments[i];
+                            }
 
-                        } //foreach myCloudTable
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            CloudFileDirectory cfdroot_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
 
-                        break;
+                            cfdroot_.FetchAttributes();
 
-                    case "queueNodes":
+                            tbURL.Text = cfdroot_.Uri.ToString();
+                            tbSize.Text = cfdroot_.ListFilesAndDirectories().Count().ToString() + " item(s)";
+                            tbType.Text = cfdroot_.GetType().Name;
+                            tbLastModified.Text = cfdroot_.Properties.LastModified.ToString();
 
-                        tbURL.Text = myCloudQueueClient.BaseUri.ToString();
-                        tbSize.Text = myCloudQueueClient.ListQueues().Count().ToString() + " item(s)";
-                        tbType.Text = myCloudQueueClient.GetType().Name;
-                        tbLastModified.Text = "";
+                            foreach (IListFileItem item_ in cfdroot_.ListFilesAndDirectories())
+                            {
+                                if (item_.GetType().Name == "CloudFileDirectory")
+                                {
+                                    cfd_ = (CloudFileDirectory)item_;
+                                    cfd_.FetchAttributes();
 
-                        foreach (var item_ in myCloudQueueClient.ListQueues())
-                        {
-                            cq_ = (CloudQueue)item_;
+                                    url_ = cfd_.Uri.AbsoluteUri;
+                                    name_ = cfd_.Name;
+                                    size_ = cfd_.ListFilesAndDirectories().Count().ToString() + " item(s)";
+                                    type_ = cfd_.GetType().Name;
+                                    lastmodified_ = cfd_.Properties.LastModified.ToString();
+                                    img_ = imageList1.Images[0];
+                                }
+                                else //CloudFile
+                                {
+                                    cf_ = (CloudFile)item_;
+                                    cf_.FetchAttributes();
 
-                            url_ = cq_.Uri.AbsoluteUri;
-                            name_ = cq_.Name;
-                            size_ = cq_.ApproximateMessageCount.ToString() + " msg(s)";
-                            type_ = cq_.GetType().Name;
-                            lastmodified_ = "";
-                            img_ = imageList1.Images[7];
+                                    url_ = cf_.Uri.AbsoluteUri;
+                                    name_ = cf_.Name;
+                                    size_ = getSize(cf_.Properties.Length);
+                                    type_ = cf_.GetType().Name;
+                                    lastmodified_ = cf_.Properties.LastModified.ToString();
+                                    img_ = imageList1.Images[6];
+                                }
 
-                            gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                            gvRow.Tag = url_;
-                            gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                            gvProperties.Rows.Add(gvRow);
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
 
-                        } //foreach myCloudQueue
+                            } //foreach
 
-                        break;
+                            break;
 
-                } //switch
+                        case "CloudTable":
 
-                gvProperties.Sort(gvProperties.Columns[3], ListSortDirection.Descending);
-                gvProperties.ClearSelection();
+                                ct_ = myCloudTableClient.GetTableReference(uri_.Segments[1]);
 
-            } //null
+                                tbURL.Text = ct_.Uri.ToString();
+                                tbSize.Text = "";
+                                tbType.Text = ct_.GetType().Name;
+                                tbLastModified.Text = "";
+
+                                break;
+
+                        case "CloudQueue":
+
+                                cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+
+                                tbURL.Text = cq_.Uri.ToString();
+                                tbSize.Text = cq_.ApproximateMessageCount.ToString() + " msg(s)";
+                                tbType.Text = cq_.GetType().Name;
+                                tbLastModified.Text = "";
+                               
+                                break;
+
+                        case "blobNodes":
+
+                            tbURL.Text = myCloudBlobClient.BaseUri.ToString();
+                            tbSize.Text = myCloudBlobClient.ListContainers().Count().ToString() + " item(s)";
+                            tbType.Text = myCloudBlobClient.GetType().Name;
+                            tbLastModified.Text = "";
+
+                            foreach (var item_ in myCloudBlobClient.ListContainers())
+                            {
+                                cbc_ = (CloudBlobContainer)item_;
+                                cbc_.FetchAttributes();
+
+                                url_ = cbc_.Uri.AbsoluteUri;
+                                name_ = cbc_.Name;
+                                size_ = cbc_.ListBlobs().Count().ToString() + " item(s)";
+                                type_ = cbc_.GetType().Name;
+                                lastmodified_ = cbc_.Properties.LastModified.ToString();
+                                img_ = imageList1.Images[10];
+
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
+
+                            } //foreach
+
+                            break;
+
+                        case "fileNodes":
+
+                            tbURL.Text = myCloudFileClient.BaseUri.ToString();
+                            tbSize.Text = myCloudFileClient.ListShares().Count().ToString() + " item(s)";
+                            tbType.Text = myCloudFileClient.GetType().Name;
+                            tbLastModified.Text = "";
+
+                            foreach (var item_ in myCloudFileClient.ListShares())
+                            {
+                                cfs_ = (CloudFileShare)item_;
+                                cfs_.FetchAttributes();
+
+                                url_ = cfs_.Uri.ToString();
+                                name_ = cfs_.Name;
+                                size_ = cfs_.Properties.Quota + " GiB of quota";
+                                type_ = cfs_.GetType().Name;
+                                lastmodified_ = cfs_.Properties.LastModified.ToString();
+                                img_ = imageList1.Images[3];
+
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
+
+                            } //foreach
+
+                            break;
+
+                        case "tableNodes":
+
+                            tbURL.Text = myCloudTableClient.BaseUri.ToString();
+                            tbSize.Text = myCloudTableClient.ListTables().Count().ToString() + " item(s)";
+                            tbType.Text = myCloudTableClient.GetType().Name;
+                            tbLastModified.Text = "";
+
+                            foreach (var item_ in myCloudTableClient.ListTables())
+                            {
+                                ct_ = (CloudTable)item_;
+
+                                url_ = ct_.Uri.AbsoluteUri;
+                                name_ = ct_.Name;
+                                size_ = "";
+                                type_ = ct_.GetType().Name;
+                                lastmodified_ = "";
+                                img_ = imageList1.Images[5];
+
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
+
+                            } //foreach myCloudTable
+
+                            break;
+
+                        case "queueNodes":
+
+                            tbURL.Text = myCloudQueueClient.BaseUri.ToString();
+                            tbSize.Text = myCloudQueueClient.ListQueues().Count().ToString() + " item(s)";
+                            tbType.Text = myCloudQueueClient.GetType().Name;
+                            tbLastModified.Text = "";
+
+                            foreach (var item_ in myCloudQueueClient.ListQueues())
+                            {
+                                cq_ = (CloudQueue)item_;
+
+                                url_ = cq_.Uri.AbsoluteUri;
+                                name_ = cq_.Name;
+                                size_ = cq_.ApproximateMessageCount.ToString() + " msg(s)";
+                                type_ = cq_.GetType().Name;
+                                lastmodified_ = "";
+                                img_ = imageList1.Images[7];
+
+                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                gvRow.Tag = url_;
+                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(gvRow);
+
+                            } //foreach myCloudQueue
+
+                            break;
+
+                    } //switch
+
+                    gvProperties.Sort(gvProperties.Columns[3], ListSortDirection.Descending);
+                    gvProperties.ClearSelection();
+
+                } //null
+            }
+            catch(Exception ex)
+            {
+                lbStatus.Text = ex.Message;
+            }
 
         } //getNode
 
@@ -884,7 +1039,7 @@ namespace AzureStorageBrowser
         private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.btDownload_Click(null, null);
-        } //download
+        } //downloadToolStripMenuItem
 
         private async void btUpload_Click(object sender, EventArgs e)
         {
@@ -984,7 +1139,7 @@ namespace AzureStorageBrowser
         private void uploadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.btUpload_Click(sender, e);
-        }
+        } //uploadToolStripMenuItem
 
         private void btExport_Click(object sender, EventArgs e)
         {
@@ -1009,7 +1164,7 @@ namespace AzureStorageBrowser
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.btExport_Click(sender, e);
-        }
+        } //exportToolStripMenuItem
 
         private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1150,7 +1305,7 @@ namespace AzureStorageBrowser
 
             } //result_
 
-        } //btDelete
+        } //btDeleteInGrid
 
         private async Task removeCloudBlobDirectoryAsync(CloudBlobDirectory cbd_)
         {
@@ -1174,27 +1329,20 @@ namespace AzureStorageBrowser
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.btDeleteInGrid_Click(sender, e);
-        }
+        } //deleteToolStripMenuItem
 
         private void btDeleteInTree_Click(object sender, EventArgs e)
         {
             myTree.SelectedNode.Remove();
-        }
+        }//btDeleteInTree
 
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             this.btDeleteInTree_Click(sender, e);
-        }
+        }//deleteToolStripMenuItem1
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            /*
-            CloudFileShare cfs_ = myCloudFileClient.GetShareReference("aaa");
-            await cfs_.CreateIfNotExistsAsync();
-            cfs_.Properties.Quota = 10;
-            cfs_.SetProperties();
-            */
-
             string type_ = myTree.SelectedNode.ToolTipText;
             TreeNode node_ = null;
 
@@ -1234,9 +1382,13 @@ namespace AzureStorageBrowser
 
                 case "CloudFileShare":
 
+                    node_ = new TreeNode("", 0, 1);
+
                     break;
 
                 case "CloudFileDirectory":
+
+                    node_ = new TreeNode("", 0, 1);
 
                     break;
 
@@ -1244,16 +1396,20 @@ namespace AzureStorageBrowser
 
             if (node_ != null)
             {
-                myTree.SelectedNode.Nodes.Add(node_);
-                myTree.SelectedNode.Expand();
-
                 myTree.LabelEdit = true;
+                myTree.SelectedNode.Nodes.Add(node_);
+                myTree.SelectedNode = node_;
+
                 node_.BeginEdit();
 
             } //if null
 
-        } //btNewInTree
+        } //newToolStripMenuItem1
 
+        private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }//propertiesToolStripMenuItem1
     } //Form1
 
 } //AzureStorageBrowser
