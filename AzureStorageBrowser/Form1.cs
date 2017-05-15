@@ -273,16 +273,30 @@ namespace AzureStorageBrowser
                     myCloudStorageAccount = CloudStorageAccount.Parse(strStorageConnectionString);
 
                     myCloudBlobClient = myCloudStorageAccount.CreateCloudBlobClient();
-                    myCloudFileClient = myCloudStorageAccount.CreateCloudFileClient();
-                    myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
-                    myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
-
                     myTree.Nodes[0].Tag = myCloudBlobClient.BaseUri.ToString();
-                    myTree.Nodes[1].Tag = myCloudFileClient.BaseUri.ToString();
-                    myTree.Nodes[2].Tag = myCloudTableClient.BaseUri.ToString();
-                    myTree.Nodes[3].Tag = myCloudQueueClient.BaseUri.ToString();
 
-                    await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
+                    switch (getStorageAccountType(myCloudBlobClient))
+                    {
+                        case "Standard":
+
+                            myCloudFileClient = myCloudStorageAccount.CreateCloudFileClient();
+                            myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
+                            myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
+
+                            myTree.Nodes[1].Tag = myCloudFileClient.BaseUri.ToString();
+                            myTree.Nodes[2].Tag = myCloudTableClient.BaseUri.ToString();
+                            myTree.Nodes[3].Tag = myCloudQueueClient.BaseUri.ToString();
+
+                            await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
+
+                            break;
+
+                        case "Premium":
+
+                            await getBlobsAsync();
+
+                            break;
+                    } //switch
 
                     lbStatus.Text = "Connected";
                     btDisconnect.Enabled = true;
@@ -296,6 +310,20 @@ namespace AzureStorageBrowser
             } //if
 
         } //btConnect
+
+        private string getStorageAccountType(CloudBlobClient cbc_)
+        {
+            try
+            {
+                cbc_.GetServiceProperties();
+                return "Standard";
+            }
+            catch(Exception ex)
+            {
+                return "Premium";
+            }
+
+        }  //getStorageAccountType
 
         private async Task getBlobsAsync()
         {
@@ -1534,6 +1562,8 @@ namespace AzureStorageBrowser
 
             MessageBox.Show("Name: " + myTree.SelectedNode.Name);
             MessageBox.Show("Text: " + myTree.SelectedNode.Text);
+            MessageBox.Show("Tag: " + myTree.SelectedNode.Tag.ToString());
+            MessageBox.Show("Tip: " + myTree.SelectedNode.ToolTipText);
 
         }//propertiesToolStripMenuItem1
 
