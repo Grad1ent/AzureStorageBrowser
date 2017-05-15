@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.File;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Queue;
-
+using System.Threading;
 
 namespace AzureStorageBrowser
 {
@@ -29,6 +29,8 @@ namespace AzureStorageBrowser
         CloudFileClient myCloudFileClient;
         CloudTableClient myCloudTableClient;
         CloudQueueClient myCloudQueueClient;
+
+        CancellationTokenSource myCancellationTokenSource = new CancellationTokenSource();
 
         public Form1()
         {
@@ -963,10 +965,15 @@ namespace AzureStorageBrowser
             saveFileDialog1.Filter = "Filter|*.*";
             saveFileDialog1.Title = "Download";
 
+            CancellationToken token_;
+
             try
             {
                 foreach (DataGridViewRow row_ in gvProperties.SelectedRows)
                 {
+                    myCancellationTokenSource = new CancellationTokenSource();
+                    token_ = myCancellationTokenSource.Token;
+
                     System.Uri uri_ = new System.Uri(row_.Tag.ToString());
 
                     string path_ = "";
@@ -979,6 +986,10 @@ namespace AzureStorageBrowser
                     string type_ = row_.Cells[3].Value.ToString();
                     saveFileDialog1.FileName = name_;
 
+                    lbStatus.Text = "Downloading...";
+                    pbProgress.Visible = true;
+                    btStopProgress.Visible = true;
+
                     switch (type_)
                     {
                         case "CloudBlockBlob":
@@ -988,7 +999,7 @@ namespace AzureStorageBrowser
                             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                             {
                                 path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                                await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                                await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);      
                             }
 
                             break;
@@ -1000,7 +1011,7 @@ namespace AzureStorageBrowser
                             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                             {
                                 path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                                await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew);
+                                await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
                             }
 
                             break;
@@ -1012,19 +1023,17 @@ namespace AzureStorageBrowser
 
                             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                             {
-                                lbStatus.Text = "Downloading...";
-                                pbProgress.Visible = true;
-
                                 path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                                await cf_.DownloadToFileAsync(path_, FileMode.CreateNew);
-
-                                lbStatus.Text = "Downloaded";
-                                pbProgress.Visible = false;
+                                await cf_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
                             }
 
                             break;
 
                     } //switch
+
+                    lbStatus.Text = "Downloaded";
+                    pbProgress.Visible = false;
+                    btStopProgress.Visible = false;
 
                 } //foreach
 
@@ -1032,6 +1041,8 @@ namespace AzureStorageBrowser
             catch (Exception ex)
             {
                 lbStatus.Text = ex.Message;
+                pbProgress.Visible = false;
+                btStopProgress.Visible = false;
             }
 
         } //btDownload
@@ -1054,10 +1065,15 @@ namespace AzureStorageBrowser
                     CloudBlobContainer cbc_;
                     CloudBlobDirectory cbd_;
                     CloudBlockBlob cbb_;
+                    CloudPageBlob cpb_;
 
                     CloudFileShare cfs_;
                     CloudFileDirectory cfd_;
                     CloudFile cf_;
+
+                    DialogResult result_;
+                    string message_ = "Upload as Page Blob?\n" +
+                        "(No = Block Blob)";
 
                     string type_ = myTree.SelectedNode.ToolTipText;
                     System.Uri uri_ = new System.Uri(myTree.SelectedNode.Tag.ToString());
@@ -1074,9 +1090,18 @@ namespace AzureStorageBrowser
                         case "CloudBlobContainer":
 
                             cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
-                            cbb_ = cbc_.GetBlockBlobReference(filename_);
 
-                            await cbb_.UploadFromFileAsync(srcpath_);
+                            result_ = MessageBox.Show(message_, "Uploading...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                            if (result_ == DialogResult.Yes)
+                            {
+                                cpb_ = cbc_.GetPageBlobReference(filename_);
+                                await cpb_.UploadFromFileAsync(srcpath_);
+                            }
+                            else //Block
+                            {
+                                cbb_ = cbc_.GetBlockBlobReference(filename_);
+                                await cbb_.UploadFromFileAsync(srcpath_);
+                            }
 
                             break;
 
@@ -1090,9 +1115,18 @@ namespace AzureStorageBrowser
 
                             cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
                             cbd_ = cbc_.GetDirectoryReference(dstpath_);
-                            cbb_ = cbd_.GetBlockBlobReference(filename_);
 
-                            await cbb_.UploadFromFileAsync(srcpath_);
+                            result_ = MessageBox.Show(message_, "Uploading...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                            if (result_ == DialogResult.Yes)
+                            {
+                                cpb_ = cbd_.GetPageBlobReference(filename_);
+                                await cpb_.UploadFromFileAsync(srcpath_);
+                            }
+                            else //Block
+                            {
+                                cbb_ = cbd_.GetBlockBlobReference(filename_);
+                                await cbb_.UploadFromFileAsync(srcpath_);
+                            }
 
                             break;
 
@@ -1168,15 +1202,33 @@ namespace AzureStorageBrowser
 
         private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewRow gvRow = gvProperties.Rows[e.RowIndex];           
+            DataGridViewRow row_ = gvProperties.Rows[e.RowIndex];           
 
-            tbURL.Text = gvRow.Tag.ToString();
-            tbSize.Text = gvRow.Cells[2].Value.ToString();
-            tbType.Text = gvRow.Cells[3].Value.ToString();
-            tbLastModified.Text = gvRow.Cells[4].Value.ToString();
+            tbURL.Text = row_.Tag.ToString();
+            tbSize.Text = row_.Cells[2].Value.ToString();
+            tbType.Text = row_.Cells[3].Value.ToString();
+            tbLastModified.Text = row_.Cells[4].Value.ToString();
 
         } //gvProperties click
-        
+
+        private void gvProperties_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row_ = gvProperties.Rows[e.RowIndex];
+
+            foreach (TreeNode node_ in myTree.SelectedNode.Nodes)
+            {
+                if (node_.Tag.ToString() == row_.Tag.ToString())
+                {
+                    myTree.SelectedNode = node_;
+                    getNode(node_);
+
+                    break;
+                } //if
+
+            } //forach
+
+        } //gvProperties_CellDoubleClick
+
         private async void btDeleteInGrid_Click(object sender, EventArgs e)
         {
             DialogResult result_ = MessageBox.Show("Delete selected item(s)?", "Deleting...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -1331,9 +1383,80 @@ namespace AzureStorageBrowser
             this.btDeleteInGrid_Click(sender, e);
         } //deleteToolStripMenuItem
 
-        private void btDeleteInTree_Click(object sender, EventArgs e)
+        private async void btDeleteInTree_Click(object sender, EventArgs e)
         {
-            myTree.SelectedNode.Remove();
+            DialogResult result_ = MessageBox.Show("Delete selected node?", "Deleting...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+
+            CloudBlobContainer cbc_;
+            CloudFileShare cfs_;
+
+            string path_ = "";
+
+            TreeNode node_ = myTree.SelectedNode;
+
+            if (result_ == DialogResult.Yes)
+            {
+                try
+                {
+                    lbStatus.Text = "Deleting...";
+
+                    string type_ = node_.ToolTipText;
+                    System.Uri uri_ = new System.Uri(node_.Tag.ToString());
+
+                    for (int i = 2; i < uri_.Segments.Length; i++)
+                    {
+                        path_ = path_ + uri_.Segments[i];
+                    }
+
+                    switch (type_)
+                        {
+                            case "CloudBlobContainer":
+
+                                cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                                await cbc_.DeleteIfExistsAsync();
+
+                                break;
+
+                            case "CloudBlobDirectory":
+
+                                cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                                CloudBlobDirectory cbd_ = cbc_.GetDirectoryReference(path_);
+
+                                await Task.Run(() =>
+                                {
+                                    removeCloudBlobDirectoryAsync(cbd_);
+                                });
+
+                                break;
+
+                            case "CloudFileShare":
+
+                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                                await cfs_.DeleteIfExistsAsync();
+
+                                break;
+
+                            case "CloudFileDirectory":
+
+                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                                CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
+                                await cfd_.DeleteIfExistsAsync();
+
+                                break;
+
+                        } //switch
+
+                        myTree.SelectedNode.Remove();
+                        lbStatus.Text = "Deleted";
+
+                }
+                catch (Exception ex)
+                {
+                    lbStatus.Text = ex.Message;
+                }
+
+            } //result_
+
         }//btDeleteInTree
 
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1409,7 +1532,29 @@ namespace AzureStorageBrowser
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
+            MessageBox.Show("Name: " + myTree.SelectedNode.Name);
+            MessageBox.Show("Text: " + myTree.SelectedNode.Text);
+
         }//propertiesToolStripMenuItem1
+
+        private void btUp_Click(object sender, EventArgs e)
+        {
+
+            if (myTree.SelectedNode.Parent != null)
+            {
+                myTree.SelectedNode = myTree.SelectedNode.Parent;
+                getNode(myTree.SelectedNode);
+            } //if
+
+        } //tbUp
+
+        private void btStopProgress_ButtonClick(object sender, EventArgs e)
+        {
+            myCancellationTokenSource.Cancel();
+            myCancellationTokenSource.Dispose();
+
+        } //btStopProgress
+
     } //Form1
 
 } //AzureStorageBrowser

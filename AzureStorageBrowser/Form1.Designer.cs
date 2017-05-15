@@ -50,6 +50,7 @@
             this.lbStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.btStopProgress = new System.Windows.Forms.ToolStripSplitButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -288,7 +289,8 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbStatusLabel,
             this.lbStatus,
-            this.pbProgress});
+            this.pbProgress,
+            this.btStopProgress});
             this.statusStrip1.Location = new System.Drawing.Point(0, 92);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(857, 21);
@@ -311,6 +313,18 @@
             this.pbProgress.Name = "pbProgress";
             this.pbProgress.Size = new System.Drawing.Size(100, 15);
             this.pbProgress.Visible = false;
+            // 
+            // btStopProgress
+            // 
+            this.btStopProgress.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btStopProgress.Image = ((System.Drawing.Image)(resources.GetObject("btStopProgress.Image")));
+            this.btStopProgress.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btStopProgress.Name = "btStopProgress";
+            this.btStopProgress.Size = new System.Drawing.Size(32, 19);
+            this.btStopProgress.Text = "Stop";
+            this.btStopProgress.ToolTipText = "Stop";
+            this.btStopProgress.Visible = false;
+            this.btStopProgress.ButtonClick += new System.EventHandler(this.btStopProgress_ButtonClick);
             // 
             // imageList1
             // 
@@ -518,37 +532,37 @@
             this.toolStripSeparator9,
             this.propertiesToolStripMenuItem1});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(153, 104);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(137, 82);
             // 
             // newToolStripMenuItem1
             // 
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.newToolStripMenuItem1.Text = "New...";
             this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(133, 6);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("deleteToolStripMenuItem1.Image")));
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(133, 6);
             // 
             // propertiesToolStripMenuItem1
             // 
             this.propertiesToolStripMenuItem1.Name = "propertiesToolStripMenuItem1";
-            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.propertiesToolStripMenuItem1.Text = "Properties...";
             this.propertiesToolStripMenuItem1.Click += new System.EventHandler(this.propertiesToolStripMenuItem1_Click);
             // 
@@ -629,6 +643,7 @@
             this.gvProperties.Size = new System.Drawing.Size(508, 272);
             this.gvProperties.TabIndex = 0;
             this.gvProperties.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellClick);
+            this.gvProperties.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellDoubleClick);
             // 
             // Column0
             // 
@@ -754,12 +769,14 @@
             // 
             // btUp
             // 
+            this.btUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btUp.Image = ((System.Drawing.Image)(resources.GetObject("btUp.Image")));
             this.btUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btUp.Name = "btUp";
-            this.btUp.Size = new System.Drawing.Size(33, 22);
+            this.btUp.Size = new System.Drawing.Size(23, 22);
             this.btUp.Text = "..";
             this.btUp.ToolTipText = "Up";
+            this.btUp.Click += new System.EventHandler(this.btUp_Click);
             // 
             // toolStripSeparator4
             // 
@@ -1078,6 +1095,7 @@
         private System.Windows.Forms.ToolStripButton btDeleteInTree;
         private System.Windows.Forms.ToolStripMenuItem uploadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton btStopProgress;
     }
 }
 
