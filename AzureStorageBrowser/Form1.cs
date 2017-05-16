@@ -1037,8 +1037,14 @@ namespace AzureStorageBrowser
 
                         case "CloudFile":
 
+                            string srcpath_ = "";
+                            for (int i = 2; i < uri_.Segments.Length; i++)
+                            {
+                                srcpath_ = srcpath_ + uri_.Segments[i];
+                            }
+
                             CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-                            CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
+                            CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(srcpath_);
 
                             await cf_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
 
@@ -1566,6 +1572,7 @@ namespace AzureStorageBrowser
 
             if (myTree.SelectedNode.Parent != null)
             {
+                myTree.SelectedNode.Collapse(false);
                 myTree.SelectedNode = myTree.SelectedNode.Parent;
                 getNode(myTree.SelectedNode);
             } //if
@@ -1579,6 +1586,18 @@ namespace AzureStorageBrowser
 
         } //btStopProgress
 
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                getNode(myTree.SelectedNode);
+            }
+            catch(Exception ex)
+            {
+                lbStatus.Text = ex.Message;
+            }
+            
+        }
     } //Form1
 
 } //AzureStorageBrowser
