@@ -566,6 +566,7 @@ namespace AzureStorageBrowser
                     catch (Exception ex)
                     {
                         lbStatus.Text = ex.Message;
+                        myTree.SelectedNode.Remove();
                     }
 
                 } //else
@@ -993,30 +994,28 @@ namespace AzureStorageBrowser
             saveFileDialog1.Filter = "Filter|*.*";
             saveFileDialog1.Title = "Download";
 
-            CancellationToken token_;
+            myCancellationTokenSource = new CancellationTokenSource();
+            CancellationToken token_ = myCancellationTokenSource.Token;
+
+            DataGridViewRow row_ = gvProperties.SelectedRows[0];
+
+            System.Uri uri_ = new System.Uri(row_.Tag.ToString());
+
+            string name_ = row_.Cells[1].Value.ToString();
+            string type_ = row_.Cells[3].Value.ToString();
+            string path_;
+
+            saveFileDialog1.FileName = name_;
 
             try
             {
-                foreach (DataGridViewRow row_ in gvProperties.SelectedRows)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    myCancellationTokenSource = new CancellationTokenSource();
-                    token_ = myCancellationTokenSource.Token;
-
-                    System.Uri uri_ = new System.Uri(row_.Tag.ToString());
-
-                    string path_ = "";
-                    for (int i = 2; i < uri_.Segments.Length; i++)
-                    {
-                        path_ = path_ + uri_.Segments[i];
-                    }
-
-                    string name_ = row_.Cells[1].Value.ToString();
-                    string type_ = row_.Cells[3].Value.ToString();
-                    saveFileDialog1.FileName = name_;
-
                     lbStatus.Text = "Downloading...";
                     pbProgress.Visible = true;
                     btStopProgress.Visible = true;
+
+                    path_ = Path.GetFullPath(saveFileDialog1.FileName);
 
                     switch (type_)
                     {
@@ -1024,11 +1023,7 @@ namespace AzureStorageBrowser
 
                             CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
-                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                            {
-                                path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                                await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);      
-                            }
+                            await cbb_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);      
 
                             break;
 
@@ -1036,11 +1031,7 @@ namespace AzureStorageBrowser
 
                             CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
 
-                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                            {
-                                path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                                await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
-                            }
+                            await cpb_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
 
                             break;
 
@@ -1049,11 +1040,7 @@ namespace AzureStorageBrowser
                             CloudFileShare cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                             CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
 
-                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                            {
-                                path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                                await cf_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
-                            }
+                            await cf_.DownloadToFileAsync(path_, FileMode.CreateNew, token_);
 
                             break;
 
@@ -1063,7 +1050,7 @@ namespace AzureStorageBrowser
                     pbProgress.Visible = false;
                     btStopProgress.Visible = false;
 
-                } //foreach
+                } //if
 
             }
             catch (Exception ex)
@@ -1112,6 +1099,7 @@ namespace AzureStorageBrowser
 
                     lbStatus.Text = "Uploading...";
                     pbProgress.Visible = true;
+                    btStopProgress.Visible = true;
 
                     switch (type_)
                     {
@@ -1186,14 +1174,18 @@ namespace AzureStorageBrowser
                     } //switch
 
                     getNode(myTree.SelectedNode);
+                    
                     lbStatus.Text = "Uploaded";
                     pbProgress.Visible = false;
+                    btStopProgress.Visible = false;
 
                 } //if OK
             }
             catch (Exception ex)
             {
                 lbStatus.Text = ex.Message;
+                pbProgress.Visible = false;
+                btStopProgress.Visible = false;
             }
 
         } //btUpload
@@ -1564,6 +1556,8 @@ namespace AzureStorageBrowser
             MessageBox.Show("Text: " + myTree.SelectedNode.Text);
             MessageBox.Show("Tag: " + myTree.SelectedNode.Tag.ToString());
             MessageBox.Show("Tip: " + myTree.SelectedNode.ToolTipText);
+
+            
 
         }//propertiesToolStripMenuItem1
 

@@ -81,6 +81,11 @@
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.btDeleteInTree = new System.Windows.Forms.ToolStripButton();
             this.gvProperties = new System.Windows.Forms.DataGridView();
+            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.uploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,11 +114,6 @@
             this.lbSize = new System.Windows.Forms.Label();
             this.tbType = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -312,6 +312,7 @@
             // 
             this.pbProgress.Name = "pbProgress";
             this.pbProgress.Size = new System.Drawing.Size(100, 15);
+            this.pbProgress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.pbProgress.Visible = false;
             // 
             // btStopProgress
@@ -636,14 +637,60 @@
             this.gvProperties.ContextMenuStrip = this.contextMenuStrip1;
             this.gvProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvProperties.Location = new System.Drawing.Point(0, 25);
+            this.gvProperties.MultiSelect = false;
             this.gvProperties.Name = "gvProperties";
             this.gvProperties.ReadOnly = true;
             this.gvProperties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gvProperties.ShowCellErrors = false;
             this.gvProperties.ShowCellToolTips = false;
             this.gvProperties.Size = new System.Drawing.Size(508, 272);
             this.gvProperties.TabIndex = 0;
             this.gvProperties.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellClick);
             this.gvProperties.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellDoubleClick);
+            // 
+            // Column0
+            // 
+            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column0.FillWeight = 2.604999F;
+            this.Column0.HeaderText = "";
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Width = 5;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 124.9152F;
+            this.Column1.HeaderText = "Item";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column3.FillWeight = 59.37977F;
+            this.Column3.HeaderText = "Size";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 52;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.FillWeight = 190.3553F;
+            this.Column2.HeaderText = "Type";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 56;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column4.FillWeight = 110F;
+            this.Column4.HeaderText = "Modified";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 72;
             // 
             // contextMenuStrip1
             // 
@@ -926,50 +973,6 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.43972F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(857, 113);
             this.tableLayoutPanel4.TabIndex = 3;
-            // 
-            // Column0
-            // 
-            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column0.FillWeight = 2.604999F;
-            this.Column0.HeaderText = "";
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Width = 5;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.FillWeight = 124.9152F;
-            this.Column1.HeaderText = "Item";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column3.FillWeight = 59.37977F;
-            this.Column3.HeaderText = "Size";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 52;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column2.FillWeight = 190.3553F;
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 56;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column4.FillWeight = 110F;
-            this.Column4.HeaderText = "Modified";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 72;
             // 
             // Form1
             // 
