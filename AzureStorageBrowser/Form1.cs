@@ -1345,7 +1345,6 @@ namespace AzureStorageBrowser
                                 CloudTable ct_ = myCloudTableClient.GetTableReference(uri_.Segments[1]);
                                 await ct_.DeleteIfExistsAsync();
 
-
                                 break;
 
                             case "CloudQueue":
@@ -1435,45 +1434,61 @@ namespace AzureStorageBrowser
                     }
 
                     switch (type_)
-                        {
-                            case "CloudBlobContainer":
+                    {
+                        case "CloudBlobContainer":
 
-                                cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
-                                await cbc_.DeleteIfExistsAsync();
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            await cbc_.DeleteIfExistsAsync();
 
-                                break;
+                            break;
 
-                            case "CloudBlobDirectory":
+                        case "CloudBlobDirectory":
 
-                                cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
-                                CloudBlobDirectory cbd_ = cbc_.GetDirectoryReference(path_);
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            CloudBlobDirectory cbd_ = cbc_.GetDirectoryReference(path_);
 
-                                await Task.Run(() =>
-                                {
-                                    removeCloudBlobDirectoryAsync(cbd_);
-                                });
+                            await Task.Run(() =>
+                            {
+                                removeCloudBlobDirectoryAsync(cbd_);
+                            });
 
-                                break;
+                            break;
 
-                            case "CloudFileShare":
 
-                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-                                await cfs_.DeleteIfExistsAsync();
+                        case "CloudFileShare":
 
-                                break;
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            await cfs_.DeleteIfExistsAsync();
 
-                            case "CloudFileDirectory":
+                            break;
 
-                                cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
-                                CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
-                                await cfd_.DeleteIfExistsAsync();
 
-                                break;
+                        case "CloudFileDirectory":
 
-                        } //switch
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
+                            await cfd_.DeleteIfExistsAsync();
 
-                        myTree.SelectedNode.Remove();
-                        lbStatus.Text = "Deleted";
+                            break;
+
+                        case "CloudTable":
+
+                            CloudTable ct_ = myCloudTableClient.GetTableReference(uri_.Segments[1]);
+                            await ct_.DeleteIfExistsAsync();
+
+                            break;
+
+                        case "CloudQueue":
+
+                            CloudQueue cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                            await cq_.DeleteIfExistsAsync();
+
+                            break;
+
+                    } //switch
+
+                    myTree.SelectedNode.Remove();
+                    lbStatus.Text = "Deleted";
 
                 }
                 catch (Exception ex)
