@@ -608,7 +608,7 @@ namespace AzureStorageBrowser
 
                     CloudQueue cq_;
 
-                    DataGridViewRow gvRow;
+                    DataGridViewRow row_;
 
                     string url_ = "", name_ = "", size_ = "", lastmodified_ = "";
                     Image img_ = null;
@@ -659,10 +659,10 @@ namespace AzureStorageBrowser
                                     }
                                 }
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //forach
 
@@ -718,10 +718,10 @@ namespace AzureStorageBrowser
                                     }
                                 }
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //forach
 
@@ -764,10 +764,10 @@ namespace AzureStorageBrowser
                                     img_ = imageList1.Images[6];
                                 }
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //foreach
 
@@ -818,10 +818,10 @@ namespace AzureStorageBrowser
                                     img_ = imageList1.Images[6];
                                 }
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //foreach
 
@@ -868,10 +868,10 @@ namespace AzureStorageBrowser
                                 lastmodified_ = cbc_.Properties.LastModified.ToString();
                                 img_ = imageList1.Images[10];
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //foreach
 
@@ -896,10 +896,10 @@ namespace AzureStorageBrowser
                                 lastmodified_ = cfs_.Properties.LastModified.ToString();
                                 img_ = imageList1.Images[3];
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //foreach
 
@@ -923,10 +923,10 @@ namespace AzureStorageBrowser
                                 lastmodified_ = "";
                                 img_ = imageList1.Images[5];
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //foreach myCloudTable
 
@@ -950,10 +950,10 @@ namespace AzureStorageBrowser
                                 lastmodified_ = "";
                                 img_ = imageList1.Images[7];
 
-                                gvRow = (DataGridViewRow)gvProperties.RowTemplate.Clone();
-                                gvRow.Tag = url_;
-                                gvRow.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
-                                gvProperties.Rows.Add(gvRow);
+                                row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                row_.Tag = url_;
+                                row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                gvProperties.Rows.Add(row_);
 
                             } //foreach myCloudQueue
 
@@ -1572,13 +1572,8 @@ namespace AzureStorageBrowser
 
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show("Name: " + myTree.SelectedNode.Name);
-            MessageBox.Show("Text: " + myTree.SelectedNode.Text);
-            MessageBox.Show("Tag: " + myTree.SelectedNode.Tag.ToString());
-            MessageBox.Show("Tip: " + myTree.SelectedNode.ToolTipText);
-
-            
+            string message_ = "Name: " + myTree.SelectedNode.Name + "\nText: " + myTree.SelectedNode.Text + "\nTag: " + myTree.SelectedNode.Tag.ToString() + "\nTip: " + myTree.SelectedNode.ToolTipText;
+            MessageBox.Show(message_);
 
         }//propertiesToolStripMenuItem1
 
@@ -1592,7 +1587,7 @@ namespace AzureStorageBrowser
                 getNode(myTree.SelectedNode);
             } //if
 
-        } //tbUp
+        } //btUp
 
         private void btStopProgress_ButtonClick(object sender, EventArgs e)
         {
@@ -1611,8 +1606,20 @@ namespace AzureStorageBrowser
             {
                 lbStatus.Text = ex.Message;
             }
-            
-        }
+
+        } //refreshToolStripMenuItem
+
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gvProperties.SelectedRows.Count != 0)
+            {
+                string message_ = "Tag: " + gvProperties.SelectedRows[0].Tag.ToString() + "\nType: " + gvProperties.SelectedRows[0].Cells[3].Value.ToString();
+                MessageBox.Show(message_);
+            } //if
+
+
+        } //propertiesToolStripMenuItem
+
     } //Form1
 
 } //AzureStorageBrowser
