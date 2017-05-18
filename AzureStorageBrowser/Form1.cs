@@ -1211,15 +1211,35 @@ namespace AzureStorageBrowser
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string path_ = Path.GetFullPath(saveFileDialog1.FileName);
-                gvProperties.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-                gvProperties.SelectAll();
+                try
+                {
+                    gvProperties.MultiSelect = true;
+                    gvProperties.Columns[1].SortMode = DataGridViewColumnSortMode.Programmatic;
+                    gvProperties.Columns[2].SortMode = DataGridViewColumnSortMode.Programmatic;
+                    gvProperties.Columns[3].SortMode = DataGridViewColumnSortMode.Programmatic;
+                    gvProperties.Columns[4].SortMode = DataGridViewColumnSortMode.Programmatic;
+                    gvProperties.SelectionMode = DataGridViewSelectionMode.FullColumnSelect;
+                    gvProperties.Columns[1].Selected = true;
+                    gvProperties.Columns[2].Selected = true;
+                    gvProperties.Columns[3].Selected = true;
+                    gvProperties.Columns[4].Selected = true;
+                        DataObject obj_ = gvProperties.GetClipboardContent();
+                    gvProperties.ClearSelection();
+                    gvProperties.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    gvProperties.Columns[4].SortMode = DataGridViewColumnSortMode.Automatic;
+                    gvProperties.Columns[3].SortMode = DataGridViewColumnSortMode.Automatic;
+                    gvProperties.Columns[2].SortMode = DataGridViewColumnSortMode.Automatic;
+                    gvProperties.Columns[1].SortMode = DataGridViewColumnSortMode.Automatic;
+                    gvProperties.MultiSelect = false;
 
-                DataObject obj_ = gvProperties.GetClipboardContent();               
-                File.WriteAllText(path_, obj_.GetText(TextDataFormat.CommaSeparatedValue));
-
-                gvProperties.ClearSelection();
-            }
+                    string path_ = Path.GetFullPath(saveFileDialog1.FileName);
+                    File.WriteAllText(path_, obj_.GetText(TextDataFormat.CommaSeparatedValue));
+                }
+                catch(Exception ex)
+                {
+                    lbStatus.Text = ex.Message;
+                }
+            } //if
 
         } //btExport
 
