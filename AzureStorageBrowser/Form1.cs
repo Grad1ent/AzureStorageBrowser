@@ -229,6 +229,7 @@ namespace AzureStorageBrowser
 
         private void btDisconnect_Click(object sender, EventArgs e)
         {
+            myTree.CollapseAll();
             myTree.Nodes[0].Nodes.Clear();
             myTree.Nodes[1].Nodes.Clear();
             myTree.Nodes[2].Nodes.Clear();
@@ -300,6 +301,7 @@ namespace AzureStorageBrowser
 
                     lbStatus.Text = "Connected";
                     btDisconnect.Enabled = true;
+                    myTree.CollapseAll();
                 }
                 catch (Exception ex)
                 {
@@ -1487,7 +1489,11 @@ namespace AzureStorageBrowser
 
                     } //switch
 
-                    myTree.SelectedNode.Remove();
+                    if (myTree.SelectedNode.Parent != null)
+                    {
+                        myTree.SelectedNode.Remove();
+                    } //if
+
                     lbStatus.Text = "Deleted";
 
                 }
