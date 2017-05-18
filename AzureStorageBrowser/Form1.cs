@@ -1230,12 +1230,15 @@ namespace AzureStorageBrowser
 
         private void gvProperties_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewRow row_ = gvProperties.Rows[e.RowIndex];           
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewRow row_ = gvProperties.Rows[e.RowIndex];
 
-            tbURL.Text = row_.Tag.ToString();
-            tbSize.Text = row_.Cells[2].Value.ToString();
-            tbType.Text = row_.Cells[3].Value.ToString();
-            tbLastModified.Text = row_.Cells[4].Value.ToString();
+                tbURL.Text = row_.Tag.ToString();
+                tbSize.Text = row_.Cells[2].Value.ToString();
+                tbType.Text = row_.Cells[3].Value.ToString();
+                tbLastModified.Text = row_.Cells[4].Value.ToString();
+            } //if
 
         } //gvProperties click
 
@@ -1585,11 +1588,10 @@ namespace AzureStorageBrowser
 
         private void btUp_Click(object sender, EventArgs e)
         {
-
             if (myTree.SelectedNode.Parent != null)
             {
-                myTree.SelectedNode.Collapse(false);
                 myTree.SelectedNode = myTree.SelectedNode.Parent;
+                myTree.SelectedNode.Collapse(false);
                 getNode(myTree.SelectedNode);
             } //if
 
@@ -1617,12 +1619,126 @@ namespace AzureStorageBrowser
 
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CloudBlobContainer cbc_;
+            CloudFileShare cfs_;
+
+            string message_ = "";
+            string path_ = "";
+
+            string ld_ = "", lsu_ = "", lse_ = "";
+
             if (gvProperties.SelectedRows.Count != 0)
             {
-                string message_ = "Tag: " + gvProperties.SelectedRows[0].Tag.ToString() + "\nType: " + gvProperties.SelectedRows[0].Cells[3].Value.ToString();
-                MessageBox.Show(message_);
-            } //if
+                //try
+                //{
+                    DataGridViewRow row_ = gvProperties.SelectedRows[0];
+                    Uri uri_ = new Uri(row_.Tag.ToString());
 
+                    for (int i = 2; i < uri_.Segments.Length; i++)
+                    {
+                        path_ = path_ + uri_.Segments[i];
+                    }
+
+                    string type_ = row_.Cells[3].Value.ToString();
+
+                    switch (type_)
+                    {
+                        case "CloudBlobContainer":
+
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            cbc_.FetchAttributes();
+
+                            ld_ = "Lease duration: " + cbc_.Properties.LeaseDuration.ToString() + "\n";
+                            lse_ = "Lease state: " + cbc_.Properties.LeaseState.ToString() + "\n";
+                            lsu_ = "Lease status: " + cbc_.Properties.LeaseStatus.ToString() + "\n";
+                            string pa_ = "Public access: " + cbc_.Properties.PublicAccess.Value.ToString() + "\n";
+
+                            message_ = ld_ + lse_ + lsu_ + pa_;
+
+                            break;
+
+                        case "CloudBlobDirectory":
+
+                            cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
+                            CloudBlobDirectory cbd_ = cbc_.GetDirectoryReference(path_);
+
+                            string pr_ = "Prefix: " + cbd_.Prefix;
+
+                            message_ = pr_;
+
+                            break;
+
+                        case "CloudBlockBlob":
+
+                            CloudBlockBlob cbb_ = (CloudBlockBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                            cbb_.FetchAttributes();
+
+                            //string ab_ = "Append committed blocks: " + cbb_.Properties.AppendBlobCommittedBlockCount.Value.ToString() + "\n";
+                            //string cc_ = "Cache control: " + cbb_.Properties.CacheControl.ToString() + "\n";
+                            //string cd_ = "Content disposition: " + cbb_.Properties.ContentDisposition.ToString() + "\n";
+                            //string ce_ = "Content encoding: " + cbb_.Properties.ContentEncoding.ToString() + "\n";
+                            //string cl_ = "Content language: " + cbb_.Properties.ContentLanguage.ToString() + "\n";
+                            //string cm_ = "Content MD5: " + cbb_.Properties.ContentMD5.ToString() + "\n";
+                            //string co_ = "Content type: " + cbb_.Properties.ContentType.ToString() + "\n";
+                            string ic_ = "Incremental copy: " + cbb_.Properties.IsIncrementalCopy.ToString() + "\n";
+                            string se_ = "Server encrypted: " + cbb_.Properties.IsServerEncrypted.ToString() + "\n";
+                            ld_ = "Lease duration: " + cbb_.Properties.LeaseDuration.ToString() + "\n";
+                            lse_ = "Lease state: " + cbb_.Properties.LeaseState.ToString() + "\n";
+                            lsu_ = "Lease status: " + cbb_.Properties.LeaseStatus.ToString() + "\n";
+
+                            message_ = ic_ + se_ + ld_ + lse_ + lsu_;
+
+                            break;
+
+                        case "CloudPageBlob":
+
+                            CloudPageBlob cpb_ = (CloudPageBlob)myCloudBlobClient.GetBlobReferenceFromServer(uri_);
+                        
+
+                            break;
+
+                        case "CloudFileShare":
+
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+
+                            break;
+
+                        case "CloudFileDirectory":
+
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
+
+                            break;
+
+                        case "CloudFile":
+
+                            cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
+                            CloudFile cf_ = cfs_.GetRootDirectoryReference().GetFileReference(path_);
+
+                            break;
+
+                        case "CloudTable":
+
+                            CloudTable ct_ = myCloudTableClient.GetTableReference(uri_.Segments[1]);
+
+                            break;
+
+                        case "CloudQueue":
+
+                            CloudQueue cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+
+                            break;
+
+                    } //switch
+
+                    MessageBox.Show(message_, "Properties");
+                //}
+                //catch(Exception ex)
+                //{
+                //     lbStatus.Text = ex.Message;
+                //}
+
+            } //if
 
         } //propertiesToolStripMenuItem
 

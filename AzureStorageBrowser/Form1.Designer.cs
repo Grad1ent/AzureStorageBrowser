@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Blobs", 10, 11);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Files", 3, 4);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Tables", 14, 15);
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Queues", 12, 13);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Blobs", 10, 11);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Files", 3, 4);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Tables", 14, 15);
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Queues", 12, 13);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -97,6 +97,8 @@
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.btUp = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btUpload = new System.Windows.Forms.ToolStripButton();
@@ -492,35 +494,35 @@
             this.myTree.ImageList = this.imageList1;
             this.myTree.Location = new System.Drawing.Point(0, 25);
             this.myTree.Name = "myTree";
-            treeNode5.ImageIndex = 10;
-            treeNode5.Name = "blobNodes";
-            treeNode5.SelectedImageIndex = 11;
-            treeNode5.Tag = "https://";
-            treeNode5.Text = "Blobs";
-            treeNode5.ToolTipText = "blobNodes";
-            treeNode6.ImageIndex = 3;
-            treeNode6.Name = "fileNodes";
-            treeNode6.SelectedImageIndex = 4;
-            treeNode6.Tag = "https://";
-            treeNode6.Text = "Files";
-            treeNode6.ToolTipText = "fileNodes";
-            treeNode7.ImageIndex = 14;
-            treeNode7.Name = "tableNodes";
-            treeNode7.SelectedImageIndex = 15;
-            treeNode7.Tag = "https://";
-            treeNode7.Text = "Tables";
-            treeNode7.ToolTipText = "tableNodes";
-            treeNode8.ImageIndex = 12;
-            treeNode8.Name = "queueNodes";
-            treeNode8.SelectedImageIndex = 13;
-            treeNode8.Tag = "https://";
-            treeNode8.Text = "Queues";
-            treeNode8.ToolTipText = "queueNodes";
+            treeNode1.ImageIndex = 10;
+            treeNode1.Name = "blobNodes";
+            treeNode1.SelectedImageIndex = 11;
+            treeNode1.Tag = "https://";
+            treeNode1.Text = "Blobs";
+            treeNode1.ToolTipText = "blobNodes";
+            treeNode2.ImageIndex = 3;
+            treeNode2.Name = "fileNodes";
+            treeNode2.SelectedImageIndex = 4;
+            treeNode2.Tag = "https://";
+            treeNode2.Text = "Files";
+            treeNode2.ToolTipText = "fileNodes";
+            treeNode3.ImageIndex = 14;
+            treeNode3.Name = "tableNodes";
+            treeNode3.SelectedImageIndex = 15;
+            treeNode3.Tag = "https://";
+            treeNode3.Text = "Tables";
+            treeNode3.ToolTipText = "tableNodes";
+            treeNode4.ImageIndex = 12;
+            treeNode4.Name = "queueNodes";
+            treeNode4.SelectedImageIndex = 13;
+            treeNode4.Tag = "https://";
+            treeNode4.Text = "Queues";
+            treeNode4.ToolTipText = "queueNodes";
             this.myTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.myTree.SelectedImageIndex = 0;
             this.myTree.Size = new System.Drawing.Size(337, 272);
             this.myTree.TabIndex = 0;
@@ -646,6 +648,7 @@
             this.gvProperties.MultiSelect = false;
             this.gvProperties.Name = "gvProperties";
             this.gvProperties.ReadOnly = true;
+            this.gvProperties.RowHeadersVisible = false;
             this.gvProperties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvProperties.ShowCellErrors = false;
             this.gvProperties.ShowCellToolTips = false;
@@ -659,9 +662,10 @@
             this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.Column0.FillWeight = 2.604999F;
             this.Column0.HeaderText = "";
+            this.Column0.MinimumWidth = 22;
             this.Column0.Name = "Column0";
             this.Column0.ReadOnly = true;
-            this.Column0.Width = 5;
+            this.Column0.Width = 22;
             // 
             // Column1
             // 
@@ -711,7 +715,7 @@
             this.toolStripSeparator11,
             this.propertiesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 176);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 154);
             // 
             // uploadToolStripMenuItem
             // 
@@ -770,13 +774,15 @@
             // propertiesToolStripMenuItem
             // 
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
-            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.propertiesToolStripMenuItem.Text = "Properties...";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             // 
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripSeparator12,
             this.btUp,
             this.toolStripSeparator4,
             this.btUpload,
@@ -790,6 +796,17 @@
             this.toolStrip2.Size = new System.Drawing.Size(508, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(10, 22);
+            this.toolStripLabel1.Text = " ";
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
             // 
             // btUp
             // 
@@ -1115,13 +1132,15 @@
         private System.Windows.Forms.ToolStripMenuItem uploadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripSplitButton btStopProgress;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.DataGridViewImageColumn Column0;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
     }
 }
 
