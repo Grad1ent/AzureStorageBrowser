@@ -843,12 +843,30 @@ namespace AzureStorageBrowser
                         case "CloudQueue":
 
                                 cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                                cq_.FetchAttributes();
 
                                 tbURL.Text = cq_.Uri.ToString();
                                 tbSize.Text = cq_.ApproximateMessageCount.ToString() + " msg(s)";
                                 tbType.Text = cq_.GetType().Name;
                                 tbLastModified.Text = "";
-                               
+
+                                if (cq_.ApproximateMessageCount.Value > 0)
+                                    foreach (CloudQueueMessage qm_ in cq_.PeekMessages(cq_.ApproximateMessageCount.Value))
+                                    {
+                                        url_ = cq_.Uri.AbsoluteUri;
+                                        name_ = qm_.AsString;
+                                        size_ = getSize(qm_.AsString.Length);
+                                        type_ = qm_.GetType().Name;
+                                        lastmodified_ = qm_.InsertionTime.Value.ToString();
+                                        img_ = imageList1.Images[2];
+
+                                        row_ = (DataGridViewRow)gvProperties.RowTemplate.Clone();
+                                        row_.Tag = url_ + "/" + qm_.Id;
+                                        row_.CreateCells(gvProperties, img_, name_, size_, type_, lastmodified_);
+                                        gvProperties.Rows.Add(row_);
+
+                                    } //foreach
+
                                 break;
 
                         case "blobNodes":
@@ -944,6 +962,7 @@ namespace AzureStorageBrowser
                             foreach (var item_ in myCloudQueueClient.ListQueues())
                             {
                                 cq_ = (CloudQueue)item_;
+                                cq_.FetchAttributes();
 
                                 url_ = cq_.Uri.AbsoluteUri;
                                 name_ = cq_.Name;
@@ -1098,7 +1117,6 @@ namespace AzureStorageBrowser
                     string message_ = "Upload as Page Blob?\n" +
                         "(No = Block Blob)";
 
-                    string type_ = myTree.SelectedNode.ToolTipText;
                     System.Uri uri_ = new System.Uri(myTree.SelectedNode.Tag.ToString());
 
                     string srcpath_ = Path.GetFullPath(openFileDialog1.FileName);
@@ -1109,6 +1127,7 @@ namespace AzureStorageBrowser
                     pbProgress.Visible = true;
                     btStopProgress.Visible = true;
 
+                    string type_ = myTree.SelectedNode.ToolTipText;
                     switch (type_)
                     {
                         case "CloudBlobContainer":
@@ -1286,6 +1305,7 @@ namespace AzureStorageBrowser
 
             CloudBlobContainer cbc_;
             CloudFileShare cfs_;
+            CloudQueue cq_;
 
             string path_ = "";
 
@@ -1378,10 +1398,28 @@ namespace AzureStorageBrowser
 
                             case "CloudQueue":
 
-                                CloudQueue cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                                cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
                                 await cq_.DeleteIfExistsAsync();
 
                                 break;
+
+                            case "CloudQueueMessage":
+
+                                cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                                cq_.FetchAttributes();
+
+                                if (cq_.ApproximateMessageCount.Value > 0)
+                                    foreach (CloudQueueMessage cm_ in cq_.GetMessages(cq_.ApproximateMessageCount.Value))
+                                    {
+                                        if (cm_.Id == path_)
+                                        {
+                                            await cq_.DeleteMessageAsync(cm_);
+                                            break;
+                                        } //if
+
+                                    } //foreach
+
+                                break;                                
 
                         } //switch
 
@@ -1670,6 +1708,7 @@ namespace AzureStorageBrowser
         {
             CloudBlobContainer cbc_;
             CloudFileShare cfs_;
+            CloudQueue cq_;
 
             string message_ = "";
             string path_ = "";
@@ -1678,8 +1717,8 @@ namespace AzureStorageBrowser
 
             if (gvProperties.SelectedRows.Count != 0)
             {
-                //try
-                //{
+                try
+                {
                     DataGridViewRow row_ = gvProperties.SelectedRows[0];
                     Uri uri_ = new Uri(row_.Tag.ToString());
 
@@ -1711,9 +1750,9 @@ namespace AzureStorageBrowser
                             cbc_ = myCloudBlobClient.GetContainerReference(uri_.Segments[1]);
                             CloudBlobDirectory cbd_ = cbc_.GetDirectoryReference(path_);
 
-                            string pr_ = "Prefix: " + cbd_.Prefix;
+                            string prefix_ = "Prefix: " + cbd_.Prefix;
 
-                            message_ = pr_;
+                            message_ = prefix_;
 
                             break;
 
@@ -1774,18 +1813,45 @@ namespace AzureStorageBrowser
 
                         case "CloudQueue":
 
-                            CloudQueue cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                            cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+
+                            break;
+
+                        case "CloudQueueMessage":
+
+                            cq_ = myCloudQueueClient.GetQueueReference(uri_.Segments[1]);
+                            cq_.FetchAttributes();
+
+                            if (cq_.ApproximateMessageCount.Value > 0)
+                                foreach (CloudQueueMessage cm_ in cq_.PeekMessages(cq_.ApproximateMessageCount.Value))
+                                {
+                                    if (cm_.Id == path_)
+                                    {
+                                        string body_ = "Message: " + cm_.AsString + "\n\n";
+                                        string id_ = "Id: " + cm_.Id + "\n";
+                                        string it_ = "Insertion time: " + cm_.InsertionTime.ToString() + "\n";
+                                        string et_ = "Expiration time: " + cm_.ExpirationTime.ToString() + "\n";
+                                        string nv_ = "Next visible time: " + cm_.NextVisibleTime.ToString() + "\n";
+                                        string pr_ = "Pop receipt: " + cm_.PopReceipt + "\n";
+                                        string dq_ = "Dequeue count: " + cm_.DequeueCount.ToString();
+
+                                        message_ = body_ + id_ + it_ + et_ + nv_ + pr_ + dq_;
+
+                                        break;
+                                    } //if
+
+                                } //foreach
 
                             break;
 
                     } //switch
 
                     MessageBox.Show(message_, "Properties");
-                //}
-                //catch(Exception ex)
-                //{
-                //     lbStatus.Text = ex.Message;
-                //}
+                }
+                catch(Exception ex)
+                {
+                     lbStatus.Text = ex.Message;
+                }
 
             } //if
 

@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Blobs", 10, 11);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Files", 3, 4);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Tables", 14, 15);
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Queues", 12, 13);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Blobs", 10, 11);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Files", 3, 4);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Tables", 14, 15);
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Queues", 12, 13);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -81,6 +81,11 @@
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.btDeleteInTree = new System.Windows.Forms.ToolStripButton();
             this.gvProperties = new System.Windows.Forms.DataGridView();
+            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.uploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,11 +118,6 @@
             this.lbSize = new System.Windows.Forms.Label();
             this.tbType = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.Column0 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -494,35 +494,35 @@
             this.myTree.ImageList = this.imageList1;
             this.myTree.Location = new System.Drawing.Point(0, 25);
             this.myTree.Name = "myTree";
-            treeNode5.ImageIndex = 10;
-            treeNode5.Name = "blobNodes";
-            treeNode5.SelectedImageIndex = 11;
-            treeNode5.Tag = "https://";
-            treeNode5.Text = "Blobs";
-            treeNode5.ToolTipText = "blobNodes";
-            treeNode6.ImageIndex = 3;
-            treeNode6.Name = "fileNodes";
-            treeNode6.SelectedImageIndex = 4;
-            treeNode6.Tag = "https://";
-            treeNode6.Text = "Files";
-            treeNode6.ToolTipText = "fileNodes";
-            treeNode7.ImageIndex = 14;
-            treeNode7.Name = "tableNodes";
-            treeNode7.SelectedImageIndex = 15;
-            treeNode7.Tag = "https://";
-            treeNode7.Text = "Tables";
-            treeNode7.ToolTipText = "tableNodes";
-            treeNode8.ImageIndex = 12;
-            treeNode8.Name = "queueNodes";
-            treeNode8.SelectedImageIndex = 13;
-            treeNode8.Tag = "https://";
-            treeNode8.Text = "Queues";
-            treeNode8.ToolTipText = "queueNodes";
+            treeNode1.ImageIndex = 10;
+            treeNode1.Name = "blobNodes";
+            treeNode1.SelectedImageIndex = 11;
+            treeNode1.Tag = "https://";
+            treeNode1.Text = "Blobs";
+            treeNode1.ToolTipText = "blobNodes";
+            treeNode2.ImageIndex = 3;
+            treeNode2.Name = "fileNodes";
+            treeNode2.SelectedImageIndex = 4;
+            treeNode2.Tag = "https://";
+            treeNode2.Text = "Files";
+            treeNode2.ToolTipText = "fileNodes";
+            treeNode3.ImageIndex = 14;
+            treeNode3.Name = "tableNodes";
+            treeNode3.SelectedImageIndex = 15;
+            treeNode3.Tag = "https://";
+            treeNode3.Text = "Tables";
+            treeNode3.ToolTipText = "tableNodes";
+            treeNode4.ImageIndex = 12;
+            treeNode4.Name = "queueNodes";
+            treeNode4.SelectedImageIndex = 13;
+            treeNode4.Tag = "https://";
+            treeNode4.Text = "Queues";
+            treeNode4.ToolTipText = "queueNodes";
             this.myTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.myTree.SelectedImageIndex = 0;
             this.myTree.Size = new System.Drawing.Size(337, 272);
             this.myTree.TabIndex = 0;
@@ -657,6 +657,51 @@
             this.gvProperties.TabIndex = 0;
             this.gvProperties.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellClick);
             this.gvProperties.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProperties_CellDoubleClick);
+            // 
+            // Column0
+            // 
+            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column0.FillWeight = 2.604999F;
+            this.Column0.HeaderText = "";
+            this.Column0.MinimumWidth = 20;
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Width = 20;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 124.9152F;
+            this.Column1.HeaderText = "Item";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column3.FillWeight = 59.37977F;
+            this.Column3.HeaderText = "Size";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 52;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.FillWeight = 190.3553F;
+            this.Column2.HeaderText = "Type";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 56;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column4.FillWeight = 110F;
+            this.Column4.HeaderText = "Modified";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 72;
             // 
             // contextMenuStrip1
             // 
@@ -967,51 +1012,6 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.43972F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(857, 113);
             this.tableLayoutPanel4.TabIndex = 3;
-            // 
-            // Column0
-            // 
-            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column0.FillWeight = 2.604999F;
-            this.Column0.HeaderText = "";
-            this.Column0.MinimumWidth = 20;
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Width = 20;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.FillWeight = 124.9152F;
-            this.Column1.HeaderText = "Item";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column3.FillWeight = 59.37977F;
-            this.Column3.HeaderText = "Size";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 52;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column2.FillWeight = 190.3553F;
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 56;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column4.FillWeight = 110F;
-            this.Column4.HeaderText = "Modified";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 72;
             // 
             // Form1
             // 
