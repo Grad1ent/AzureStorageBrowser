@@ -1353,7 +1353,11 @@ namespace AzureStorageBrowser
 
                                 cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                                 CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
-                                await cfd_.DeleteIfExistsAsync();
+
+                                await Task.Run(() =>
+                                {
+                                    removeCloudFileDirectoryAsync(cfd_);
+                                });
 
                                 break;
 
@@ -1428,6 +1432,29 @@ namespace AzureStorageBrowser
 
         } //removeCloudBlobDirectoryAsync
 
+        private async Task removeCloudFileDirectoryAsync(CloudFileDirectory cfdparent_)
+        {
+            foreach (var item_ in cfdparent_.ListFilesAndDirectories())
+            {
+                if (item_.GetType().Name == "CloudFileDirectory")
+                {
+                    //req
+                    CloudFileDirectory cfd_ = (CloudFileDirectory)item_;
+                    await removeCloudFileDirectoryAsync(cfd_);
+                    await cfd_.DeleteIfExistsAsync();                    
+                }
+                else //CloudFile
+                {
+                    CloudFile cf_ = (CloudFile)item_;
+                    await cf_.DeleteIfExistsAsync();
+                }
+
+            } //foreach
+
+            await cfdparent_.DeleteIfExistsAsync();
+
+        } //removeCloudFileDirectoryAsync
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.btDeleteInGrid_Click(sender, e);
@@ -1479,7 +1506,6 @@ namespace AzureStorageBrowser
 
                             break;
 
-
                         case "CloudFileShare":
 
                             cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
@@ -1487,12 +1513,15 @@ namespace AzureStorageBrowser
 
                             break;
 
-
                         case "CloudFileDirectory":
 
                             cfs_ = myCloudFileClient.GetShareReference(uri_.Segments[1]);
                             CloudFileDirectory cfd_ = cfs_.GetRootDirectoryReference().GetDirectoryReference(path_);
-                            await cfd_.DeleteIfExistsAsync();
+
+                            await Task.Run(() =>
+                            {
+                                removeCloudFileDirectoryAsync(cfd_);
+                            });
 
                             break;
 
