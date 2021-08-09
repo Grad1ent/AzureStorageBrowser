@@ -66,7 +66,8 @@ private string getStorageAccountType(CloudBlobClient cbc_)
 
 If connection to Storage Account is established properly, TreeView in the left panel is filled by blobs, files, tables and queues. Clicking any TreeView node allows to present details of its child objects in GridView in the right panel. We can asynchronously upload, download or delete selected objects.
 
-Tool is still at an experimental stage and under development, so all unstable behaviors I fix in daily basis, if any. For now the best is to try it on test environment.
+Tool is still at an experimental stage and under development, so all unstable behaviors I fix in daily basis, if any.
+For a now the best is to try it on test environment.
 
 ## Reference articles
 
