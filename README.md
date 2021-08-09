@@ -1,6 +1,6 @@
 ## Overview
 
-Although there is ready to use nice, free Microsoft Azure Storage Explorer, I’ve developed my own tool to browse Azure Storage:
+Although there is ready to use nice, free [Microsoft Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/), I’ve developed my own tool to browse Azure Storage:
 <p align="center">
    <img src="/AzureStorageBrowser/pics/asb.png" alt="asb"/>
 </p>
