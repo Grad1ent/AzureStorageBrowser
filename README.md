@@ -5,7 +5,7 @@ Although there is ready to use nice, free [Microsoft Azure Storage Explorer](htt
    <img src="/AzureStorageBrowser/pics/asb.png" alt="asb"/>
 </p>
 
-It’s been created in Visual C# using the latest Microsoft Azure SDK for .NET – 3.0.
+It’s been created in Visual C# using Microsoft Azure SDK for .NET – 3.0.
 The core code is as follow:
 ```c#
 try
