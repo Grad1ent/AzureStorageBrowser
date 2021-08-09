@@ -7,11 +7,62 @@ Although there is ready to use nice, free Microsoft Azure Storage Explorer, I’
 
 It’s been created in Visual C# using the latest Microsoft Azure SDK for .NET – 3.0.
 The core code is as follow:
-
+```
+try
+{
+    myCloudStorageAccount = CloudStorageAccount.Parse(strStorageConnectionString);
+ 
+    myCloudBlobClient = myCloudStorageAccount.CreateCloudBlobClient();
+    myTree.Nodes[0].Tag = myCloudBlobClient.BaseUri.ToString();
+ 
+    switch (getStorageAccountType(myCloudBlobClient))
+    {
+        case "Standard":
+ 
+            myCloudFileClient = myCloudStorageAccount.CreateCloudFileClient();
+            myCloudTableClient = myCloudStorageAccount.CreateCloudTableClient();
+            myCloudQueueClient = myCloudStorageAccount.CreateCloudQueueClient();
+ 
+            myTree.Nodes[1].Tag = myCloudFileClient.BaseUri.ToString();
+            myTree.Nodes[2].Tag = myCloudTableClient.BaseUri.ToString();
+            myTree.Nodes[3].Tag = myCloudQueueClient.BaseUri.ToString();
+ 
+            await Task.WhenAll(getBlobsAsync(), getFilesAsync(), getTablesAsync(), getQueuesAsync());
+ 
+            break;
+ 
+        case "Premium":
+ 
+            await getBlobsAsync();
+ 
+            break;
+    } //switch
+ 
+    lbStatus.Text = "Connected";
+    btDisconnect.Enabled = true;
+}
+catch (Exception ex)
+{
+    lbStatus.Text = ex.Message; 
+    btConnect.Enabled = true;
+}
+```
 
 with one trick to find if type of Storage Account uses Standard or Premium performance tier:
-
-
+```
+private string getStorageAccountType(CloudBlobClient cbc_)
+{
+    try
+    {
+        cbc_.GetServiceProperties();
+        return "Standard";
+    }
+    catch(Exception ex)
+    {
+        return "Premium";
+    }
+}  //getStorageAccountType
+```
 
 If connection to Storage Account is established properly, TreeView in the left panel is filled by blobs, files, tables and queues. Clicking any TreeView node allows to present details of its child objects in GridView in the right panel. We can asynchronously upload, download or delete selected objects.
 
