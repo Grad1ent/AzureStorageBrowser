@@ -7,7 +7,7 @@ Although there is ready to use nice, free Microsoft Azure Storage Explorer, I’
 
 It’s been created in Visual C# using the latest Microsoft Azure SDK for .NET – 3.0.
 The core code is as follow:
-```
+```c#
 try
 {
     myCloudStorageAccount = CloudStorageAccount.Parse(strStorageConnectionString);
@@ -49,7 +49,7 @@ catch (Exception ex)
 ```
 
 with one trick to find if type of Storage Account uses Standard or Premium performance tier:
-```
+```c#
 private string getStorageAccountType(CloudBlobClient cbc_)
 {
     try
