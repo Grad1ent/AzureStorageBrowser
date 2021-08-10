@@ -69,7 +69,7 @@ If connection to Storage Account is established properly, TreeView in the left p
 Tool is still at an experimental stage and under development, so all unstable behaviors I fix in daily basis, if any.
 For a now the best is to try it on test environment.
 
-## Reference articles
+## References
 
 * [Get started with Azure Blob storage using .NET](https://docs.microsoft.com/en-us/azure/storage/storage-dotnet-how-to-use-blobs)
 * [Get started with Azure Queue storage using .NET](https://docs.microsoft.com/en-us/azure/storage/storage-dotnet-how-to-use-queues)
